@@ -1,0 +1,212 @@
+{
+  "dataset": {
+    "dataset": "DeepMatcher Abt-Buy textual, official pairwise split",
+    "source_url": "https://pages.cs.wisc.edu/~anhai/data1/deepmatcher_data/Textual/Abt-Buy/abt_buy_exp_data.zip",
+    "documentation": "https://github.com/anhaidgroup/deepmatcher/blob/master/Datasets.md",
+    "original_source": "https://dbs.uni-leipzig.de/en/research/projects/object_matching/fever/benchmark_datasets_for_entity_resolution",
+    "downloaded_at": "2026-09-10T02:57:37.851105+00:00",
+    "archive_sha256": "cd806d925aca21e6ab942b239353a10ee88904c59d3d3e3da6a74e364e9200a1",
+    "files": {
+      "tableA.csv": {
+        "sha256": "20b79995258c4ef80bb96b731762a6fe869650cc42dcb2c58994bda91b0d81aa",
+        "bytes": 329768
+      },
+      "tableB.csv": {
+        "sha256": "e6ebe54c98fd69c5ad4b8364dde53c323ae872c49cf3c2ad5f7b9acd246e1eb6",
+        "bytes": 105197
+      },
+      "train.csv": {
+        "sha256": "efa7ee36e35915aa2e5c8218bb90a94ff11a6cc7a9c4a45cefff1bfc16d64061",
+        "bytes": 57214
+      },
+      "valid.csv": {
+        "sha256": "25ac7b6035327c82a9e45c93e02e24dd2fffe7afff779ae9381e5c32f727c3c0",
+        "bytes": 19125
+      },
+      "test.csv": {
+        "sha256": "fd815442d37368cecc4cd3b5a0af33930ce5b7b353b222b810d8079211e81d9a",
+        "bytes": 19154
+      }
+    },
+    "license": "No explicit data license is included in this archive. Record this limitation; raw data is not redistributed with this project. Consult original data providers for reuse terms.",
+    "labels": "Official labeled candidate pairs; unlabelled cross-products are not negatives.",
+    "scope": "Pair classification only. This split does not support complete retrieval Recall@20 or SKU recommendation coverage claims."
+  },
+  "protocol": "Official Abt-Buy labeled pair classification; test labels are used only for final metrics and error reporting. No retrieval or business effectiveness claims.",
+  "model_admission": "EXPERIMENTAL: public pair test alone does not meet smartphone SKU end-to-end release gate. Production remains rules.",
+  "feature_schema": "pair-features-1.0.0",
+  "feature_names": [
+    "name_ratio",
+    "name_tokens",
+    "tfidf",
+    "brand_same",
+    "brand_conflict",
+    "brand_missing",
+    "model_same",
+    "model_conflict",
+    "model_missing",
+    "ram_same",
+    "ram_conflict",
+    "ram_missing",
+    "storage_same",
+    "storage_conflict",
+    "storage_missing",
+    "color_same",
+    "color_conflict",
+    "color_missing",
+    "region_same",
+    "region_conflict",
+    "region_missing",
+    "pack_count_same",
+    "pack_count_conflict",
+    "pack_count_missing",
+    "coverage"
+  ],
+  "rule_version": "phone-cn-1.0.0",
+  "seeds": [
+    {
+      "seed": 42,
+      "n": 1916,
+      "positives": 206,
+      "predicted_positive": 261,
+      "precision": 0.6130268199233716,
+      "recall": 0.7766990291262136,
+      "f1": 0.6852248394004282,
+      "average_precision": 0.777623722173375,
+      "threshold": 0.22,
+      "precision_95_ci_group_bootstrap": [
+        0.5576286764705882,
+        0.6630233990147782
+      ]
+    },
+    {
+      "seed": 43,
+      "n": 1916,
+      "positives": 206,
+      "predicted_positive": 232,
+      "precision": 0.6379310344827587,
+      "recall": 0.7184466019417476,
+      "f1": 0.6757990867579908,
+      "average_precision": 0.7703416607068004,
+      "threshold": 0.275,
+      "precision_95_ci_group_bootstrap": [
+        0.574812030075188,
+        0.6929516622922134
+      ]
+    },
+    {
+      "seed": 44,
+      "n": 1916,
+      "positives": 206,
+      "predicted_positive": 238,
+      "precision": 0.6386554621848739,
+      "recall": 0.7378640776699029,
+      "f1": 0.6846846846846847,
+      "average_precision": 0.7740785144302914,
+      "threshold": 0.26,
+      "precision_95_ci_group_bootstrap": [
+        0.5768877551020408,
+        0.6898349710254472
+      ]
+    }
+  ],
+  "rule_baseline": {
+    "n": 1916,
+    "positives": 206,
+    "predicted_positive": 588,
+    "precision": 0.21768707482993196,
+    "recall": 0.6213592233009708,
+    "f1": 0.3224181360201511,
+    "average_precision": 0.3254913143101653,
+    "threshold": 0.125
+  },
+  "ablations": [
+    {
+      "name": "without_specs",
+      "n": 1916,
+      "positives": 206,
+      "predicted_positive": 221,
+      "precision": 0.6470588235294118,
+      "recall": 0.6941747572815534,
+      "f1": 0.6697892271662763,
+      "average_precision": 0.7460695463270653,
+      "threshold": 0.31
+    },
+    {
+      "name": "name_features_only",
+      "n": 1916,
+      "positives": 206,
+      "predicted_positive": 270,
+      "precision": 0.562962962962963,
+      "recall": 0.7378640776699029,
+      "f1": 0.6386554621848739,
+      "average_precision": 0.7391949592182379,
+      "threshold": 0.255
+    },
+    {
+      "name": "without_calibration",
+      "n": 1916,
+      "positives": 206,
+      "predicted_positive": 261,
+      "precision": 0.6130268199233716,
+      "recall": 0.7766990291262136,
+      "f1": 0.6852248394004282,
+      "average_precision": 0.777623722173375,
+      "threshold": 0.265
+    }
+  ],
+  "hyperparameter_trials": [
+    {
+      "num_leaves": 15,
+      "max_depth": 5,
+      "best_iteration": 108,
+      "validation_average_precision": 0.7640113451282211
+    },
+    {
+      "num_leaves": 15,
+      "max_depth": 8,
+      "best_iteration": 95,
+      "validation_average_precision": 0.7582841647489623
+    },
+    {
+      "num_leaves": 31,
+      "max_depth": 5,
+      "best_iteration": 92,
+      "validation_average_precision": 0.7604344591267268
+    },
+    {
+      "num_leaves": 31,
+      "max_depth": 8,
+      "best_iteration": 72,
+      "validation_average_precision": 0.7532651017474205
+    }
+  ],
+  "search_budget": 4,
+  "training_rows": 5743,
+  "training_positives": 616,
+  "resampling": "none; no class weighting",
+  "calibration": {
+    "coef": 1.1144506877290414,
+    "intercept": -0.12217483244974257
+  },
+  "classification_threshold": 0.22,
+  "mean_f1": 0.6819028702810347,
+  "std_f1": 0.00432165645336525,
+  "train_test_record_overlap": {
+    "ltable_id": 674,
+    "rtable_id": 650
+  },
+  "uncertainty": "Bootstrap groups by left record ID; complete entity grouping unavailable, so intervals are exploratory.",
+  "elapsed_seconds": 2.957987584057264,
+  "runtime": {
+    "python": "3.12.14",
+    "lightgbm": "4.7.0",
+    "numpy": "2.5.3",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "model_sha256": "4af8596e9f31a8476d55888fbad9f16ce35f852df958e8550af7925fc0e06f48",
+  "tfidf_sha256": "5f278801a89d8006847eb59a53d8057c3fe283c46822df97dce0f6548c57f5eb",
+  "split_manifest_sha256": "c34a81622ef118f1878ca4cf0c58fca0c62ce60e47572894a880179f26db09b6",
+  "training_code_sha256": "295b37c4a4efd04fb94e2e90b7f3d160207ea9dc44ca9705e18adb27b8f4648e",
+  "dependency_lock_sha256": "f36b29d03a60bdc9dfb04c7742d9c11d855e4445b4ba3835fcc178bef4685ce2"
+}

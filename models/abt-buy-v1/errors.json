@@ -1,0 +1,1178 @@
+[
+  {
+    "pair_index": 1,
+    "left_id": "719",
+    "right_id": "812",
+    "label": 0,
+    "score": 0.5822914739736538,
+    "predicted": 1
+  },
+  {
+    "pair_index": 29,
+    "left_id": "692",
+    "right_id": "785",
+    "label": 0,
+    "score": 0.24429733224007347,
+    "predicted": 1
+  },
+  {
+    "pair_index": 34,
+    "left_id": "231",
+    "right_id": "185",
+    "label": 0,
+    "score": 0.6610223024814609,
+    "predicted": 1
+  },
+  {
+    "pair_index": 54,
+    "left_id": "728",
+    "right_id": "92",
+    "label": 1,
+    "score": 0.02129734496474243,
+    "predicted": 0
+  },
+  {
+    "pair_index": 64,
+    "left_id": "49",
+    "right_id": "225",
+    "label": 0,
+    "score": 0.22709049502753745,
+    "predicted": 1
+  },
+  {
+    "pair_index": 76,
+    "left_id": "439",
+    "right_id": "581",
+    "label": 0,
+    "score": 0.25315116714610386,
+    "predicted": 1
+  },
+  {
+    "pair_index": 98,
+    "left_id": "174",
+    "right_id": "279",
+    "label": 0,
+    "score": 0.33773453672623627,
+    "predicted": 1
+  },
+  {
+    "pair_index": 102,
+    "left_id": "1050",
+    "right_id": "332",
+    "label": 1,
+    "score": 0.0972992153342858,
+    "predicted": 0
+  },
+  {
+    "pair_index": 152,
+    "left_id": "779",
+    "right_id": "246",
+    "label": 0,
+    "score": 0.4595270884559184,
+    "predicted": 1
+  },
+  {
+    "pair_index": 181,
+    "left_id": "181",
+    "right_id": "134",
+    "label": 1,
+    "score": 0.16655131243707935,
+    "predicted": 0
+  },
+  {
+    "pair_index": 184,
+    "left_id": "941",
+    "right_id": "1018",
+    "label": 1,
+    "score": 0.007946148652973972,
+    "predicted": 0
+  },
+  {
+    "pair_index": 201,
+    "left_id": "493",
+    "right_id": "529",
+    "label": 1,
+    "score": 0.0034044262691623945,
+    "predicted": 0
+  },
+  {
+    "pair_index": 203,
+    "left_id": "811",
+    "right_id": "797",
+    "label": 0,
+    "score": 0.42301751294392703,
+    "predicted": 1
+  },
+  {
+    "pair_index": 213,
+    "left_id": "442",
+    "right_id": "579",
+    "label": 0,
+    "score": 0.6097689834667613,
+    "predicted": 1
+  },
+  {
+    "pair_index": 258,
+    "left_id": "360",
+    "right_id": "355",
+    "label": 0,
+    "score": 0.23801526786509689,
+    "predicted": 1
+  },
+  {
+    "pair_index": 298,
+    "left_id": "255",
+    "right_id": "868",
+    "label": 0,
+    "score": 0.6008679109037501,
+    "predicted": 1
+  },
+  {
+    "pair_index": 316,
+    "left_id": "889",
+    "right_id": "508",
+    "label": 0,
+    "score": 0.26259068699662286,
+    "predicted": 1
+  },
+  {
+    "pair_index": 318,
+    "left_id": "795",
+    "right_id": "821",
+    "label": 1,
+    "score": 0.06877358152402428,
+    "predicted": 0
+  },
+  {
+    "pair_index": 324,
+    "left_id": "30",
+    "right_id": "43",
+    "label": 0,
+    "score": 0.4313724054329364,
+    "predicted": 1
+  },
+  {
+    "pair_index": 329,
+    "left_id": "245",
+    "right_id": "215",
+    "label": 1,
+    "score": 0.002046504862392555,
+    "predicted": 0
+  },
+  {
+    "pair_index": 337,
+    "left_id": "512",
+    "right_id": "550",
+    "label": 1,
+    "score": 0.03799511614831417,
+    "predicted": 0
+  },
+  {
+    "pair_index": 341,
+    "left_id": "965",
+    "right_id": "160",
+    "label": 0,
+    "score": 0.4265716908233222,
+    "predicted": 1
+  },
+  {
+    "pair_index": 346,
+    "left_id": "382",
+    "right_id": "571",
+    "label": 1,
+    "score": 0.13365069518156975,
+    "predicted": 0
+  },
+  {
+    "pair_index": 361,
+    "left_id": "670",
+    "right_id": "676",
+    "label": 0,
+    "score": 0.22581461406345518,
+    "predicted": 1
+  },
+  {
+    "pair_index": 386,
+    "left_id": "531",
+    "right_id": "879",
+    "label": 0,
+    "score": 0.46518918225938577,
+    "predicted": 1
+  },
+  {
+    "pair_index": 402,
+    "left_id": "631",
+    "right_id": "864",
+    "label": 1,
+    "score": 0.10765787366397457,
+    "predicted": 0
+  },
+  {
+    "pair_index": 406,
+    "left_id": "444",
+    "right_id": "573",
+    "label": 0,
+    "score": 0.34698227539301296,
+    "predicted": 1
+  },
+  {
+    "pair_index": 409,
+    "left_id": "269",
+    "right_id": "348",
+    "label": 0,
+    "score": 0.46092270278531866,
+    "predicted": 1
+  },
+  {
+    "pair_index": 419,
+    "left_id": "122",
+    "right_id": "137",
+    "label": 1,
+    "score": 0.08922624727778579,
+    "predicted": 0
+  },
+  {
+    "pair_index": 421,
+    "left_id": "423",
+    "right_id": "749",
+    "label": 1,
+    "score": 0.20355709272476766,
+    "predicted": 0
+  },
+  {
+    "pair_index": 426,
+    "left_id": "105",
+    "right_id": "477",
+    "label": 0,
+    "score": 0.2923660504939093,
+    "predicted": 1
+  },
+  {
+    "pair_index": 431,
+    "left_id": "68",
+    "right_id": "222",
+    "label": 1,
+    "score": 0.17448577312850436,
+    "predicted": 0
+  },
+  {
+    "pair_index": 462,
+    "left_id": "42",
+    "right_id": "801",
+    "label": 0,
+    "score": 0.22616814548212286,
+    "predicted": 1
+  },
+  {
+    "pair_index": 471,
+    "left_id": "282",
+    "right_id": "359",
+    "label": 0,
+    "score": 0.37244592045647734,
+    "predicted": 1
+  },
+  {
+    "pair_index": 474,
+    "left_id": "805",
+    "right_id": "470",
+    "label": 1,
+    "score": 0.11018519983935271,
+    "predicted": 0
+  },
+  {
+    "pair_index": 489,
+    "left_id": "934",
+    "right_id": "1030",
+    "label": 0,
+    "score": 0.27391938005090594,
+    "predicted": 1
+  },
+  {
+    "pair_index": 499,
+    "left_id": "1007",
+    "right_id": "424",
+    "label": 0,
+    "score": 0.9120500050813509,
+    "predicted": 1
+  },
+  {
+    "pair_index": 504,
+    "left_id": "256",
+    "right_id": "300",
+    "label": 1,
+    "score": 0.09201059316287181,
+    "predicted": 0
+  },
+  {
+    "pair_index": 517,
+    "left_id": "589",
+    "right_id": "229",
+    "label": 0,
+    "score": 0.6440061066274276,
+    "predicted": 1
+  },
+  {
+    "pair_index": 522,
+    "left_id": "559",
+    "right_id": "558",
+    "label": 0,
+    "score": 0.4393672272195743,
+    "predicted": 1
+  },
+  {
+    "pair_index": 526,
+    "left_id": "196",
+    "right_id": "126",
+    "label": 0,
+    "score": 0.24422792049510159,
+    "predicted": 1
+  },
+  {
+    "pair_index": 532,
+    "left_id": "251",
+    "right_id": "80",
+    "label": 0,
+    "score": 0.32169422114358315,
+    "predicted": 1
+  },
+  {
+    "pair_index": 542,
+    "left_id": "331",
+    "right_id": "385",
+    "label": 0,
+    "score": 0.548489609429801,
+    "predicted": 1
+  },
+  {
+    "pair_index": 544,
+    "left_id": "36",
+    "right_id": "228",
+    "label": 1,
+    "score": 0.10210549552315965,
+    "predicted": 0
+  },
+  {
+    "pair_index": 550,
+    "left_id": "755",
+    "right_id": "562",
+    "label": 0,
+    "score": 0.24045936632385614,
+    "predicted": 1
+  },
+  {
+    "pair_index": 555,
+    "left_id": "984",
+    "right_id": "1040",
+    "label": 0,
+    "score": 0.2541661273625447,
+    "predicted": 1
+  },
+  {
+    "pair_index": 613,
+    "left_id": "844",
+    "right_id": "818",
+    "label": 1,
+    "score": 0.06458320046314073,
+    "predicted": 0
+  },
+  {
+    "pair_index": 618,
+    "left_id": "961",
+    "right_id": "964",
+    "label": 1,
+    "score": 0.11539466921806017,
+    "predicted": 0
+  },
+  {
+    "pair_index": 621,
+    "left_id": "1039",
+    "right_id": "255",
+    "label": 0,
+    "score": 0.5214265913481991,
+    "predicted": 1
+  },
+  {
+    "pair_index": 622,
+    "left_id": "727",
+    "right_id": "257",
+    "label": 0,
+    "score": 0.4346498742619265,
+    "predicted": 1
+  },
+  {
+    "pair_index": 634,
+    "left_id": "113",
+    "right_id": "228",
+    "label": 0,
+    "score": 0.22657242676348677,
+    "predicted": 1
+  },
+  {
+    "pair_index": 641,
+    "left_id": "1053",
+    "right_id": "357",
+    "label": 1,
+    "score": 0.0042508725437464786,
+    "predicted": 0
+  },
+  {
+    "pair_index": 659,
+    "left_id": "1001",
+    "right_id": "1058",
+    "label": 1,
+    "score": 0.003694870067068885,
+    "predicted": 0
+  },
+  {
+    "pair_index": 665,
+    "left_id": "410",
+    "right_id": "645",
+    "label": 1,
+    "score": 0.20403027508789448,
+    "predicted": 0
+  },
+  {
+    "pair_index": 672,
+    "left_id": "214",
+    "right_id": "14",
+    "label": 0,
+    "score": 0.9105758587914499,
+    "predicted": 1
+  },
+  {
+    "pair_index": 679,
+    "left_id": "476",
+    "right_id": "631",
+    "label": 1,
+    "score": 0.13761160949876838,
+    "predicted": 0
+  },
+  {
+    "pair_index": 682,
+    "left_id": "270",
+    "right_id": "347",
+    "label": 0,
+    "score": 0.8048511165651848,
+    "predicted": 1
+  },
+  {
+    "pair_index": 686,
+    "left_id": "851",
+    "right_id": "816",
+    "label": 1,
+    "score": 0.08353102244391962,
+    "predicted": 0
+  },
+  {
+    "pair_index": 712,
+    "left_id": "735",
+    "right_id": "776",
+    "label": 0,
+    "score": 0.2524697574044216,
+    "predicted": 1
+  },
+  {
+    "pair_index": 714,
+    "left_id": "328",
+    "right_id": "299",
+    "label": 1,
+    "score": 0.2033616625447208,
+    "predicted": 0
+  },
+  {
+    "pair_index": 723,
+    "left_id": "226",
+    "right_id": "445",
+    "label": 0,
+    "score": 0.3001585697748728,
+    "predicted": 1
+  },
+  {
+    "pair_index": 763,
+    "left_id": "540",
+    "right_id": "601",
+    "label": 0,
+    "score": 0.3896490738643765,
+    "predicted": 1
+  },
+  {
+    "pair_index": 772,
+    "left_id": "369",
+    "right_id": "464",
+    "label": 1,
+    "score": 0.12289360819480168,
+    "predicted": 0
+  },
+  {
+    "pair_index": 776,
+    "left_id": "462",
+    "right_id": "17",
+    "label": 0,
+    "score": 0.41789735474723094,
+    "predicted": 1
+  },
+  {
+    "pair_index": 794,
+    "left_id": "985",
+    "right_id": "607",
+    "label": 1,
+    "score": 0.09980379848228232,
+    "predicted": 0
+  },
+  {
+    "pair_index": 823,
+    "left_id": "856",
+    "right_id": "942",
+    "label": 1,
+    "score": 0.20864353920219553,
+    "predicted": 0
+  },
+  {
+    "pair_index": 873,
+    "left_id": "588",
+    "right_id": "230",
+    "label": 0,
+    "score": 0.6125344847669982,
+    "predicted": 1
+  },
+  {
+    "pair_index": 914,
+    "left_id": "763",
+    "right_id": "958",
+    "label": 0,
+    "score": 0.22460676287090675,
+    "predicted": 1
+  },
+  {
+    "pair_index": 919,
+    "left_id": "892",
+    "right_id": "1063",
+    "label": 1,
+    "score": 0.14557544014606855,
+    "predicted": 0
+  },
+  {
+    "pair_index": 947,
+    "left_id": "720",
+    "right_id": "812",
+    "label": 0,
+    "score": 0.5822914739736538,
+    "predicted": 1
+  },
+  {
+    "pair_index": 956,
+    "left_id": "764",
+    "right_id": "638",
+    "label": 0,
+    "score": 0.6551655993106809,
+    "predicted": 1
+  },
+  {
+    "pair_index": 960,
+    "left_id": "1028",
+    "right_id": "1",
+    "label": 0,
+    "score": 0.5895130801256017,
+    "predicted": 1
+  },
+  {
+    "pair_index": 961,
+    "left_id": "744",
+    "right_id": "894",
+    "label": 0,
+    "score": 0.776045901816463,
+    "predicted": 1
+  },
+  {
+    "pair_index": 970,
+    "left_id": "55",
+    "right_id": "225",
+    "label": 1,
+    "score": 0.15625921003630833,
+    "predicted": 0
+  },
+  {
+    "pair_index": 973,
+    "left_id": "130",
+    "right_id": "433",
+    "label": 0,
+    "score": 0.7271015505746996,
+    "predicted": 1
+  },
+  {
+    "pair_index": 981,
+    "left_id": "392",
+    "right_id": "304",
+    "label": 1,
+    "score": 0.12012214570550954,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1015,
+    "left_id": "241",
+    "right_id": "415",
+    "label": 0,
+    "score": 0.7947802008407067,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1027,
+    "left_id": "710",
+    "right_id": "668",
+    "label": 0,
+    "score": 0.3490152233758469,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1032,
+    "left_id": "652",
+    "right_id": "842",
+    "label": 0,
+    "score": 0.2872326225520107,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1035,
+    "left_id": "520",
+    "right_id": "538",
+    "label": 0,
+    "score": 0.40159111299541633,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1037,
+    "left_id": "654",
+    "right_id": "561",
+    "label": 0,
+    "score": 0.7911609769143454,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1050,
+    "left_id": "488",
+    "right_id": "847",
+    "label": 0,
+    "score": 0.37234401446366816,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1068,
+    "left_id": "42",
+    "right_id": "799",
+    "label": 0,
+    "score": 0.22616814548212286,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1092,
+    "left_id": "68",
+    "right_id": "1073",
+    "label": 0,
+    "score": 0.3049535944369479,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1094,
+    "left_id": "556",
+    "right_id": "737",
+    "label": 0,
+    "score": 0.5494003146315208,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1100,
+    "left_id": "241",
+    "right_id": "414",
+    "label": 1,
+    "score": 0.12063305206488999,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1154,
+    "left_id": "203",
+    "right_id": "275",
+    "label": 0,
+    "score": 0.4998625172111498,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1163,
+    "left_id": "623",
+    "right_id": "588",
+    "label": 0,
+    "score": 0.7045139656831154,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1165,
+    "left_id": "957",
+    "right_id": "372",
+    "label": 0,
+    "score": 0.6722670302317498,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1182,
+    "left_id": "16",
+    "right_id": "847",
+    "label": 0,
+    "score": 0.5916073810782625,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1233,
+    "left_id": "916",
+    "right_id": "1007",
+    "label": 0,
+    "score": 0.30391106390377687,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1245,
+    "left_id": "431",
+    "right_id": "308",
+    "label": 0,
+    "score": 0.31821837141924225,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1264,
+    "left_id": "399",
+    "right_id": "411",
+    "label": 0,
+    "score": 0.38390818678351124,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1269,
+    "left_id": "418",
+    "right_id": "539",
+    "label": 0,
+    "score": 0.5487222562393695,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1274,
+    "left_id": "443",
+    "right_id": "554",
+    "label": 0,
+    "score": 0.38357508896670556,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1294,
+    "left_id": "991",
+    "right_id": "590",
+    "label": 0,
+    "score": 0.491861171540058,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1313,
+    "left_id": "367",
+    "right_id": "465",
+    "label": 0,
+    "score": 0.4341388497452514,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1315,
+    "left_id": "299",
+    "right_id": "424",
+    "label": 0,
+    "score": 0.29571562247409294,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1317,
+    "left_id": "178",
+    "right_id": "165",
+    "label": 0,
+    "score": 0.7013644446107556,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1323,
+    "left_id": "762",
+    "right_id": "51",
+    "label": 0,
+    "score": 0.722158864547022,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1332,
+    "left_id": "117",
+    "right_id": "144",
+    "label": 1,
+    "score": 0.20931247434864847,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1353,
+    "left_id": "532",
+    "right_id": "866",
+    "label": 0,
+    "score": 0.2430911779973493,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1398,
+    "left_id": "615",
+    "right_id": "638",
+    "label": 0,
+    "score": 0.4059231700409608,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1406,
+    "left_id": "504",
+    "right_id": "843",
+    "label": 0,
+    "score": 0.3566956624825837,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1426,
+    "left_id": "852",
+    "right_id": "827",
+    "label": 1,
+    "score": 0.10206647717767796,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1428,
+    "left_id": "626",
+    "right_id": "472",
+    "label": 0,
+    "score": 0.5589087254236672,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1435,
+    "left_id": "447",
+    "right_id": "411",
+    "label": 0,
+    "score": 0.3018075530518498,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1460,
+    "left_id": "501",
+    "right_id": "558",
+    "label": 0,
+    "score": 0.24045936632385614,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1466,
+    "left_id": "37",
+    "right_id": "394",
+    "label": 0,
+    "score": 0.48207671942756597,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1469,
+    "left_id": "91",
+    "right_id": "86",
+    "label": 1,
+    "score": 0.0020252056546925783,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1516,
+    "left_id": "113",
+    "right_id": "493",
+    "label": 0,
+    "score": 0.237406726147926,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1569,
+    "left_id": "960",
+    "right_id": "963",
+    "label": 1,
+    "score": 0.11011552786445794,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1570,
+    "left_id": "121",
+    "right_id": "371",
+    "label": 1,
+    "score": 0.0003495155017650039,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1580,
+    "left_id": "470",
+    "right_id": "579",
+    "label": 0,
+    "score": 0.646566511075187,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1582,
+    "left_id": "409",
+    "right_id": "96",
+    "label": 1,
+    "score": 0.12310694265015737,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1611,
+    "left_id": "281",
+    "right_id": "280",
+    "label": 1,
+    "score": 0.020059706968398847,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1625,
+    "left_id": "353",
+    "right_id": "203",
+    "label": 0,
+    "score": 0.6956162043670818,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1648,
+    "left_id": "400",
+    "right_id": "638",
+    "label": 0,
+    "score": 0.4059231700409608,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1654,
+    "left_id": "366",
+    "right_id": "225",
+    "label": 0,
+    "score": 0.6993636124503544,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1663,
+    "left_id": "812",
+    "right_id": "904",
+    "label": 0,
+    "score": 0.2735780452211254,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1668,
+    "left_id": "1047",
+    "right_id": "158",
+    "label": 0,
+    "score": 0.2648129030063457,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1669,
+    "left_id": "257",
+    "right_id": "351",
+    "label": 0,
+    "score": 0.40372399100174805,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1670,
+    "left_id": "270",
+    "right_id": "108",
+    "label": 0,
+    "score": 0.23789292887853353,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1672,
+    "left_id": "280",
+    "right_id": "638",
+    "label": 0,
+    "score": 0.6054307458079469,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1697,
+    "left_id": "354",
+    "right_id": "242",
+    "label": 0,
+    "score": 0.47503040554807335,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1700,
+    "left_id": "689",
+    "right_id": "785",
+    "label": 1,
+    "score": 0.129121661218356,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1713,
+    "left_id": "29",
+    "right_id": "41",
+    "label": 0,
+    "score": 0.5341999680781165,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1727,
+    "left_id": "840",
+    "right_id": "820",
+    "label": 1,
+    "score": 0.17210497621439164,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1728,
+    "left_id": "561",
+    "right_id": "761",
+    "label": 0,
+    "score": 0.7602732346702293,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1737,
+    "left_id": "794",
+    "right_id": "817",
+    "label": 1,
+    "score": 0.06877358152402428,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1750,
+    "left_id": "699",
+    "right_id": "772",
+    "label": 0,
+    "score": 0.3031597214389296,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1761,
+    "left_id": "422",
+    "right_id": "205",
+    "label": 0,
+    "score": 0.3176646547591893,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1772,
+    "left_id": "907",
+    "right_id": "947",
+    "label": 1,
+    "score": 0.007877231308647916,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1814,
+    "left_id": "555",
+    "right_id": "412",
+    "label": 0,
+    "score": 0.23669656919294338,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1820,
+    "left_id": "541",
+    "right_id": "725",
+    "label": 1,
+    "score": 0.08596668465631306,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1822,
+    "left_id": "970",
+    "right_id": "678",
+    "label": 0,
+    "score": 0.22937233742224436,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1829,
+    "left_id": "713",
+    "right_id": "797",
+    "label": 0,
+    "score": 0.29288181689183385,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1831,
+    "left_id": "203",
+    "right_id": "165",
+    "label": 0,
+    "score": 0.7069578722355551,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1853,
+    "left_id": "197",
+    "right_id": "243",
+    "label": 1,
+    "score": 0.11235375491387531,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1854,
+    "left_id": "1030",
+    "right_id": "333",
+    "label": 0,
+    "score": 0.39800206179034775,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1859,
+    "left_id": "524",
+    "right_id": "589",
+    "label": 0,
+    "score": 0.47989197142929874,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1866,
+    "left_id": "732",
+    "right_id": "776",
+    "label": 0,
+    "score": 0.2524697574044216,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1877,
+    "left_id": "864",
+    "right_id": "503",
+    "label": 0,
+    "score": 0.5511282127641205,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1882,
+    "left_id": "248",
+    "right_id": "452",
+    "label": 0,
+    "score": 0.28758526361768105,
+    "predicted": 1
+  },
+  {
+    "pair_index": 1883,
+    "left_id": "955",
+    "right_id": "913",
+    "label": 1,
+    "score": 0.2021885773072529,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1904,
+    "left_id": "666",
+    "right_id": "731",
+    "label": 1,
+    "score": 0.12095610892436555,
+    "predicted": 0
+  },
+  {
+    "pair_index": 1910,
+    "left_id": "188",
+    "right_id": "872",
+    "label": 0,
+    "score": 0.3374348486887036,
+    "predicted": 1
+  }
+]

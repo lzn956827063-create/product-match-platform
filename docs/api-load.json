@@ -1,0 +1,22 @@
+{
+  "scope": "In-process ASGI TestClient over SQLite, 10 threads; 29-item demo run. Excludes network and PostgreSQL. 100 list requests, 10 independent review writes.",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "lists": {
+    "n": 100,
+    "p50_ms": 640.8268545055762,
+    "p95_ms": 747.1317690855358,
+    "max_ms": 787.3357499483973,
+    "status_counts": {
+      "200": 100
+    }
+  },
+  "reviews": {
+    "n": 10,
+    "p50_ms": 36.98404197348282,
+    "p95_ms": 96.1597896472085,
+    "max_ms": 105.9718340402469,
+    "status_counts": {
+      "201": 10
+    }
+  }
+}

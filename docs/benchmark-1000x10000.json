@@ -1,0 +1,22 @@
+{
+  "scope": "CSV generation, storage, parsing, normalization, SQLite ingestion, run creation, cold index, matching and candidate persistence; excludes network upload",
+  "preparation_seconds": 0.874496667063795,
+  "worker_seconds": 7.522613249951974,
+  "status": "SUCCEEDED",
+  "processed": 1000,
+  "failed": 0,
+  "timings": {
+    "index_seconds": 0.39706633298192173,
+    "index_hash": "cfe6bb02e7cfb6d0070892803f8c5dafd0d652468220efd6bbd9ff5b73447872",
+    "matching_seconds": 5.613162999157794
+  },
+  "queries": 1000,
+  "catalog": 10000,
+  "total_seconds": 8.397160207969137,
+  "peak_rss_mb": 272.1875,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpu_count": 8,
+  "python": "3.12.14",
+  "dataset": "Controlled synthetic smartphone records, complete exact identity fields; not a quality benchmark or enterprise workload",
+  "isolated_database": "/var/folders/1s/ft20npn15_344x__gjhncw300000gp/T/product-match-benchmark-5ioiim0v"
+}

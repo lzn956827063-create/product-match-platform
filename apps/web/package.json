@@ -1,0 +1,9 @@
+{
+  "name": "product-match-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"dev": "vite --host 127.0.0.1", "build": "vue-tsc --noEmit && vite build", "preview": "vite preview --host 127.0.0.1"},
+  "dependencies": {"vue": "^3.5.21", "element-plus": "^2.11.2", "lucide-vue-next": "^0.468.0"},
+  "devDependencies": {"vite": "^6.1.0", "typescript": "^5.8.3", "vue-tsc": "^2.2.12", "@vitejs/plugin-vue": "^5.2.4", "playwright": "1.62.1"}
+}

@@ -1,0 +1,4805 @@
+{
+  "provenance": "Generated Chinese SKU regression fixtures with declared expected rules; no human labelling or real-world accuracy claim.",
+  "pairs": [
+    {
+      "id": "00-same",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "00-alias",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X10 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "00-capacity",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-ram",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-color",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-region",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-bundle",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-model_suffix",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x10-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-gib",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "00-missing",
+      "left": {
+        "name": "A牌 X10 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x10",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "01-same",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "01-alias",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X11 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "01-capacity",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-ram",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-color",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-region",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-bundle",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-model_suffix",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x11-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-gib",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "01-missing",
+      "left": {
+        "name": "A牌 X11 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x11",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "02-same",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "02-alias",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X12 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "02-capacity",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-ram",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-color",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-region",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-bundle",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-model_suffix",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x12-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-gib",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "02-missing",
+      "left": {
+        "name": "A牌 X12 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x12",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "03-same",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "03-alias",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X13 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "03-capacity",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-ram",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-color",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-region",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-bundle",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-model_suffix",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x13-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-gib",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "03-missing",
+      "left": {
+        "name": "A牌 X13 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x13",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "04-same",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "04-alias",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X14 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "04-capacity",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-ram",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-color",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-region",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-bundle",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-model_suffix",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x14-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-gib",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "04-missing",
+      "left": {
+        "name": "A牌 X14 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x14",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "05-same",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "05-alias",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X15 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "05-capacity",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-ram",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-color",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-region",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-bundle",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-model_suffix",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x15-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-gib",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "05-missing",
+      "left": {
+        "name": "A牌 X15 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x15",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "06-same",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "06-alias",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X16 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "06-capacity",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-ram",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-color",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-region",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-bundle",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-model_suffix",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x16-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-gib",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "06-missing",
+      "left": {
+        "name": "A牌 X16 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x16",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "07-same",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "07-alias",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X17 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "07-capacity",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-ram",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-color",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-region",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-bundle",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-model_suffix",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x17-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-gib",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "07-missing",
+      "left": {
+        "name": "A牌 X17 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x17",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "08-same",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "08-alias",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X18 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "08-capacity",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-ram",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-color",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-region",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-bundle",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-model_suffix",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x18-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-gib",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "08-missing",
+      "left": {
+        "name": "A牌 X18 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x18",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "09-same",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "09-alias",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X19 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "09-capacity",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-ram",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-color",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-region",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-bundle",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-model_suffix",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x19-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-gib",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "09-missing",
+      "left": {
+        "name": "A牌 X19 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x19",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "10-same",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "10-alias",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X20 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "10-capacity",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-ram",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-color",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-region",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-bundle",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-model_suffix",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x20-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-gib",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "10-missing",
+      "left": {
+        "name": "A牌 X20 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x20",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "11-same",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "11-alias",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X21 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "11-capacity",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-ram",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-color",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-region",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-bundle",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-model_suffix",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x21-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-gib",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "11-missing",
+      "left": {
+        "name": "A牌 X21 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x21",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "12-same",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "12-alias",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X22 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "12-capacity",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-ram",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-color",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-region",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-bundle",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-model_suffix",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x22-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-gib",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "12-missing",
+      "left": {
+        "name": "A牌 X22 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x22",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "13-same",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "13-alias",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X23 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "13-capacity",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-ram",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-color",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-region",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-bundle",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-model_suffix",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x23-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-gib",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "13-missing",
+      "left": {
+        "name": "A牌 X23 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x23",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "14-same",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "14-alias",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X24 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "14-capacity",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-ram",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-color",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-region",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-bundle",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-model_suffix",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x24-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-gib",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "14-missing",
+      "left": {
+        "name": "A牌 X24 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x24",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "15-same",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "15-alias",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X25 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "15-capacity",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-ram",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-color",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-region",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-bundle",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-model_suffix",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x25-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-gib",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "15-missing",
+      "left": {
+        "name": "A牌 X25 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x25",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "16-same",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "16-alias",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X26 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "16-capacity",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-ram",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-color",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-region",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-bundle",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-model_suffix",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x26-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-gib",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "16-missing",
+      "left": {
+        "name": "A牌 X26 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x26",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "17-same",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "17-alias",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X27 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "17-capacity",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-ram",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-color",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-region",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-bundle",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-model_suffix",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x27-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-gib",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "17-missing",
+      "left": {
+        "name": "A牌 X27 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x27",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "18-same",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "18-alias",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X28 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "18-capacity",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-ram",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-color",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-region",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-bundle",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-model_suffix",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x28-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-gib",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "18-missing",
+      "left": {
+        "name": "A牌 X28 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x28",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    },
+    {
+      "id": "19-same",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "19-alias",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "Ａ牌 X29 black 8+128 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "black",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "same"
+    },
+    {
+      "id": "19-capacity",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他容量版本",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "256",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-ram",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他内存版本",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "12",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-color",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "其他颜色版本",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "白色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-region",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "港版机型",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "港版",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-bundle",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "双机套装",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "2"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-model_suffix",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "型号后缀不同",
+        "brand": "A牌",
+        "model": "x29-pro",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-gib",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "二进制容量",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128GiB",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "conflict"
+    },
+    {
+      "id": "19-missing",
+      "left": {
+        "name": "A牌 X29 8+128 黑色 国行 单机",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "8",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "right": {
+        "name": "资料不完整",
+        "brand": "A牌",
+        "model": "x29",
+        "ram": "",
+        "storage": "128",
+        "color": "黑色",
+        "region": "国行",
+        "pack_count": "1"
+      },
+      "expected": "missing"
+    }
+  ]
+}

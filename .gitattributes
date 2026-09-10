@@ -1,0 +1,6 @@
+*.csv text eol=crlf whitespace=cr-at-eol
+models/*/model.txt -diff
+*.png binary
+*.webm binary
+*.joblib binary
+*.xlsx binary

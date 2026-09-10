@@ -1,0 +1,9 @@
+.git
+var
+**/node_modules
+**/dist
+**/__pycache__
+.venv
+.env
+docs/browser
+ml/data/downloads

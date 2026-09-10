@@ -1,0 +1,19 @@
+{
+  "scope": "normalization, cold index and retrieval/rules only; excludes API, database writes, files and queue",
+  "normalization_seconds": 1.2216135839698836,
+  "index_seconds": 0.9724451660877094,
+  "matching_seconds": 50.35945283295587,
+  "states": {
+    "RECOMMENDED": 10000
+  },
+  "top1_correct": 10000,
+  "queries": 10000,
+  "catalog": 50000,
+  "total_seconds": 52.5535160000436,
+  "peak_rss_mb": 418.78125,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpu_count": 8,
+  "python": "3.12.14",
+  "dataset": "Controlled synthetic smartphone records, complete exact identity fields; not a quality benchmark or enterprise workload",
+  "isolated_database": "/var/folders/1s/ft20npn15_344x__gjhncw300000gp/T/product-match-benchmark-wl5fbprq"
+}

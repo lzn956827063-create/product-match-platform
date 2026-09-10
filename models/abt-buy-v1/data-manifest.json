@@ -1,0 +1,33 @@
+{
+  "dataset": "DeepMatcher Abt-Buy textual, official pairwise split",
+  "source_url": "https://pages.cs.wisc.edu/~anhai/data1/deepmatcher_data/Textual/Abt-Buy/abt_buy_exp_data.zip",
+  "documentation": "https://github.com/anhaidgroup/deepmatcher/blob/master/Datasets.md",
+  "original_source": "https://dbs.uni-leipzig.de/en/research/projects/object_matching/fever/benchmark_datasets_for_entity_resolution",
+  "downloaded_at": "2026-09-10T02:57:37.851105+00:00",
+  "archive_sha256": "cd806d925aca21e6ab942b239353a10ee88904c59d3d3e3da6a74e364e9200a1",
+  "files": {
+    "tableA.csv": {
+      "sha256": "20b79995258c4ef80bb96b731762a6fe869650cc42dcb2c58994bda91b0d81aa",
+      "bytes": 329768
+    },
+    "tableB.csv": {
+      "sha256": "e6ebe54c98fd69c5ad4b8364dde53c323ae872c49cf3c2ad5f7b9acd246e1eb6",
+      "bytes": 105197
+    },
+    "train.csv": {
+      "sha256": "efa7ee36e35915aa2e5c8218bb90a94ff11a6cc7a9c4a45cefff1bfc16d64061",
+      "bytes": 57214
+    },
+    "valid.csv": {
+      "sha256": "25ac7b6035327c82a9e45c93e02e24dd2fffe7afff779ae9381e5c32f727c3c0",
+      "bytes": 19125
+    },
+    "test.csv": {
+      "sha256": "fd815442d37368cecc4cd3b5a0af33930ce5b7b353b222b810d8079211e81d9a",
+      "bytes": 19154
+    }
+  },
+  "license": "No explicit data license is included in this archive. Record this limitation; raw data is not redistributed with this project. Consult original data providers for reuse terms.",
+  "labels": "Official labeled candidate pairs; unlabelled cross-products are not negatives.",
+  "scope": "Pair classification only. This split does not support complete retrieval Recall@20 or SKU recommendation coverage claims."
+}
