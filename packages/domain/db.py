@@ -30,6 +30,9 @@ if DATABASE_URL.startswith("sqlite"):
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("PRAGMA busy_timeout=30000")
 
+from .request_trace import install as install_trace,add as trace_add
+install_trace(engine)
+
 Session = sessionmaker(engine, expire_on_commit=False)
 
 
@@ -37,6 +40,8 @@ Session = sessionmaker(engine, expire_on_commit=False)
 def transaction(write=False):
     with Session() as s:
         try:
+            from time import perf_counter
+            started=perf_counter();s.connection();trace_add("connection_acquire_seconds",perf_counter()-started)
             if write and engine.dialect.name == "sqlite":
                 s.execute(text("BEGIN IMMEDIATE"))
             yield s
@@ -48,7 +53,9 @@ def transaction(write=False):
 
 def initialize():
     from . import models
-    Base.metadata.create_all(engine)
+    import os
+    if os.getenv("DB_AUTO_CREATE", "true")=="true":
+        Base.metadata.create_all(engine)
     with transaction(write=True) as s:
         if engine.dialect.name == "postgresql":
             from sqlalchemy.dialects.postgresql import insert

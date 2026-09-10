@@ -75,12 +75,22 @@ def process_files(ident):
     with transaction() as s:
         release=s.get(BatchRelease,ident)
         if not release or release.status not in ('PUBLISHED','SUPERSEDED','REVOKED'):return
-        rows=frozen_rows(s,release)
-        require(digest(rows)==release.snapshot_hash,409,'SNAPSHOT_HASH','发布快照校验失败')
-        base=s.get(BatchRelease,release.base_release_id) if release.base_release_id else None
-        delta=delta_rows(frozen_rows(s,base) if base else [],rows)
         org=release.org_id
         pending=[(a.id,a.kind) for a in s.scalars(select(ReleaseArtifact).where(ReleaseArtifact.org_id==org,ReleaseArtifact.release_id==ident,ReleaseArtifact.status!='SUCCEEDED'))]
+        from packages.domain.materialized import delta as cached_delta,persist_delta
+        cached=cached_delta(s,release)
+        rows=frozen_rows(s,release) if pending or not cached else []
+        if pending or not cached:require(digest(rows)==release.snapshot_hash,409,'SNAPSHOT_HASH','发布快照校验失败')
+        if not cached:
+            base=s.get(BatchRelease,release.base_release_id) if release.base_release_id else None
+            delta=delta_rows(frozen_rows(s,base) if base else [],rows)
+        elif any(kind=='delta' for _,kind in pending):
+            delta=list(s.scalars(select(ReleaseDeltaRow.data).where(ReleaseDeltaRow.org_id==org,ReleaseDeltaRow.delta_id==cached.id).order_by(ReleaseDeltaRow.number)))
+        else:delta=[]
+    if not cached:
+        with transaction(write=True) as s:
+            s.scalar(select(Organization).where(Organization.id==org).with_for_update())
+            persist_delta(s,s.get(BatchRelease,ident),delta)
     for artifact_id,kind in pending:
         try:
             if kind=='delta':

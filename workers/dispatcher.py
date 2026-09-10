@@ -41,11 +41,17 @@ def main():
     pools={"match":ThreadPoolExecutor(max_workers=2),"short":ThreadPoolExecutor(max_workers=2)} if QUEUE_MODE!="celery" else None
     inflight={}
     cleanup_at = 0
+    receipts_at = 0
     while True:
         try:
             if time.time()-cleanup_at > 3600:
                 from workers.maintenance import schedule_cleanup
                 schedule_cleanup(); cleanup_at=time.time()
+            if time.time()-receipts_at >= 30:
+                from workers.deliveries import scan_receipts
+                scan_receipts()
+                from workers.quality import schedule_quality
+                schedule_quality();receipts_at=time.time()
             dispatch_once(pools,inflight)
             for ident,future in list(inflight.items()):
                 if future.done():

@@ -22,7 +22,7 @@ groups:
         annotations:
           summary: 发布文件生成失败；在发布中心按 release_id 重试并核对对象哈希
       - alert: ProductMatchDeliveryNeedsAttention
-        expr: sum(product_match_deliveries{status=~"MANUAL|PARTIAL|REJECTED"}) > 0
+        expr: sum(product_match_deliveries{status=~"MANUAL|PARTIAL|REJECTED|RECONCILE"}) > 0
         for: 5m
         annotations:
           summary: 交付需要人工处理；按 delivery_id 查看尝试及回执，先对账再重放
@@ -36,3 +36,29 @@ groups:
         for: 5m
         annotations:
           summary: 至少 100 个列表样本的 P95 超过 500ms；检查实例、数据库连接和锁等待
+
+      - alert: ProductMatchReceiptOverdue
+        expr: product_match_receipt_overdue > 0
+        for: 30s
+        annotations:
+          summary: 业务回执超时；集成负责人在统一待办核对对端版本及摘要，禁止直接标记成功
+      - alert: ProductMatchReleaseFilesOverdue
+        expr: product_match_release_files_overdue > 0
+        for: 2m
+        annotations:
+          summary: 发布文件超过 24 小时未就绪；发布者检查对象存储与文件任务
+      - alert: ProductMatchImpactUnresolved
+        expr: product_match_impacts_open > 0
+        for: 24h
+        annotations:
+          summary: 标准库影响持续未关闭；主管分派记录复核或发布处置
+      - alert: ProductMatchNeedsInfoOverdue
+        expr: product_match_needs_info_overdue > 0
+        for: 5m
+        annotations:
+          summary: 待补资料超过 24 小时；数据专员催收并导入回填模板
+      - alert: ProductMatchReceiptOwnerMissing
+        expr: product_match_receipt_owner_missing > 0
+        for: 10m
+        annotations:
+          summary: 已启用接收端尚未指定回执对账负责人

@@ -38,13 +38,16 @@ async def lifespan(app):
     yield
 
 
-app = FastAPI(title="商品数据匹配与核对平台", version="1.2.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
+from packages.domain import request_trace
+
+app = FastAPI(default_response_class=request_trace.MeasuredJSONResponse,title="商品数据匹配与核对平台", version="1.3.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
 PREFIX = "/api/v1"
 
 
 @app.middleware("http")
 async def request_context(request, call_next):
     request.state.request_id = uid()
+    request_trace.start(request.state.request_id)
     started = time.perf_counter()
     if request.method not in ("GET", "HEAD", "OPTIONS") and request.headers.get("origin") and request.headers["origin"] not in ALLOWED_ORIGINS:
         return JSONResponse({"code": "ORIGIN_DENIED", "message": "请求来源未获授权", "request_id": request.state.request_id}, status_code=403)
@@ -68,7 +71,7 @@ async def request_context(request, call_next):
     response.headers["Referrer-Policy"] = "same-origin"
     if request.url.path.startswith(PREFIX):
         response.headers["Cache-Control"] = "no-store"
-    log.info(json.dumps({"event": "request", "request_id": request.state.request_id, "method": request.method, "path": request.url.path, "status": response.status_code, "seconds": round(time.perf_counter()-started, 4)}))
+    log.info(json.dumps({"event": "request", "request_id": request.state.request_id, "method": request.method, "path": request.url.path, "status": response.status_code, "seconds": round(time.perf_counter()-started, 4),"response_bytes":response.headers.get("content-length"),**(request_trace.current.get() or {})}))
     route = request.scope.get('route')
     if route and getattr(route, 'path', '').startswith(PREFIX):
         telemetry.observe(route.path, request.method, response.status_code, time.perf_counter()-started)
@@ -240,14 +243,21 @@ def publish(ident: str, body: VersionInput, s=Depends(db), c=Depends(ctx)):
 
 
 @app.get(PREFIX+"/catalog-versions/{ident}/products")
-def products_list(ident: str, q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
+def products_list(ident: str, q: str = "", mode: str = "auto", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
     scoped(s, CatalogVersion, ident, c)
     query = select(Product).where(Product.org_id == c.org_id, Product.version_id == ident)
+    require(mode in ('auto','exact','prefix','fuzzy'),422,'SEARCH_MODE','不支持此搜索方式')
+    used=mode
     if q:
-        from sqlalchemy import cast, String, or_
-        query = query.where(or_(Product.sku.icontains(q, autoescape=True), Product.normalized["name"].as_string().icontains(q, autoescape=True), Product.normalized["model"].as_string().icontains(q, autoescape=True)))
+        from sqlalchemy import or_
+        q=q.strip()[:300]
+        if mode=='auto':
+            used='exact' if s.scalar(select(Product.id).where(Product.org_id==c.org_id,Product.version_id==ident,Product.sku==q).limit(1)) else 'fuzzy'
+        if used=='exact':query=query.where(Product.sku==q)
+        elif used=='prefix':query=query.where(Product.search_model>=q.casefold(),Product.search_model<q.casefold()+'\U0010ffff')
+        else:query=query.where(or_(Product.sku.icontains(q,autoescape=True),Product.search_name.contains(q.casefold(),autoescape=True),Product.search_model.contains(q.casefold(),autoescape=True)))
     rows, cursor = page(s, query, Product, cursor, limit)
-    return {"items": [data(x) for x in rows], "next_cursor": cursor}
+    return {"items": [data(x) for x in rows], "next_cursor": cursor,"search_mode":used}
 
 
 @app.post(PREFIX+"/batches", status_code=201)
@@ -554,7 +564,7 @@ def internal_metrics(request: Request):
 def health():
     with transaction() as s:
         s.execute(text("SELECT 1"))
-    return {"status": "ok", "version": "1.2.0"}
+    return {"status": "ok", "version": "1.3.0"}
 
 
 @app.get(PREFIX+"/readiness")
@@ -771,6 +781,8 @@ def operations(s=Depends(db), c=Depends(ctx)):
 
 from apps.api.enterprise import install as install_enterprise
 install_enterprise(app, db, ctx, data, page)
+from apps.api.v13 import install as install_v13
+install_v13(app, db, ctx, data, page)
 
 import os
 static = Path(os.getenv("WEB_DIST", ROOT / "apps/web/dist"))

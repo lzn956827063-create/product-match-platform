@@ -1,0 +1,44 @@
+{
+  "scope": "isolated synthetic SQLite, in-process FastAPI requests; 10 historical releases with total N references, not 10*N",
+  "products_per_version": 1000,
+  "history_releases": 10,
+  "historical_reference_rows": 1000,
+  "plan_seconds": 0.03768349997699261,
+  "analysis_seconds": 0.2764722090214491,
+  "report": {
+    "counts": {
+      "identity": 10,
+      "retired": 10,
+      "display": 10,
+      "added": 10
+    },
+    "total_changes": 40,
+    "timings": {
+      "compute_seconds": 0.04072670906316489,
+      "commit_prepare_seconds": 0.22219541599042714
+    },
+    "affected_items": 0,
+    "affected_releases": 3,
+    "identity_links_confirmed": 990
+  },
+  "impact_count": 30,
+  "first_page_rows": 20,
+  "first_page_bytes": 31204,
+  "list_samples_ms": [
+    16.095333034172654,
+    193.52149998303503
+  ],
+  "list_p95_ms": 184.6501916355919,
+  "review_samples": [
+    {
+      "seconds": 0.023386499960906804,
+      "status": 201
+    },
+    {
+      "seconds": 0.005335583002306521,
+      "status": 201
+    }
+  ],
+  "review_p95_ms": 22.48395411297679,
+  "idempotent": true
+}

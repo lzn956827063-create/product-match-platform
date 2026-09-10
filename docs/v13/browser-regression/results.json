@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "source-only correction fields, evidence and persisted draft",
+    "problem-only correction template download",
+    "one-row new revision/run, source provenance, submitter cannot review",
+    "stable-ID comparison limits parent to correction subset",
+    "independent reviewer confirms corrected run",
+    "asynchronous parse and versioned mapping template",
+    "asynchronous validation and full issues download",
+    "simulation report visible and policy promotion disabled",
+    "read-only experimental shadow comparison completed",
+    "summary list and selected-candidate details requested independently",
+    "durable queue and cleanup diagnostics visible",
+    "390px viewport has no page overflow"
+  ]
+}

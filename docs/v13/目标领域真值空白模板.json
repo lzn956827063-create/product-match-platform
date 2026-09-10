@@ -1,0 +1,19 @@
+{
+  "source_type": "authorized",
+  "source_evidence": "",
+  "catalog_hash": "",
+  "dataset_hash": "",
+  "records": [],
+  "record_schema": {
+    "query_id": "唯一查询编号",
+    "entity_or_near_duplicate_group": "实体和近重复组编号",
+    "partition": "train / validation / test",
+    "all_equivalent_product_ids": [],
+    "full_catalog_checked": false,
+    "truth_evidence": "",
+    "reviewer": "",
+    "candidate_ids": [],
+    "decision_product_id": null,
+    "manual_diagnosis": "extraction_error / missing_information / catalog_coverage / 留空由检索结果分析"
+  }
+}

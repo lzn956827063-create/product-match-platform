@@ -4,7 +4,7 @@ import path from 'node:path'
 import assert from 'node:assert/strict'
 const root=path.resolve(import.meta.dirname,'..'),require=createRequire(path.join(root,'apps/web/package.json'))
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),base=process.env.APP_URL||'http://127.0.0.1:18766'
-const output=path.join(root,'docs/enterprise/browser');fs.mkdirSync(output,{recursive:true})
+const output=path.resolve(process.env.BROWSER_OUTPUT||path.join(root,'docs/enterprise/browser'));fs.mkdirSync(output,{recursive:true})
 const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:path.join(output,'video'),size:{width:1440,height:1000}}}),page=await context.newPage(),errors=[],checks=[]
 page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=500)errors.push(r.status()+' '+r.url())})
 const shot=async name=>page.screenshot({path:path.join(output,name+'.png'),fullPage:true,animations:'disabled'})

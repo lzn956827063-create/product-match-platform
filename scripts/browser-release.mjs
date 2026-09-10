@@ -4,7 +4,7 @@ import path from 'node:path'
 import assert from 'node:assert/strict'
 import crypto from 'node:crypto'
 const root=path.resolve(import.meta.dirname,'..'),require=createRequire(path.join(root,'apps/web/package.json'))
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),fixture=JSON.parse(fs.readFileSync(process.argv[2])),output=path.join(root,'docs/enterprise/browser')
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright'),fixture=JSON.parse(fs.readFileSync(process.argv[2])),output=path.resolve(process.env.BROWSER_OUTPUT||path.join(root,'docs/enterprise/browser'))
 const browser=await chromium.launch({headless:true}),page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[]
 page.on('pageerror',e=>errors.push(e.message))
 try{

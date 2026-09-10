@@ -95,7 +95,9 @@ class Product(Tenant, Base):
     raw: Mapped[dict] = mapped_column(JSON)
     normalized: Mapped[dict] = mapped_column(JSON)
     fingerprint: Mapped[str] = mapped_column(String(64))
-    __table_args__ = tenant_constraints(ref("catalog_versions", "version_id"), UniqueConstraint("org_id", "version_id", "sku"))
+    search_name: Mapped[str] = mapped_column(Text, default='', server_default='')
+    search_model: Mapped[str] = mapped_column(String(300), default='', server_default='')
+    __table_args__ = tenant_constraints(ref("catalog_versions", "version_id"), UniqueConstraint("org_id", "version_id", "sku"), Index('ix_product_model_prefix','org_id','version_id','search_model','id'))
 
 
 class Batch(Tenant, Base):
@@ -543,6 +545,7 @@ class CatalogChange(Tenant, Base):
     to_version_id: Mapped[str] = mapped_column(String(36))
     status: Mapped[str] = mapped_column(String(30), default='QUEUED')
     links: Mapped[dict] = mapped_column(JSON)
+    input_hash: Mapped[str] = mapped_column(String(64), default='', server_default='')
     report: Mapped[dict] = mapped_column(JSON, default=dict)
     error: Mapped[str | None] = mapped_column(Text)
     created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
@@ -566,6 +569,7 @@ class ImpactTask(Tenant, Base):
     kind: Mapped[str] = mapped_column(String(30))
     status: Mapped[str] = mapped_column(String(30), default='OPEN')
     resolution: Mapped[dict] = mapped_column(JSON, default=dict)
+    version: Mapped[int] = mapped_column(Integer, default=0, server_default='0')
     __table_args__ = tenant_constraints(ref('catalog_changes', 'change_id'), ref('catalog_products', 'product_id'), ref('match_items', 'item_id'), ref('batch_releases', 'release_id'), UniqueConstraint('org_id', 'change_id', 'resource_key'))
 
 
@@ -594,6 +598,9 @@ class Integration(Tenant, Base):
     url: Mapped[str] = mapped_column(Text)
     secret_cipher: Mapped[str] = mapped_column(Text)
     active: Mapped[bool] = mapped_column(Boolean, default=False)
+    receipt_timeout_seconds: Mapped[int] = mapped_column(Integer, default=900, server_default='900')
+    receipt_query_url: Mapped[str | None] = mapped_column(Text)
+    reconciliation_owner_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
     __table_args__ = tenant_constraints(ref('service_accounts', 'account_id'))
 
 
@@ -610,6 +617,10 @@ class Delivery(Tenant, Base):
     fence_token: Mapped[int] = mapped_column(Integer, default=0)
     last_error: Mapped[str | None] = mapped_column(Text)
     receipt: Mapped[dict] = mapped_column(JSON, default=dict)
+    received_at: Mapped[float | None] = mapped_column(Float)
+    receipt_due_at: Mapped[float | None] = mapped_column(Float, index=True)
+    last_query_at: Mapped[float | None] = mapped_column(Float)
+    escalation_state: Mapped[str] = mapped_column(String(30), default='NONE', server_default='NONE')
     __table_args__ = tenant_constraints(ref('batch_releases', 'release_id'), ref('integrations', 'integration_id'), UniqueConstraint('org_id', 'integration_id', 'event_id'))
 
 
@@ -688,3 +699,80 @@ class FairTurn(Tenant, Base):
     __tablename__ = 'fair_turns'
     last_started: Mapped[str] = mapped_column(String(40), default='')
     __table_args__ = tenant_constraints(UniqueConstraint('org_id'))
+
+
+class CatalogPlan(Tenant, Base):
+    __tablename__ = 'catalog_plans'
+    from_version_id: Mapped[str] = mapped_column(String(36))
+    to_version_id: Mapped[str] = mapped_column(String(36))
+    input_hash: Mapped[str] = mapped_column(String(64))
+    status: Mapped[str] = mapped_column(String(30), default='QUEUED')
+    version: Mapped[int] = mapped_column(Integer, default=0)
+    progress: Mapped[int] = mapped_column(Integer, default=0)
+    report: Mapped[dict] = mapped_column(JSON, default=dict)
+    error: Mapped[str | None] = mapped_column(Text)
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(ref('catalog_versions','from_version_id'),ref('catalog_versions','to_version_id'))
+
+
+class CatalogPlanRow(Tenant, Base):
+    __tablename__ = 'catalog_plan_rows'
+    plan_id: Mapped[str] = mapped_column(String(36))
+    product_id: Mapped[str] = mapped_column(String(36))
+    proposed_id: Mapped[str | None] = mapped_column(String(36))
+    group: Mapped[str] = mapped_column(String(30))
+    confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
+    reason: Mapped[str] = mapped_column(Text, default='')
+    actor_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(ref('catalog_plans','plan_id'),ref('catalog_products','product_id'),ref('catalog_products','proposed_id'),UniqueConstraint('org_id','plan_id','product_id'),Index('ix_plan_row_page','org_id','plan_id','group','id'))
+
+
+class CatalogChangeRow(Tenant, Base):
+    __tablename__ = 'catalog_change_rows'
+    change_id: Mapped[str] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    data: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('catalog_changes','change_id'),UniqueConstraint('org_id','change_id','number'))
+
+
+class ReleaseDelta(Tenant, Base):
+    __tablename__ = 'release_deltas'
+    release_id: Mapped[str] = mapped_column(String(36))
+    base_release_id: Mapped[str | None] = mapped_column(String(36))
+    algorithm: Mapped[str] = mapped_column(String(30), default='delta-v1')
+    snapshot_hash: Mapped[str] = mapped_column(String(64))
+    count: Mapped[int] = mapped_column(Integer)
+    __table_args__ = tenant_constraints(ref('batch_releases','release_id'),ref('batch_releases','base_release_id'),UniqueConstraint('org_id','release_id','algorithm'))
+
+
+class ReleaseDeltaRow(Tenant, Base):
+    __tablename__ = 'release_delta_rows'
+    delta_id: Mapped[str] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    data: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('release_deltas','delta_id'),UniqueConstraint('org_id','delta_id','number'))
+
+
+class QualitySnapshot(Tenant, Base):
+    __tablename__ = 'quality_snapshots'
+    revision_id: Mapped[str] = mapped_column(String(36))
+    generation: Mapped[str] = mapped_column(String(64))
+    report: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('batch_revisions','revision_id'),UniqueConstraint('org_id','revision_id'))
+
+
+class QualityIssue(Tenant, Base):
+    __tablename__ = 'quality_issues'
+    snapshot_id: Mapped[str] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    data: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('quality_snapshots','snapshot_id'),UniqueConstraint('org_id','snapshot_id','number'))
+
+
+class TodoAssignment(Tenant, Base):
+    __tablename__ = 'todo_assignments'
+    resource_key: Mapped[str] = mapped_column(String(100))
+    assignee_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    reason: Mapped[str] = mapped_column(Text)
+    __table_args__ = tenant_constraints(UniqueConstraint('org_id','resource_key'))

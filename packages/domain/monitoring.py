@@ -37,6 +37,11 @@ def render(include_durable=True):
                 for state,count in s.execute(select(cls.status,func.count()).group_by(cls.status)):lines.append(f'product_match_{name}{{status="{state}"}} {count}')
             for cls,name,condition in ((Chunk,'expired_leases',(Chunk.status=='RUNNING')&(Chunk.lease_until<time.time())),(Outbox,'outbox_pending',Outbox.completed.is_(False)),(ArtifactDeletion,'cleanup_pending',ArtifactDeletion.deleted_at.is_(None))):
                 lines.append(f'product_match_{name} {s.scalar(select(func.count()).select_from(cls).where(condition))}')
+            from datetime import timedelta,timezone
+            cutoff=(datetime.now(timezone.utc)-timedelta(hours=24)).isoformat()
+            business=((Delivery,'receipt_overdue',(Delivery.status.in_(['RECEIVED','RECONCILE']))&(Delivery.receipt_due_at<=time.time())),(ReleaseArtifact,'release_files_overdue',(ReleaseArtifact.status!='SUCCEEDED')&(ReleaseArtifact.created_at<cutoff)),(ImpactTask,'impacts_open',ImpactTask.status.in_(['OPEN','NOTICE'])),(Item,'needs_info_overdue',(Item.status=='NEEDS_INFO')&(Item.created_at<cutoff)))
+            for cls,name,condition in business:lines.append(f'product_match_{name} {s.scalar(select(func.count()).select_from(cls).where(condition))}')
+            lines.append(f'product_match_receipt_owner_missing {s.scalar(select(func.count()).select_from(Integration).where(Integration.active.is_(True),Integration.reconciliation_owner_id.is_(None)))}')
             oldest=s.scalar(select(func.min(Outbox.created_at)).where(Outbox.completed.is_(False)))
             age=max(0,time.time()-datetime.fromisoformat(oldest).timestamp()) if oldest else 0
             lines.append(f'product_match_outbox_oldest_seconds {age}')

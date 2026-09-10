@@ -31,7 +31,7 @@ def main(backup):
             with tempfile.TemporaryDirectory(prefix='product-match-schema-') as folder:
                 reference=create_engine('sqlite:///'+str(Path(folder)/'initial.db'))
                 matched=None
-                for revision in ('d8c4c3aad74d','f484e73f04f0'):
+                for revision in ('d8c4c3aad74d','f484e73f04f0','9b7798dcda5b'):
                     module_path=next((ROOT/'db/migrations/versions').glob(revision+'_*.py'));spec=importlib.util.spec_from_file_location('known_migration',module_path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
                     with reference.begin() as connection:
                         with Operations.context(MigrationContext.configure(connection)):module.upgrade()

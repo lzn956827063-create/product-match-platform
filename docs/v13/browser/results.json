@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "unified canonical todo list and action navigation",
+    "release impact preflight, exact affected scope, replacement and downstream pending state",
+    "timeout reconciliation records progress without marking applied",
+    "catalog identity suggestions generated in background with bounded page",
+    "group confirmation and explicit retirement count submission",
+    "quality dates, correction depth metrics and complete history coverage",
+    "todo opens source correction workspace",
+    "signed template download and unordered return upload create drafts only",
+    "mobile viewport has no page overflow"
+  ]
+}

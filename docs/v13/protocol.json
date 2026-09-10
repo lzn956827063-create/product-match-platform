@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "scope": "actual local HTTP and SQLite procurement simulator, not real ERP",
+  "checks": [
+    "full initial sync",
+    "interrupted delta pages leave current baseline intact",
+    "retry resumes identical staged pages",
+    "complete delta atomically equals full CSV including invalidations",
+    "2xx without receipt becomes RECONCILE at deadline scan",
+    "signed status query obtains a version-bound late receipt",
+    "duplicate bound receipt preserves APPLIED",
+    "new release followed by unseen older event rejects rollback",
+    "old artifact bytes preserved"
+  ],
+  "full_rows": 30,
+  "ports": [
+    18768,
+    18769
+  ]
+}

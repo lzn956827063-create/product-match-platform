@@ -1,0 +1,13 @@
+<script setup lang="ts">
+import {ref,onMounted} from 'vue'
+import {ElMessage,ElMessageBox} from 'element-plus'
+import {api,post,hasRole} from './api'
+const emit=defineEmits(['navigate','open']),rows=ref<any[]>([]),cursor=ref<string|null>(null),owner=ref(''),members=ref<any[]>([]),assigned=ref<Record<string,string>>({})
+const kinds:Record<string,string>={correction:'待补资料',release:'发布阻断',impact:'标准库影响',delivery:'交付异常'}
+async function act(fn:()=>Promise<any>){try{await fn()}catch(e:any){if(e!=='cancel'&&e!=='close')ElMessage.error(e.message)}}
+async function load(append=false){const r=await api('/todos?'+new URLSearchParams({...owner.value?{owner:owner.value}:{},...append&&cursor.value?{cursor:cursor.value}:{}}));rows.value=append?[...rows.value,...r.items]:r.items;cursor.value=r.next_cursor}
+async function assign(r:any){await act(async()=>{const {value}=await ElMessageBox.prompt('填写转交原因；接收人需要具备该业务的操作权限。','分派待办',{inputValidator:v=>!!v?.trim()||'请填写原因'});await post('/todos/assign',{resource_key:r.key,assignee_id:assigned.value[r.key]||null,reason:value});await load()})}
+function open(r:any){if(r.kind==='correction')emit('open',{id:r.run_id,item_id:r.id});else emit('navigate',r)}
+onMounted(()=>act(async()=>{await load();if(hasRole('admin','supervisor'))members.value=(await api('/workflow-members')).items}))
+</script>
+<template><div class="enterprise-section"><div class="section-title"><div><h2>统一待办</h2><p class="muted">从业务原始状态汇总，处理完成后自动退出待办。分派不会授予审核或发布权限。</p></div><div class="button-row"><el-select v-model="owner" @change="act(()=>load())"><el-option value="" label="全部可见待办"/><el-option value="me" label="分派给我的待办"/><el-option v-for="m in members" :key="m.user_id" :value="m.user_id" :label="m.name"/></el-select><el-button @click="act(()=>load())">刷新待办</el-button></div></div><section class="panel"><table class="data-table"><thead><tr><th>业务对象</th><th>原因与下一步</th><th>等待时间</th><th>负责人</th><th>操作</th></tr></thead><tbody><tr v-for="r in rows" :key="r.key"><td>{{ kinds[r.kind] }} · {{ r.object_label||'' }}<small class="cell-sub">{{ r.id.slice(0,8) }}</small></td><td>{{ r.reason }}<small class="cell-sub">{{ r.next_action }}</small></td><td>{{ Math.round(r.waiting_seconds/60) }} 分钟</td><td>{{ r.assignee_name||'待分派' }}<div v-if="hasRole('supervisor','admin')"><el-select v-model="assigned[r.key]" clearable placeholder="选择接收人"><el-option v-for="m in members" :key="m.user_id" :value="m.user_id" :label="m.name"/></el-select><el-button size="small" @click="assign(r)">转交</el-button></div></td><td><el-button type="primary" plain @click="open(r)">打开处理</el-button></td></tr></tbody></table><el-empty v-if="!rows.length" description="当前范围没有待办"/><el-button v-if="cursor" @click="act(()=>load(true))">更多待办</el-button></section></div></template>

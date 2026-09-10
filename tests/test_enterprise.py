@@ -137,6 +137,8 @@ def test_service_credential_scope_rotation_and_tenant(env):
 
 def test_quality_is_recomputable(env):
     client,h,run,items=setup_enterprise(env)
+    from workers.quality import process_quality
+    process_quality(run['revision_id'])
     report=client.get('/api/v1/revisions/'+run['revision_id']+'/quality?limit=100',headers=h['operator']).json()
     with transaction() as s:
         rows=s.scalars(select(Source).where(Source.revision_id==run['revision_id'])).all()

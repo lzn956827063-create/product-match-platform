@@ -83,7 +83,7 @@ def create_catalog_version(s, ctx, catalog, data):
     s.flush()
     if not errors:
         for row in rows:
-            s.add(Product(org_id=ctx.org_id, version_id=version.id, sku=row["sku"], raw=row["raw"], normalized=row["normalized"], fingerprint=digest(row["normalized"])))
+            s.add(Product(org_id=ctx.org_id, version_id=version.id, sku=row["sku"], raw=row["raw"], normalized=row["normalized"], fingerprint=digest(row["normalized"]), search_name=str(row["normalized"].get("name") or "").casefold(), search_model=str(row["normalized"].get("model") or "").casefold()))
     audit(s, ctx, "catalog.version.create", version.id, {"errors": len(errors)})
     s.flush()
     return version
@@ -108,7 +108,7 @@ def create_run(s, ctx, data, retry_of=None):
     require(policy.config["rule_version"] == RULE_VERSION and revision.rule_version == RULE_VERSION, 409, "RULE_VERSION_UNAVAILABLE", "当前执行程序不支持此规则版本")
     file = scoped(s, File, revision.file_id, ctx)
     import os
-    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.2.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
+    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.3.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
     lineage = s.scalar(select(RevisionLineage).where(RevisionLineage.org_id==ctx.org_id, RevisionLineage.revision_id==revision.id))
     if lineage:
         manifest.update({'correction_scope':lineage.mode, 'parent_run_id':lineage.parent_run_id})

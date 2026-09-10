@@ -53,8 +53,12 @@ class ChangeInput(Input):
     to_version_id: str
     links: dict[str,str] = Field(default_factory=dict,max_length=50000)
     confirm_identity_links: bool
+    confirmed_retired_count: int | None = Field(default=None,ge=0)
 class ImpactResolution(Reason):
     replacement_item_id: str | None = None
+    replacement_release_id: str | None = None
+    revoke_event_id: str | None = None
+    expected_version: int = Field(default=0,ge=0)
 class ServiceInput(Input):
     name: str = Field(min_length=1,max_length=200)
     scopes: list[Literal['releases:read','deliveries:read','receipts:write']] = Field(min_length=1)
@@ -66,11 +70,19 @@ class IntegrationInput(Input):
     account_id: str
     url: str = Field(min_length=1,max_length=2000)
     active: bool = False
+    receipt_timeout_seconds: int = Field(default=900,ge=30,le=604800)
+    receipt_query_url: str | None = Field(default=None,max_length=2000)
+    reconciliation_owner_id: str | None = None
+class ReconcileInput(Reason):
+    action: Literal['checked','wait','query'] = 'checked'
 class ReceiptFailure(Input):
     stable_key: str = Field(max_length=200)
     reason: str = Field(min_length=1,max_length=1000)
 class Receipt(Input):
     event_id: str
+    applied_release_id: str | None = None
+    base_release_id: str | None = None
+    snapshot_hash: str | None = None
     status: Literal['APPLIED','PARTIAL','REJECTED']
     failed_rows: list[ReceiptFailure] = Field(default_factory=list,max_length=10000)
     message: str = Field(default='',max_length=2000)
@@ -289,19 +301,23 @@ def install(app,db,ctx,data,page):
         return {'bound':len(set(body.batch_ids))+len(set(body.template_ids))}
 
     @app.get(P+'/suppliers/{ident}/quality')
-    def supplier_quality(ident:str,since:str='',until:str='9999',s=Depends(db),c=Depends(ctx)):
+    def supplier_quality(ident:str,since:str='',until:str='9999',cursor:str|None=None,limit:int=Query(50,ge=1,le=100),s=Depends(db),c=Depends(ctx)):
         scoped(s,Supplier,ident,c)
-        rows=list(s.scalars(select(Revision).where(Revision.org_id==c.org_id,Revision.batch_id.in_(select(BatchSupplier.batch_id).where(BatchSupplier.org_id==c.org_id,BatchSupplier.supplier_id==ident)),Revision.created_at>=since,Revision.created_at<=until).order_by(Revision.created_at).limit(100)))
-        from packages.domain.quality import revision_quality
-        metrics=[]
-        for r in rows:
-            report=revision_quality(s,c,r);report['issue_count']=len(report.pop('issues'));metrics.append(report)
-        return {'supplier_id':ident,'period':{'since':since or None,'until':until if until!='9999' else None},'items':metrics,'limit':100,'note':'各输入版本分别展示，重复内容已在导入环节去重；小样本不排名。'}
+        from packages.domain.materialized import quality_view
+        q=select(Revision).where(Revision.org_id==c.org_id,Revision.batch_id.in_(select(BatchSupplier.batch_id).where(BatchSupplier.org_id==c.org_id,BatchSupplier.supplier_id==ident)),Revision.created_at>=since,Revision.created_at<=until)
+        total=s.scalar(select(func.count()).select_from(q.subquery()));rows,nxt=page(s,q,Revision,cursor,limit)
+        reports=list(s.scalars(select(QualitySnapshot.report).where(QualitySnapshot.org_id==c.org_id,QualitySnapshot.revision_id.in_(q.with_only_columns(Revision.id)))))
+        return {'supplier_id':ident,'period':{'since':since or None,'until':until if until!='9999' else None},'items':[quality_view(s,r,limit=0) for r in rows],'next_cursor':nxt,'total_versions':total,'summary':{'snapshot_versions':len(reports),'pending_versions':total-len(reports),'complete_input_rows':sum(x['source_count'] for x in reports if x['scope']=='complete_input'),'correction_subset_rows':sum(x['source_count'] for x in reports if x['scope']=='correction_subset'),'observed_from':min((x['observed_at'] for x in reports),default=None),'observed_until':max((x['observed_at'] for x in reports),default=None)},'note':'范围包含整个选择周期；完整输入和补数子集分别累计，跨版本重复出现的来源不当作独立商品。审核统计以各快照时间为准。'}
 
     @app.get(P+'/revisions/{ident}/quality')
     def quality_detail(ident:str,offset:int=Query(0,ge=0),limit:int=Query(50,ge=1,le=100),s=Depends(db),c=Depends(ctx)):
-        from packages.domain.quality import revision_quality
-        r=revision_quality(s,c,scoped(s,Revision,ident,c));issues=r.pop('issues');return {**r,'issues':issues[offset:offset+limit],'total_issues':len(issues),'next_offset':offset+limit if offset+limit<len(issues) else None}
+        from packages.domain.materialized import quality_view
+        return quality_view(s,scoped(s,Revision,ident,c),offset,limit)
+
+    @app.post(P+'/revisions/{ident}/quality/refresh',status_code=202)
+    def refresh_quality(ident:str,s=Depends(db),c=Depends(ctx)):
+        from packages.domain.materialized import request_quality
+        c.permit('operator','admin','reviewer');request_quality(s,scoped(s,Revision,ident,c));return {'status':'QUEUED'}
 
     @app.get(P+'/catalog-versions/{ident}/identity-index')
     def identity_index(ident:str,s=Depends(db),c=Depends(ctx)):
@@ -313,6 +329,8 @@ def install(app,db,ctx,data,page):
     @app.post(P+'/catalog-changes',status_code=202)
     def change_create(body:ChangeInput,s=Depends(db),c=Depends(ctx)):
         require(body.confirm_identity_links,422,'IDENTITY_CONFIRMATION','请明确确认商品身份对应；未对应的旧商品会视为停用')
+        scoped(s,CatalogVersion,body.from_version_id,c);old_count=s.scalar(select(func.count()).select_from(Product).where(Product.org_id==c.org_id,Product.version_id==body.from_version_id));retired=old_count-len(body.links)
+        require(retired==0 or body.confirmed_retired_count==retired,422,'RETIREMENT_COUNT','请明确确认完整停用数量；推荐使用分页身份确认流程')
         return data(catalog_changes.create_change(s,c,body.from_version_id,body.to_version_id,body.links))
 
     @app.get(P+'/catalog-changes')
@@ -321,7 +339,11 @@ def install(app,db,ctx,data,page):
 
     @app.get(P+'/catalog-changes/{ident}')
     def change_detail(ident:str,offset:int=Query(0,ge=0),limit:int=Query(50,ge=1,le=100),s=Depends(db),c=Depends(ctx)):
-        x=scoped(s,CatalogChange,ident,c);report={**x.report};values=report.pop('changes',[]);return {**data(x,('links',)),'report':report,'changes':values[offset:offset+limit],'total':len(values),'next_offset':offset+limit if offset+limit<len(values) else None}
+        x=scoped(s,CatalogChange,ident,c);report={**x.report};legacy=report.pop('changes',None)
+        if legacy is not None:values=legacy[offset:offset+limit];total=len(legacy)
+        else:
+            values=list(s.scalars(select(CatalogChangeRow.data).where(CatalogChangeRow.org_id==c.org_id,CatalogChangeRow.change_id==ident).order_by(CatalogChangeRow.number).offset(offset).limit(limit)));total=report.get('total_changes',0)
+        return {**data(x,('links','report')),'report':report,'changes':values,'total':total,'next_offset':offset+limit if offset+limit<total else None}
 
     @app.post(P+'/catalog-changes/{ident}/activate')
     def change_activate(ident:str,s=Depends(db),c=Depends(ctx)):
@@ -331,19 +353,40 @@ def install(app,db,ctx,data,page):
     def impacts(change_id:str|None=None,cursor:str|None=None,limit:int=Query(50,ge=1,le=100),s=Depends(db),c=Depends(ctx)):
         q=select(ImpactTask).where(ImpactTask.org_id==c.org_id)
         if change_id:q=q.where(ImpactTask.change_id==change_id)
-        rows,nxt=page(s,q,ImpactTask,cursor,limit);return {'items':[data(r) for r in rows],'next_cursor':nxt}
+        from packages.domain.impacts import view
+        rows,nxt=page(s,q,ImpactTask,cursor,limit);return {'items':[view(s,c,r) for r in rows],'next_cursor':nxt}
 
     @app.post(P+'/impact-tasks/{ident}/resolve')
     def impact_resolve(ident:str,body:ImpactResolution,s=Depends(db),c=Depends(ctx)):
-        c.permit('reviewer');task=scoped(s,ImpactTask,ident,c,True)
-        require(task.status in ('OPEN','NOTICE'),409,'IMPACT_RESOLVED','此影响已处理')
-        if task.kind!='display':
-            replacement=scoped(s,Item,body.replacement_item_id or '',c);change=scoped(s,CatalogChange,task.change_id,c);run=scoped(s,Run,replacement.run_id,c)
-            require(run.catalog_version_id==change.to_version_id and replacement.status in ('CONFIRMED','UNMATCHED'),409,'REVIEW_REQUIRED','请选择新标准库版本下已审核的对应记录')
-            if task.item_id:
-                old=scoped(s,Item,task.item_id,c);old_run=scoped(s,Run,old.run_id,c)
-                require(run.revision_id==old_run.revision_id and replacement.source_id==old.source_id,422,'REPLACEMENT_SOURCE','替代审核必须属于同一输入来源；补数影响请在新的批次发布中处理')
-        task.status='RESOLVED';task.resolution={**body.model_dump(),'actor_id':c.user_id,'at':now()};audit(s,c,'impact.resolve',task.id,task.resolution);return data(task)
+        from packages.domain.impacts import resolve
+        return resolve(s,c,scoped(s,ImpactTask,ident,c,True),body.model_dump())
+
+    @app.post(P+'/impact-tasks/{ident}/preflight')
+    def impact_preflight(ident:str,body:ImpactResolution,s=Depends(db),c=Depends(ctx)):
+        from packages.domain.impacts import check
+        from packages.domain.errors import Problem
+        task=scoped(s,ImpactTask,ident,c)
+        try:return {'ready':True,'evidence':check(s,c,task,body.model_dump()),'problems':[]}
+        except Problem as e:return {'ready':False,'problems':[{'code':e.code,'message':e.message}]}
+
+    @app.get(P+'/impact-tasks/{ident}/context')
+    def impact_context(ident:str,offset:int=Query(0,ge=0),limit:int=Query(50,ge=1,le=100),s=Depends(db),c=Depends(ctx)):
+        from packages.domain.impacts import root_source,view
+        task=scoped(s,ImpactTask,ident,c);change=scoped(s,CatalogChange,task.change_id,c)
+        result={'task':view(s,c,task),'change':data(change,('links','report')),'old_product':data(scoped(s,Product,task.product_id,c))}
+        if task.release_id:
+            old=scoped(s,BatchRelease,task.release_id,c)
+            q=select(ReleaseRow).where(ReleaseRow.org_id==c.org_id,ReleaseRow.release_id==old.id,ReleaseRow.product_id==task.product_id)
+            total=s.scalar(select(func.count()).select_from(q.subquery()))
+            result.update(original_release=release_data(s,old),affected=[data(r) for r in s.scalars(q.order_by(ReleaseRow.stable_key).offset(offset).limit(limit))],total_affected=total,next_offset=offset+limit if offset+limit<total else None,candidates=[release_data(s,r) for r in s.scalars(select(BatchRelease).where(BatchRelease.org_id==c.org_id,BatchRelease.batch_id==old.batch_id,BatchRelease.number>old.number,BatchRelease.status=='PUBLISHED').order_by(BatchRelease.number.desc()))],revocations=[data(e) for e in s.scalars(select(ReleaseEvent).where(ReleaseEvent.org_id==c.org_id,ReleaseEvent.release_id==old.id,ReleaseEvent.kind=='REVOKED'))])
+        else:
+            old=scoped(s,Item,task.item_id,c);root=root_source(s,c,old.source_id);revision=scoped(s,Revision,scoped(s,Run,old.run_id,c).revision_id,c)
+            candidates=[]
+            q=select(Item).join(Run,(Run.id==Item.run_id)&(Run.org_id==Item.org_id)).join(Revision,(Revision.id==Run.revision_id)&(Revision.org_id==Run.org_id)).where(Item.org_id==c.org_id,Revision.batch_id==revision.batch_id,Run.catalog_version_id==change.to_version_id,Item.status.in_(['CONFIRMED','UNMATCHED']))
+            for item in s.scalars(q):
+                if root_source(s,c,item.source_id)==root:candidates.append(data(item))
+            result.update(old_item=data(old),candidates=candidates,affected=[data(scoped(s,Source,old.source_id,c))],total_affected=1)
+        return result
 
     @app.get(P+'/service-accounts')
     def accounts(s=Depends(db),c=Depends(ctx)):
@@ -368,6 +411,7 @@ def install(app,db,ctx,data,page):
     @app.post(P+'/integrations',status_code=201)
     def integration_create(body:IntegrationInput,s=Depends(db),c=Depends(ctx)):
         c.permit('integration_manager');a=scoped(s,ServiceAccount,body.account_id,c);require(set(a.scopes)>=integrations.SCOPES,422,'INTEGRATION_SCOPES','交付账号需具备读取发布、读取交付和提交回执权限');integrations.validate_url(body.url)
+        integrations.validate_configuration(s,c,body.model_dump())
         secret=secrets.token_urlsafe(32);i=Integration(org_id=c.org_id,**body.model_dump(),secret_cipher=integrations.cipher().encrypt(secret.encode()).decode());s.add(i);s.flush();audit(s,c,'integration.create',i.id,{'active':i.active});return {**data(i,('secret_cipher',)),'signing_secret':secret}
 
     @app.put(P+'/integrations/{ident}')
@@ -376,9 +420,33 @@ def install(app,db,ctx,data,page):
         if body.active:integrations.validate_url(i.url)
         i.active=body.active;audit(s,c,'integration.state',i.id,body.model_dump());return data(i,('secret_cipher',))
 
+    @app.put(P+'/integrations/{ident}/receipt-settings')
+    def receipt_settings(ident:str,body:IntegrationInput,s=Depends(db),c=Depends(ctx)):
+        c.permit('integration_manager');i=scoped(s,Integration,ident,c,True)
+        require(i.account_id==body.account_id and i.url==body.url,422,'INTEGRATION_FROZEN','修改接收地址或账号请创建新集成')
+        integrations.validate_configuration(s,c,body.model_dump())
+        for k in ('receipt_timeout_seconds','receipt_query_url','reconciliation_owner_id'):setattr(i,k,getattr(body,k))
+        audit(s,c,'integration.receipt_settings',i.id,body.model_dump(exclude={'url'}));return data(i,('secret_cipher',))
+
+    @app.post(P+'/deliveries/{ident}/reconcile')
+    def reconcile(ident:str,body:ReconcileInput,s=Depends(db),c=Depends(ctx)):
+        c.permit('integration_manager');d=scoped(s,Delivery,ident,c,True)
+        require(d.status in ('RECEIVED','RECONCILE','PARTIAL','REJECTED','MANUAL'),409,'RECONCILIATION_STATE','当前交付不需要对账')
+        i=scoped(s,Integration,d.integration_id,c)
+        if body.action=='query':
+            require(i.receipt_query_url,409,'QUERY_NOT_CONFIGURED','此集成未配置查询接口，请线下核对并记录')
+            d.status='RECONCILE';d.last_query_at=0
+        else:
+            d.last_query_at=time.time();d.escalation_state='WAITING' if body.action=='wait' else 'CHECKED'
+        audit(s,c,'delivery.reconcile',d.id,{**body.model_dump(),'event_id':d.event_id});return data(d)
+
     @app.get(P+'/deliveries')
     def delivery_list(cursor:str|None=None,limit:int=Query(50,ge=1,le=100),s=Depends(db),c=Depends(ctx)):
         c.permit('integration_manager','publisher','admin');rows,nxt=page(s,select(Delivery).where(Delivery.org_id==c.org_id),Delivery,cursor,limit);return {'items':[data(r) for r in rows],'next_cursor':nxt}
+
+    @app.get(P+'/deliveries/{ident}')
+    def delivery_detail(ident:str,s=Depends(db),c=Depends(ctx)):
+        c.permit('integration_manager','publisher','admin');return data(scoped(s,Delivery,ident,c))
 
     @app.get(P+'/deliveries/{ident}/attempts')
     def attempts(ident:str,s=Depends(db),c=Depends(ctx)):
@@ -386,8 +454,9 @@ def install(app,db,ctx,data,page):
 
     @app.post(P+'/deliveries/{ident}/replay')
     def replay(ident:str,body:Reason,s=Depends(db),c=Depends(ctx)):
-        c.permit('integration_manager');d=scoped(s,Delivery,ident,c,True);require(d.status in ('MANUAL','RECEIVED','PARTIAL','REJECTED','RETRY'),409,'DELIVERY_REPLAY','此状态不允许重放')
+        c.permit('integration_manager');d=scoped(s,Delivery,ident,c,True);require(d.status in ('MANUAL','RECEIVED','RECONCILE','PARTIAL','REJECTED','RETRY'),409,'DELIVERY_REPLAY','此状态不允许重放')
         d.status,d.next_retry,d.lease_until,d.fence_token='QUEUED',0,0,d.fence_token+1
+        d.receipt_due_at=None;d.escalation_state='REPLAY_REQUESTED'
         for e in s.scalars(select(Outbox).where(Outbox.org_id==c.org_id,Outbox.kind=='delivery',Outbox.resource_id==ident)):e.completed,e.published_at=False,None
         audit(s,c,'delivery.replay',ident,{**body.model_dump(),'event_id':d.event_id});return data(d)
 
@@ -415,7 +484,12 @@ def install(app,db,ctx,data,page):
     def service_delta(ident:str,base_release_id:str,request:Request,offset:int=Query(0,ge=0),limit:int=Query(100,ge=1,le=100),s=Depends(db)):
         a=machine(request,s,'releases:read');r=scoped(s,BatchRelease,ident,machine_context(a));require(r.published_at,404,'NOT_FOUND','版本尚未发布')
         require(r.base_release_id==base_release_id,409,'FULL_SYNC_REQUIRED','接收方基线不一致，请获取全量发布')
-        base=scoped(s,BatchRelease,base_release_id,machine_context(a));rows=releases.delta_rows(releases.frozen_rows(s,base),releases.frozen_rows(s,r));s.add(ServiceAccess(org_id=a.org_id,account_id=a.id,action='release.delta',resource_id=ident));return {'items':rows[offset:offset+limit],'total':len(rows),'next_offset':offset+limit if offset+limit<len(rows) else None}
+        from packages.domain.materialized import delta
+        snapshot=delta(s,r)
+        require(snapshot is not None,409,'DELTA_NOT_READY','增量明细正在准备，请稍后重试')
+        rows=list(s.scalars(select(ReleaseDeltaRow.data).where(ReleaseDeltaRow.org_id==a.org_id,ReleaseDeltaRow.delta_id==snapshot.id).order_by(ReleaseDeltaRow.number).offset(offset).limit(limit)))
+        s.add(ServiceAccess(org_id=a.org_id,account_id=a.id,action='release.delta',resource_id=ident))
+        return {'items':rows,'total':snapshot.count,'next_offset':offset+limit if offset+limit<snapshot.count else None,'base_release_id':base_release_id,'release_id':ident,'algorithm':snapshot.algorithm,'delta_hash':snapshot.snapshot_hash,'snapshot_hash':r.snapshot_hash}
 
     @app.get(P+'/service/deliveries/{ident}')
     def service_delivery(ident:str,request:Request,s=Depends(db)):
@@ -423,7 +497,7 @@ def install(app,db,ctx,data,page):
 
     @app.post(P+'/service/deliveries/{ident}/receipt')
     def delivery_receipt(ident:str,body:Receipt,request:Request,s=Depends(db)):
-        a=machine(request,s,'receipts:write');s.scalar(select(Organization).where(Organization.id==a.org_id).with_for_update());d=scoped(s,Delivery,ident,machine_context(a),True);return data(integrations.receipt(s,a,d,body.model_dump()))
+        a=machine(request,s,'receipts:write');s.scalar(select(Organization).where(Organization.id==a.org_id).with_for_update());d=scoped(s,Delivery,ident,machine_context(a),True);return data(integrations.receipt(s,a,d,body.model_dump(exclude_unset=True)))
 
     @app.get(P+'/datasets')
     def datasets(s=Depends(db),c=Depends(ctx)):

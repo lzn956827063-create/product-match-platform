@@ -1,5 +1,5 @@
 from typing import Literal
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 
 class Input(BaseModel):
@@ -40,6 +40,12 @@ class VersionInput(Input):
 
 class Reason(Input):
     reason: str = Field(min_length=1, max_length=2000)
+
+    @field_validator('reason')
+    @classmethod
+    def nonblank(cls,value):
+        if not value.strip():raise ValueError('请填写有效原因')
+        return value.strip()
 
 
 class Decision(VersionInput):

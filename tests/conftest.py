@@ -7,6 +7,8 @@ os.environ["DATA_DIR"] = str(TEST_DIR)
 os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL") or "sqlite:///" + str(TEST_DIR / "tests.db")
 os.environ["JWT_SECRET"] = "test-only-key-with-at-least-thirty-two-bytes"
 
+if os.getenv("TEST_MIGRATED_SCHEMA")=="true":os.environ["DB_AUTO_CREATE"]="false"
+
 import pytest
 from fastapi.testclient import TestClient
 from apps.api.main import app
@@ -15,9 +17,21 @@ from scripts.seed import main as seed
 from workers.jobs import get_matcher
 
 
+@pytest.fixture(scope='session',autouse=True)
+def migrated_schema():
+    if os.getenv('TEST_MIGRATED_SCHEMA')=='true':
+        from alembic.config import Config
+        from alembic import command
+        command.upgrade(Config('alembic.ini'),'head')
+
+
 @pytest.fixture
 def env():
-    Base.metadata.drop_all(engine)
+    if os.getenv('TEST_MIGRATED_SCHEMA')=='true':
+        from sqlalchemy import delete
+        with engine.begin() as conn:
+            for table in reversed(Base.metadata.sorted_tables):conn.execute(delete(table))
+    else:Base.metadata.drop_all(engine)
     get_matcher.cache_clear()
     seed()
     with TestClient(app) as client:
