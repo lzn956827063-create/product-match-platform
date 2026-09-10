@@ -29,7 +29,8 @@ from packages.domain.queries import item_page, item_summaries, run_page, export_
 from packages.matching.engine import DEFAULT_POLICY
 from packages.matching.normalize import digest
 
-log = logging.getLogger("api")
+# Inherit Uvicorn's configured INFO handler in both local and container starts.
+log = logging.getLogger("uvicorn.error.product_match")
 
 
 @asynccontextmanager
