@@ -77,7 +77,7 @@
     "apps/web/pnpm-lock.yaml": "3874bb8ff450feb236ab76480fbbc81701f81a45a680d358a38db4c7465cc0b4",
     "apps/web/package.json": "a6b88a2c648bed5db396fc6e868cfe340a0b820ed3c54e8ff0e3c1d64aafa634",
     "pyproject.toml": "bbf209cf1b456bb90d947b9ff560a0514da152ea320cebe724faf1de25f6ea5d",
-    "compose.yaml": "586c7ee757acc5886099695f8b4e39859ac41a4931f5254102c3f3c3350f8603",
+    "compose.yaml": "4ceb73d91bd4d36719ba6385b4d263fd12d457a95baf91cf08902b7d0f30f50f",
     "deploy/compose.acceptance.yaml": "686581b93d2bfddbd8e053b190e59548a9b57e5025c0008403fe4b16e03787dd"
   },
   "web_artifacts": {
