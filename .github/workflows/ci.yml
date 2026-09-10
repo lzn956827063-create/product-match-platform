@@ -8,8 +8,8 @@ jobs:
         image: postgres:16-alpine
         env:
           POSTGRES_DB: productmatch_test
-          POSTGRES_USER: productmatch
-          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_USER: productmatch_bootstrap
+          POSTGRES_PASSWORD: ci-bootstrap-only-password
         ports: ['5432:5432']
         options: --health-cmd pg_isready --health-interval 5s --health-retries 20
     steps:
@@ -17,18 +17,48 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: pip install -r requirements.lock
-      - run: pytest -q --junitxml=docs/enterprise/sqlite-tests.xml
-      - name: PostgreSQL migrations and transactions
+      - run: mkdir -p work/ci-evidence
+      - run: pytest -q --junitxml=work/ci-evidence/sqlite-tests.xml
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Create isolated database roles
         env:
-          TEST_DATABASE_URL: postgresql+psycopg://productmatch:ci-only-password@localhost:5432/productmatch_test
-          DATABASE_URL: postgresql+psycopg://productmatch:ci-only-password@localhost:5432/productmatch_test
+          PGHOST: localhost
+          PGPORT: 5432
+          PGDATABASE: productmatch_test
+          PGUSER: productmatch_bootstrap
+        run: |
+          mkdir -p "$RUNNER_TEMP/product-match-secrets"
+          printf %s ci-bootstrap-only-password > "$RUNNER_TEMP/product-match-secrets/bootstrap"
+          printf %s ci-owner-only-password > "$RUNNER_TEMP/product-match-secrets/owner"
+          printf %s ci-app-only-password > "$RUNNER_TEMP/product-match-secrets/app"
+          printf %s ci-readonly-only-password > "$RUNNER_TEMP/product-match-secrets/readonly"
+          printf %s ci-backup-only-password > "$RUNNER_TEMP/product-match-secrets/backup"
+          PG_BOOTSTRAP_PASSWORD_FILE="$RUNNER_TEMP/product-match-secrets/bootstrap" \
+          DB_OWNER_PASSWORD_FILE="$RUNNER_TEMP/product-match-secrets/owner" \
+          DB_APP_PASSWORD_FILE="$RUNNER_TEMP/product-match-secrets/app" \
+          DB_READONLY_PASSWORD_FILE="$RUNNER_TEMP/product-match-secrets/readonly" \
+          DB_BACKUP_PASSWORD_FILE="$RUNNER_TEMP/product-match-secrets/backup" \
+          sh deploy/postgres/ensure-roles.sh
+      - name: PostgreSQL migration as owner
+        env:
+          DATABASE_URL: postgresql+psycopg://productmatch_owner:ci-owner-only-password@localhost:5432/productmatch_test
           JWT_SECRET: ci-only-key-with-at-least-thirty-two-bytes
+          DB_AUTO_CREATE: 'false'
         run: |
           alembic upgrade head
           alembic check
-          TEST_MIGRATED_SCHEMA=true DB_AUTO_CREATE=false pytest -q tests/test_v13.py tests/test_enterprise.py tests/test_business.py tests/test_recovery.py --junitxml=docs/enterprise/postgresql-tests.xml
+      - name: PostgreSQL regression as application role
+        env:
+          TEST_DATABASE_URL: postgresql+psycopg://productmatch_app:ci-app-only-password@localhost:5432/productmatch_test
+          DATABASE_URL: postgresql+psycopg://productmatch_app:ci-app-only-password@localhost:5432/productmatch_test
+          JWT_SECRET: ci-only-key-with-at-least-thirty-two-bytes
+          TEST_MIGRATED_SCHEMA: 'true'
+          DB_AUTO_CREATE: 'false'
+          DB_APPLICATION_NAME: product-match-ci
+        run: pytest -q tests/test_v13.py tests/test_enterprise.py tests/test_business.py tests/test_recovery.py tests/test_database_deployment.py --junitxml=work/ci-evidence/postgresql-tests.xml
       - uses: actions/upload-artifact@v4
-        with: {name: backend-evidence, path: 'docs/enterprise/*tests.xml'}
+        with: {name: backend-evidence, path: 'work/ci-evidence/*tests.xml'}
   frontend:
     runs-on: ubuntu-latest
     steps:

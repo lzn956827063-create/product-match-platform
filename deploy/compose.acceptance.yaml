@@ -24,3 +24,144 @@ services:
   web:
     cpus: 0.25
     mem_limit: 128m
+
+  database-backup:
+    image: postgres:16-alpine
+    profiles: [restore]
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: productmatch
+      PGUSER: productmatch_backup
+      PG_BACKUP_PASSWORD_FILE: /run/secrets/db_backup_password
+    secrets: [db_backup_password]
+    volumes:
+      - ${ACCEPTANCE_OUTPUT:?Set ACCEPTANCE_OUTPUT}:/evidence
+    entrypoint: [/bin/sh, -c]
+    command:
+      - >-
+        export PGPASSWORD="$$(cat "$$PG_BACKUP_PASSWORD_FILE")";
+        mkdir -p /evidence/restore;
+        pg_dump --format=custom --no-owner --no-privileges --file=/evidence/restore/database.dump;
+        sha256sum /evidence/restore/database.dump > /evidence/restore/database.sha256
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  storage-backup:
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    profiles: [restore]
+    environment:
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-productmatch-app}
+      S3_APP_SECRET_FILE: /run/secrets/s3_app_secret
+    secrets: [s3_app_secret]
+    volumes:
+      - ${ACCEPTANCE_OUTPUT:?Set ACCEPTANCE_OUTPUT}:/evidence
+    entrypoint: [/bin/sh, -c]
+    command:
+      - >-
+        export S3_APP_SECRET="$$(cat "$$S3_APP_SECRET_FILE")";
+        mc alias set source http://minio:9000 "$$S3_ACCESS_KEY" "$$S3_APP_SECRET";
+        mkdir -p /evidence/restore/objects;
+        mc mirror --overwrite source/product-match /evidence/restore/objects;
+        mc ls --recursive --json source/product-match > /evidence/restore/source-objects.jsonl
+    depends_on:
+      minio: {condition: service_started}
+
+  postgres-restore:
+    image: postgres:16-alpine
+    profiles: [restore]
+    command: [postgres, -c, timezone=UTC, -c, shared_preload_libraries=pg_stat_statements]
+    environment:
+      POSTGRES_DB: productmatch_restore
+      POSTGRES_USER: productmatch_bootstrap
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_bootstrap_password
+    secrets: [db_bootstrap_password]
+    volumes:
+      - postgres-restore-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U productmatch_bootstrap -d productmatch_restore"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  db-restore-role-init:
+    image: postgres:16-alpine
+    profiles: [restore]
+    environment:
+      PGHOST: postgres-restore
+      PGPORT: 5432
+      PGDATABASE: productmatch_restore
+      PGUSER: productmatch_bootstrap
+      PG_BOOTSTRAP_PASSWORD_FILE: /run/secrets/db_bootstrap_password
+      DB_OWNER_PASSWORD_FILE: /run/secrets/db_owner_password
+      DB_APP_PASSWORD_FILE: /run/secrets/db_app_password
+      DB_READONLY_PASSWORD_FILE: /run/secrets/db_readonly_password
+      DB_BACKUP_PASSWORD_FILE: /run/secrets/db_backup_password
+    secrets: [db_bootstrap_password, db_owner_password, db_app_password, db_readonly_password, db_backup_password]
+    volumes:
+      - ./deploy/postgres/ensure-roles.sh:/usr/local/bin/ensure-roles:ro
+    command: [/bin/sh, /usr/local/bin/ensure-roles]
+    depends_on:
+      postgres-restore: {condition: service_healthy}
+
+  database-restore:
+    image: postgres:16-alpine
+    profiles: [restore]
+    environment:
+      PGHOST: postgres-restore
+      PGPORT: 5432
+      PGDATABASE: productmatch_restore
+      PGUSER: productmatch_bootstrap
+      PG_BOOTSTRAP_PASSWORD_FILE: /run/secrets/db_bootstrap_password
+    secrets: [db_bootstrap_password]
+    volumes:
+      - ${ACCEPTANCE_OUTPUT:?Set ACCEPTANCE_OUTPUT}:/evidence:ro
+    entrypoint: [/bin/sh, -c]
+    command:
+      - >-
+        export PGPASSWORD="$$(cat "$$PG_BOOTSTRAP_PASSWORD_FILE")";
+        pg_restore --exit-on-error --no-owner --no-privileges --role=productmatch_owner --dbname=productmatch_restore /evidence/restore/database.dump
+    depends_on:
+      db-restore-role-init: {condition: service_completed_successfully}
+
+  minio-restore:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    profiles: [restore]
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: ${S3_ROOT_ACCESS_KEY:-productmatch-root}
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/s3_root_secret
+    secrets: [s3_root_secret]
+    volumes:
+      - object-restore-data:/data
+
+  storage-restore:
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    profiles: [restore]
+    environment:
+      S3_ROOT_ACCESS_KEY: ${S3_ROOT_ACCESS_KEY:-productmatch-root}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-productmatch-app}
+      S3_ROOT_SECRET_FILE: /run/secrets/s3_root_secret
+      S3_APP_SECRET_FILE: /run/secrets/s3_app_secret
+    secrets: [s3_root_secret, s3_app_secret]
+    volumes:
+      - ./deploy/minio/app-policy.json:/config/app-policy.json:ro
+      - ${ACCEPTANCE_OUTPUT:?Set ACCEPTANCE_OUTPUT}:/evidence
+    entrypoint: [/bin/sh, -c]
+    command:
+      - >-
+        export S3_ROOT_SECRET="$$(cat "$$S3_ROOT_SECRET_FILE")";
+        export S3_APP_SECRET="$$(cat "$$S3_APP_SECRET_FILE")";
+        until mc alias set restored http://minio-restore:9000 "$$S3_ROOT_ACCESS_KEY" "$$S3_ROOT_SECRET"; do sleep 2; done;
+        mc mb --ignore-existing restored/product-match;
+        mc admin user add restored "$$S3_ACCESS_KEY" "$$S3_APP_SECRET" || mc admin user enable restored "$$S3_ACCESS_KEY";
+        mc admin policy create restored product-match-app /config/app-policy.json || true;
+        mc admin policy attach restored product-match-app --user "$$S3_ACCESS_KEY";
+        mc mirror --overwrite /evidence/restore/objects restored/product-match;
+        mc ls --recursive --json restored/product-match > /evidence/restore/restored-objects.jsonl
+    depends_on:
+      minio-restore: {condition: service_started}
+
+volumes:
+  postgres-restore-data:
+  object-restore-data:

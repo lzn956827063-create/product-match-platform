@@ -4,6 +4,8 @@ from uuid import uuid4
 
 from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
+import os
+
 from .config import DATABASE_URL
 
 
@@ -19,10 +21,29 @@ class Base(DeclarativeBase):
     pass
 
 
-engine = create_engine(DATABASE_URL, pool_pre_ping=True, **(
-    {"connect_args": {"check_same_thread": False, "timeout": 30}}
-    if DATABASE_URL.startswith("sqlite") else {"pool_size": 5, "max_overflow": 0}
-))
+if DATABASE_URL.startswith("sqlite"):
+    engine_options = {"connect_args": {"check_same_thread": False, "timeout": 30}}
+else:
+    statement_timeout = int(os.getenv("DB_STATEMENT_TIMEOUT_MS", "30000"))
+    lock_timeout = int(os.getenv("DB_LOCK_TIMEOUT_MS", "5000"))
+    idle_timeout = int(os.getenv("DB_IDLE_TRANSACTION_TIMEOUT_MS", "60000"))
+    application_name = os.getenv("DB_APPLICATION_NAME", "product-match")
+    engine_options = {
+        "pool_size": int(os.getenv("DB_POOL_SIZE", "5")),
+        "max_overflow": int(os.getenv("DB_MAX_OVERFLOW", "0")),
+        "pool_timeout": int(os.getenv("DB_POOL_TIMEOUT_SECONDS", "5")),
+        "connect_args": {
+            "application_name": application_name,
+            "options": (
+                f"-c statement_timeout={statement_timeout} "
+                f"-c lock_timeout={lock_timeout} "
+                f"-c idle_in_transaction_session_timeout={idle_timeout} "
+                "-c timezone=UTC"
+            ),
+        },
+    }
+
+engine = create_engine(DATABASE_URL, pool_pre_ping=True, **engine_options)
 if DATABASE_URL.startswith("sqlite"):
     @event.listens_for(engine, "connect")
     def configure_sqlite(conn, _):

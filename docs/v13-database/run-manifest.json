@@ -1,0 +1,65 @@
+{
+  "artifacts": {
+    "apps/web/dist/index.html": {
+      "bytes": 563,
+      "sha256": "2ec998434eb27441f98dff83ee5c08ef9c763626ab46d0a5e1a2d3da78a9535a"
+    },
+    "compose.yaml": {
+      "bytes": 8145,
+      "sha256": "fe29043b882d085bcf36c2fd24f13673cbbfd741f4151fba46c3938b97b7e930"
+    },
+    "deploy/compose.acceptance.yaml": {
+      "bytes": 6089,
+      "sha256": "1641ce279b0488ad0f4677eb5d49a63f727fc8319d26e5b662d414c1383f2b86"
+    },
+    "requirements.lock": {
+      "bytes": 1095,
+      "sha256": "ee6d1568a9deef4faecfc76dfc21093cae7fe29a8c0cdf07de906ba6aff80d09"
+    }
+  },
+  "code_commit": "254e94c3d8e566ff086bbeb8af7c3e62e13a0567",
+  "container_runtime": {
+    "engine_available": false,
+    "executable": null,
+    "server_version": null
+  },
+  "cpu_count": 8,
+  "database_target_executed": false,
+  "migration_head_expected": "b86fd0144e45",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "production_stack_executed": false,
+  "run_id": "preflight-20260910T144402Z",
+  "scope": "Static deployment preflight only; no PostgreSQL, Redis, Celery or MinIO execution evidence",
+  "started_at": "2026-09-10T14:44:02.317823+00:00",
+  "working_tree": [
+    " M .env.example",
+    " M .github/workflows/ci.yml",
+    " M README.md",
+    " M apps/api/main.py",
+    " M apps/web/package.json",
+    " M compose.yaml",
+    " M deploy/alerts.yml",
+    " M deploy/compose.acceptance.yaml",
+    " M deploy/compose.monitoring.yaml",
+    " M deploy/prometheus.yml",
+    " M docs/openapi.json",
+    " M \"docs/v13/\\350\\277\\220\\350\\241\\214\\344\\270\\216\\345\\276\\205\\351\\252\\214\\346\\224\\266.md\"",
+    " M \"docs/v13/\\351\\252\\214\\346\\224\\266\\346\\212\\245\\345\\221\\212.md\"",
+    " M packages/domain/config.py",
+    " M packages/domain/db.py",
+    " M packages/domain/integrations.py",
+    " M packages/domain/services.py",
+    " M packages/domain/storage.py",
+    " M pyproject.toml",
+    " M scripts/init_env.py",
+    " M scripts/stack_drill.py",
+    "?? .DS_Store",
+    "?? deploy/minio/",
+    "?? deploy/postgres/",
+    "?? docs/v13-database/",
+    "?? scripts/acceptance_dataset.py",
+    "?? scripts/database_acceptance.py",
+    "?? scripts/verify_postgres_restore.py",
+    "?? tests/test_database_deployment.py"
+  ]
+}

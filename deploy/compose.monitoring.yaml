@@ -1,4 +1,15 @@
 services:
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.17.1
+    profiles: [monitoring]
+    environment:
+      DATA_SOURCE_URI: postgres:5432/productmatch?sslmode=disable
+      DATA_SOURCE_USER: productmatch_readonly
+      DATA_SOURCE_PASS_FILE: /run/secrets/db_readonly_password
+    secrets: [db_readonly_password]
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
   prometheus:
     image: prom/prometheus:v3.2.1
     profiles: [monitoring]
@@ -12,10 +23,15 @@ services:
     image: grafana/grafana:11.6.0
     profiles: [monitoring]
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Set GRAFANA_PASSWORD}
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana_password
       GF_USERS_ALLOW_SIGN_UP: 'false'
+    secrets: [grafana_password]
     volumes:
       - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
       - ./deploy/grafana/dashboard.json:/etc/grafana/dashboards/product-match.json:ro
     ports: ["127.0.0.1:13000:3000"]
     restart: unless-stopped
+
+secrets:
+  grafana_password:
+    file: ${SECRETS_DIR:-./var/secrets}/grafana_password

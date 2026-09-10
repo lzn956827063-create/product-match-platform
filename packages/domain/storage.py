@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from uuid import uuid4
-from .config import DATA_DIR, STORAGE_BACKEND
+from .config import DATA_DIR, STORAGE_BACKEND, secret_value
 
 
 def observed_storage(operation):
@@ -37,7 +37,7 @@ def put(org_id, content, suffix):
 def client():
     import boto3
     from botocore.config import Config
-    return boto3.client("s3", endpoint_url=os.getenv("S3_ENDPOINT"), aws_access_key_id=os.getenv("S3_ACCESS_KEY"), aws_secret_access_key=os.getenv("S3_SECRET_KEY"), config=Config(connect_timeout=2, read_timeout=10, retries={"max_attempts":2}))
+    return boto3.client("s3", endpoint_url=os.getenv("S3_ENDPOINT"), aws_access_key_id=os.getenv("S3_ACCESS_KEY"), aws_secret_access_key=secret_value("S3_SECRET_KEY"), config=Config(connect_timeout=2, read_timeout=10, retries={"max_attempts":2}))
 
 
 @observed_storage('read')

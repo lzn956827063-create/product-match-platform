@@ -11,7 +11,7 @@ import time
 from urllib.parse import urlsplit
 from sqlalchemy import select
 from .auth import token_hash
-from .config import JWT_SECRET
+from .config import JWT_SECRET, secret_value
 from .errors import require
 from .models import *
 from .db import uid
@@ -21,7 +21,7 @@ SCOPES={'releases:read','deliveries:read','receipts:write'}
 
 def cipher():
     from cryptography.fernet import Fernet
-    key=os.getenv('INTEGRATION_MASTER_KEY') or base64.urlsafe_b64encode(hashlib.sha256(('integration-v1:'+JWT_SECRET).encode()).digest()).decode()
+    key=secret_value('INTEGRATION_MASTER_KEY') or base64.urlsafe_b64encode(hashlib.sha256(('integration-v1:'+JWT_SECRET).encode()).digest()).decode()
     return Fernet(key.encode())
 
 

@@ -1,0 +1,55 @@
+{
+  "catalog_rows_per_organization": 50000,
+  "files": {
+    "org-1/catalog.csv": {
+      "bytes": 5450116,
+      "sha256": "465d3cbc6f07b28b14bbf050e560766588f2bd37663a3ea3ce3a8ab7c92f94b4"
+    },
+    "org-1/source.csv": {
+      "bytes": 1065616,
+      "sha256": "0ed5ab9ca984337591e58e26d8fb055363849f547eb40c9793e7dd379e4bb653"
+    },
+    "org-1/truth.jsonl": {
+      "bytes": 2264500,
+      "sha256": "8e82cb71340b2a78ddfc2f3949548da3931533555c2432234a11045648b9d2c2"
+    },
+    "org-2/catalog.csv": {
+      "bytes": 5450116,
+      "sha256": "7547d1269a9e77a70e7b0df45264fea77ddf610a4a25caddea032aa057ed0886"
+    },
+    "org-2/source.csv": {
+      "bytes": 1065616,
+      "sha256": "d6a23614b6026e007a8e7b4de57eee6f308ff07cc07afc43e7e49c1290433deb"
+    },
+    "org-2/truth.jsonl": {
+      "bytes": 2264500,
+      "sha256": "603719b4817c03266245476dcba55d1a41d4048cd28742050f02d7c4a16ecc48"
+    }
+  },
+  "generator_sha256": "4533f7c13a5a69774bb4acc657c184090bf2fce3717800647f20e38a8a50fb37",
+  "generator_version": "acceptance-dataset-v1",
+  "historical_releases_per_organization": 10,
+  "organizations": 2,
+  "scope": "Deterministic synthetic acceptance data; not customer data or real-business accuracy evidence",
+  "seed": 1309,
+  "source_rows_per_organization": 10000,
+  "truth_distribution": {
+    "composite": {
+      "ratio": 0.15,
+      "rows": 3000
+    },
+    "conflict": {
+      "ratio": 0.05,
+      "rows": 1000
+    },
+    "insufficient": {
+      "ratio": 0.1,
+      "rows": 2000
+    },
+    "unique_or_normalized": {
+      "ratio": 0.7,
+      "rows": 14000
+    }
+  },
+  "users_per_organization": 10
+}

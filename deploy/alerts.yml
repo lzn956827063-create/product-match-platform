@@ -1,6 +1,21 @@
 groups:
   - name: product-match
     rules:
+      - alert: ProductMatchPostgreSQLUnavailable
+        expr: pg_up == 0
+        for: 30s
+        annotations:
+          summary: PostgreSQL 连续 30 秒不可用；停止发布并按数据库中断手册处理
+      - alert: ProductMatchPostgreSQLConnectionsHigh
+        expr: sum(pg_stat_database_numbackends{datname="productmatch"}) / max(pg_settings_max_connections) > 0.8
+        for: 5m
+        annotations:
+          summary: PostgreSQL 连接使用率超过 80%；检查连接池、长事务和等待事件
+      - alert: ProductMatchPostgreSQLDeadlock
+        expr: increase(pg_stat_database_deadlocks{datname="productmatch"}[10m]) > 0
+        for: 0m
+        annotations:
+          summary: PostgreSQL 检测到死锁；按请求编号和锁等待证据定位事务
       - alert: ProductMatchOutboxDelayed
         expr: product_match_outbox_oldest_seconds > 300
         for: 2m

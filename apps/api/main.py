@@ -41,7 +41,7 @@ async def lifespan(app):
 
 from packages.domain import request_trace
 
-app = FastAPI(default_response_class=request_trace.MeasuredJSONResponse,title="商品数据匹配与核对平台", version="1.3.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
+app = FastAPI(default_response_class=request_trace.MeasuredJSONResponse,title="商品数据匹配与核对平台", version="1.3.1", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
 PREFIX = "/api/v1"
 
 
@@ -565,7 +565,7 @@ def internal_metrics(request: Request):
 def health():
     with transaction() as s:
         s.execute(text("SELECT 1"))
-    return {"status": "ok", "version": "1.3.0"}
+    return {"status": "ok", "version": "1.3.1"}
 
 
 @app.get(PREFIX+"/readiness")
@@ -592,8 +592,9 @@ def readiness():
         storage_state = "ok"
     except Exception:
         storage_state = "unavailable"
-    result = {"database": "ok", "storage": storage_state, "queue": queue, "status": "unavailable" if storage_state != "ok" else "degraded" if queue == "waiting_for_redis" else "ready"}
-    return JSONResponse(result, status_code=503 if storage_state != "ok" else 200)
+    ready = storage_state == "ok" and queue != "waiting_for_redis"
+    result = {"database": "ok", "storage": storage_state, "queue": queue, "status": "ready" if ready else "unavailable"}
+    return JSONResponse(result, status_code=200 if ready else 503)
 
 
 @app.get(PREFIX+"/metrics")
