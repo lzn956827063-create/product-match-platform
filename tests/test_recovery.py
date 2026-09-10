@@ -51,6 +51,33 @@ def test_stale_fence_and_expired_lease_cannot_commit(env):
         assert s.scalar(select(func.count()).select_from(Item).where(Item.run_id==ident))==29
 
 
+def test_bulk_candidate_failure_rolls_back_entire_chunk_and_allows_retry(env):
+    from sqlalchemy import insert
+    from sqlalchemy.exc import IntegrityError
+    from packages.domain.db import uid
+    from packages.domain.models import Candidate,Product
+    c,h,run,_=env;ident=new_run(c,h['operator'],run).json()['id'];start_run(ident);claim=claim_chunk(ident)
+    with transaction(write=True) as s:
+        original=s.scalar(select(Product).where(Product.version_id==run['catalog_version_id']))
+        ids=[uid() for _ in range(500)]
+        s.execute(insert(Product),[dict(id=p,org_id=claim['org_id'],version_id=original.version_id,sku=f'bulk-{i}',raw=original.raw,normalized=original.normalized,fingerprint=original.fingerprint) for i,p in enumerate(ids)])
+    candidates=[dict(product_id=p,rank=i+1,score=.5,features={},evidence=[],conflicts=[],missing=[]) for i,p in enumerate(ids)]
+    results=[(source,'REVIEW',[]) for source in claim['source_ids']]
+    results[0]=(results[0][0],'REVIEW',candidates+[candidates[0]])
+    # The duplicate is in the next SQL batch, after 500 candidates were written.
+    with pytest.raises(IntegrityError):commit_chunk(claim,results,.25)
+    with transaction() as s:
+        assert s.scalar(select(func.count()).select_from(Item).where(Item.run_id==ident))==0
+        assert s.get(Run,ident).processed==0 and s.get(Chunk,claim['id']).status=='RUNNING'
+    results[0]=(results[0][0],'REVIEW',candidates)
+    assert commit_chunk(claim,results,.25)
+    assert commit_chunk(claim,results,.25) is False
+    with transaction() as s:
+        items=list(s.scalars(select(Item).where(Item.run_id==ident)))
+        assert len(items)==len(claim['source_ids']) and all(i.status=='PENDING' and i.version==0 for i in items)
+        assert s.scalar(select(func.count()).select_from(Candidate).where(Candidate.item_id.in_([i.id for i in items])))==500
+
+
 def test_one_active_run_per_org(env):
     c,h,run,_=env
     first=new_run(c,h['operator'],run).json()['id'];second=new_run(c,h['operator'],run).json()['id']

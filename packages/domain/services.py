@@ -117,8 +117,12 @@ def create_run(s, ctx, data, retry_of=None):
     s.add(run)
     s.flush()
     sources = s.scalars(select(Source.id).where(Source.org_id == ctx.org_id, Source.revision_id == revision.id, Source.excluded.is_(False)).order_by(Source.row_no)).all()
-    for i in range(0, len(sources), 200):
-        s.add(Chunk(org_id=ctx.org_id, run_id=run.id, number=i // 200, source_ids=sources[i:i+200]))
+    # SQLite has a single writer. Bound new result transactions so interactive
+    # work can acquire the writer lock between matching chunks.
+    chunk_size = 50 if s.get_bind().dialect.name == 'sqlite' else 200
+    run.manifest = {**run.manifest, 'chunk_size': chunk_size}
+    for i in range(0, len(sources), chunk_size):
+        s.add(Chunk(org_id=ctx.org_id, run_id=run.id, number=i // chunk_size, source_ids=sources[i:i+chunk_size]))
     emit(s, ctx, "match", run.id)
     from .releases import touch_batch
     touch_batch(s, ctx.org_id, revision.batch_id)

@@ -1,6 +1,7 @@
 """Database-owned job state, bounded chunks and fencing for at-least-once delivery."""
 import csv
 import io
+import json
 import logging
 import random
 import threading
@@ -8,7 +9,7 @@ import time
 from functools import lru_cache
 
 from openpyxl import Workbook
-from sqlalchemy import func, select
+from sqlalchemy import func, insert, select
 
 from packages.domain import storage
 from packages.domain.db import now, transaction, uid
@@ -105,6 +106,15 @@ def renew(claim):
 
 
 def commit_chunk(claim, results, seconds):
+    # Prepare IDs and row values before taking the writer lock. The entire chunk
+    # still commits atomically after checking its lease and fencing token.
+    prepared=time.perf_counter()
+    item_rows=[];candidate_rows=[]
+    for source_id, suggestion, candidates in results:
+        item_id=uid()
+        item_rows.append(dict(id=item_id,org_id=claim['org_id'],run_id=claim['run_id'],source_id=source_id,suggestion=suggestion))
+        candidate_rows.extend(dict(org_id=claim['org_id'],item_id=item_id,**candidate) for candidate in candidates)
+    preparation_seconds=time.perf_counter()-prepared
     persistence_started=time.perf_counter()
     with transaction(write=True) as s:
         run = s.scalar(select(Run).where(Run.id == claim["run_id"], Run.org_id == claim["org_id"]).with_for_update())
@@ -113,12 +123,9 @@ def commit_chunk(claim, results, seconds):
             return False
         if {r[0] for r in results} != set(c.source_ids):
             raise ValueError("CHUNK_RESULT_INCOMPLETE")
-        for source_id, suggestion, candidates in results:
-            item = Item(id=uid(), org_id=run.org_id, run_id=run.id, source_id=source_id, suggestion=suggestion)
-            s.add(item)
-            s.flush()
-            for candidate in candidates:
-                s.add(Candidate(org_id=run.org_id, item_id=item.id, **candidate))
+        if item_rows:s.execute(insert(Item),item_rows)
+        for offset in range(0,len(candidate_rows),500):
+            s.execute(insert(Candidate),candidate_rows[offset:offset+500])
         c.status, c.lease_until = "DONE", 0
         run.processed += len(results)
         run.timings = {**run.timings, "matching_seconds": run.timings.get("matching_seconds", 0) + seconds}
@@ -128,7 +135,9 @@ def commit_chunk(claim, results, seconds):
             run.status, run.finished_at = "SUCCEEDED", now()
             complete_outbox(s, "match", run.id)
         run.timings={**run.timings,"persistence_prepare_seconds":run.timings.get("persistence_prepare_seconds",0)+time.perf_counter()-persistence_started}
-        return True
+        completion_started=time.perf_counter()
+    log.info(json.dumps({'event':'chunk_committed','run_id':claim['run_id'],'chunk_id':claim['id'],'fence_token':claim['token'],'rows':len(item_rows),'candidates':len(candidate_rows),'result_prepare_seconds':preparation_seconds,'persistence_seconds':time.perf_counter()-persistence_started,'transaction_completion_seconds':time.perf_counter()-completion_started}))
+    return True
 
 
 def fail_chunk(claim, exc):

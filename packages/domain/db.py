@@ -26,9 +26,12 @@ engine = create_engine(DATABASE_URL, pool_pre_ping=True, **(
 if DATABASE_URL.startswith("sqlite"):
     @event.listens_for(engine, "connect")
     def configure_sqlite(conn, _):
+        import os
+        cache_mib=max(1,min(256,int(os.getenv('SQLITE_CACHE_MIB','64'))))
         conn.execute("PRAGMA foreign_keys=ON")
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("PRAGMA busy_timeout=30000")
+        conn.execute(f"PRAGMA cache_size={-cache_mib*1024}")
 
 from .request_trace import install as install_trace,add as trace_add
 install_trace(engine)
