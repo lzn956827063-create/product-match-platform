@@ -1,0 +1,16 @@
+{
+  "frozen_runtime_commit": "f163b9d476dd32cb2773d16a67004239204eaab7",
+  "final_backend_suite": "backend-tests.xml and migrated-backend-tests.xml: 88 checks each on final frozen runtime",
+  "final_v13_browser": "browser/results.json and browser/release-results.json: 12 checks on final web build",
+  "final_scale": "catalog-1000.json, catalog-10000.json, catalog-50000.json: final source content; committed afterward without runtime changes",
+  "continuous_capacity": "capacity/report.json records actual starting commit; default request log handler enabled",
+  "retained_applicable_evidence": {
+    "migrated-business.json": "Retested after bulk persistence and 50-row SQLite chunks; later cache budget changes only affect resource use. No subsequent migration or business rule changes.",
+    "protocol.json": "TCP receiver and receipt protocol; no subsequent protocol logic changes.",
+    "restore.json": "Independent restore, model/key/file/history/hold check; no subsequent backup, migration, model or delivery logic changes.",
+    "browser-core/results.json": "12 existing core UI checks; later mobile layout refinement affects the added return toolbar, covered in final v13 browser pass.",
+    "browser-regression/results.json": "12 existing optimization UI checks; return-toolbar layout and logger changes covered by final v13/browser and backend checks."
+  },
+  "not_reused_as_final": "Interrupted pre-logging/slow-write runs, initial bulk-only smoke on accumulated data, and intermediate catalog timings are retained privately under work. Final capacity starts from a checked, fixed baseline.",
+  "live_upgrade": "live-upgrade.json: frozen runtime deployed locally with existing business counts and upload/export file hashes preserved"
+}

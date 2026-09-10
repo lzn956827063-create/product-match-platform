@@ -1,0 +1,35 @@
+{
+  "observed_at": "2026-09-10",
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "logical_cpu": 8,
+  "memory_bytes": 17179869184,
+  "available_executables": {
+    "docker": false,
+    "podman": false,
+    "colima": false,
+    "psql": false,
+    "postgres": false,
+    "redis-server": false,
+    "prometheus": false,
+    "promtool": false
+  },
+  "target_stack_executed": false,
+  "remote_target_environment_provided": false,
+  "container_limits_applied": false,
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "packages": {
+    "SQLAlchemy": "2.0.52",
+    "fastapi": "0.141.1",
+    "alembic": "1.19.2",
+    "celery": "5.6.3",
+    "lightgbm": "4.7.0",
+    "scikit-learn": "1.9.0"
+  },
+  "sqlite_cache_mib_per_connection": 64,
+  "new_match_chunk_rows": {
+    "sqlite": 50,
+    "postgresql": 200
+  },
+  "local_data_isolation": "Live v1.3 uses project var; capacity uses work/v13/load-v13-final"
+}

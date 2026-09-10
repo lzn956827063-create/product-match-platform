@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "version": "1.3.0",
+  "migration_head": "b86fd0144e45",
+  "business_counts_preserved": {
+    "catalogs": 2,
+    "catalog_versions": 2,
+    "catalog_products": 24,
+    "batches": 4,
+    "batch_revisions": 4,
+    "source_records": 120,
+    "match_runs": 4,
+    "match_items": 116,
+    "review_events": 6,
+    "batch_releases": 0,
+    "release_rows": 0,
+    "files": 6,
+    "exports": 1
+  },
+  "historical_artifact_hashes_preserved": 0,
+  "uploaded_and_export_file_hashes_preserved": 7,
+  "original_session_key_preserved": true,
+  "health": {
+    "status": "ok",
+    "version": "1.3.0"
+  },
+  "fixture_data_written_to_live": false,
+  "backup_scope": "Full local backup taken after stopping v1.2 API and worker; private location excluded from source package"
+}

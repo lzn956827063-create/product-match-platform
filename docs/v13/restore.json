@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "scope": "Isolated local SQLite + local objects restore; original receiver offline and delivery hold enforced. No production RPO/RTO claim.",
+  "checks": {
+    "encrypted_signing_secret_portable": true,
+    "historical_decisions": true,
+    "release_files": true,
+    "tenant_isolation": true,
+    "pending_delivery_hold": true,
+    "no_unreconciled_notification_sent": true,
+    "model_and_vocabulary_portable": true
+  },
+  "verified_files": 31,
+  "release_artifacts": 3,
+  "history_events": 9,
+  "pending_deliveries": 1,
+  "backup_seconds": 0.8284717909991741,
+  "restore_copy_seconds": 0.04244308406487107,
+  "restore_and_verification_seconds": 1.7423250840511173,
+  "fixture_note": "Live v1.2 history migrated in an isolated copy, including three synthetic migration-verification rows and their test release, plus one synthetic pending integration; live DB untouched",
+  "production_rpo_rto_verified": false
+}

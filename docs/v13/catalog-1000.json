@@ -3,19 +3,19 @@
   "products_per_version": 1000,
   "history_releases": 10,
   "historical_reference_rows": 1000,
-  "plan_seconds": 0.03768349997699261,
-  "analysis_seconds": 0.2764722090214491,
+  "plan_seconds": 0.03900670807342976,
+  "analysis_seconds": 0.20427933405153453,
   "report": {
     "counts": {
+      "display": 10,
       "identity": 10,
       "retired": 10,
-      "display": 10,
       "added": 10
     },
     "total_changes": 40,
     "timings": {
-      "compute_seconds": 0.04072670906316489,
-      "commit_prepare_seconds": 0.22219541599042714
+      "compute_seconds": 0.03717779100406915,
+      "commit_prepare_seconds": 0.14774416701402515
     },
     "affected_items": 0,
     "affected_releases": 3,
@@ -25,20 +25,20 @@
   "first_page_rows": 20,
   "first_page_bytes": 31204,
   "list_samples_ms": [
-    16.095333034172654,
-    193.52149998303503
+    16.607166966423392,
+    100.63737502787262
   ],
-  "list_p95_ms": 184.6501916355919,
+  "list_p95_ms": 96.43586462480016,
   "review_samples": [
     {
-      "seconds": 0.023386499960906804,
+      "seconds": 0.009945375029928982,
       "status": 201
     },
     {
-      "seconds": 0.005335583002306521,
+      "seconds": 0.05148283299058676,
       "status": 201
     }
   ],
-  "review_p95_ms": 22.48395411297679,
+  "review_p95_ms": 49.40596009255387,
   "idempotent": true
 }

@@ -1,0 +1,839 @@
+{
+  "scope": "local SQLite WAL, actual TCP, no container limits or production dependencies; synthetic data",
+  "code_commit": "f163b9d476dd32cb2773d16a67004239204eaab7",
+  "source_hash": "88cfcf56de883f858df0888f4d2acd29470a00ddabc419d6c9775f711d636919",
+  "seconds": 1800.5748180419905,
+  "users": 10,
+  "workflow_drivers": 2,
+  "think_seconds": 1,
+  "organizations": 2,
+  "catalog_per_org": 50000,
+  "sources_per_main_batch": 10000,
+  "publication_rows": 100,
+  "history_releases_per_org_before_run": 10,
+  "cold_seconds": 120,
+  "requests": 20863,
+  "unexpected_errors": 0,
+  "workflow_errors": [],
+  "results": {
+    "all": {
+      "auth_refresh": {
+        "count": 24,
+        "p50_ms": 44.65827054809779,
+        "p95_ms": 262.0186857122462,
+        "p99_ms": 262.38051562104374,
+        "statuses": {
+          "200": 24
+        }
+      },
+      "background_create": {
+        "count": 24,
+        "p50_ms": 47.61891643283889,
+        "p95_ms": 136.22876430163151,
+        "p99_ms": 250.77516031684348,
+        "statuses": {
+          "202": 24
+        }
+      },
+      "background_status": {
+        "count": 2122,
+        "p50_ms": 12.311895960010588,
+        "p95_ms": 323.94949790323017,
+        "p99_ms": 691.8225830222945,
+        "statuses": {
+          "200": 2122
+        }
+      },
+      "detail": {
+        "count": 2734,
+        "p50_ms": 47.98895848216489,
+        "p95_ms": 473.372206260683,
+        "p99_ms": 998.1027131050364,
+        "statuses": {
+          "200": 2734
+        }
+      },
+      "download_delta": {
+        "count": 56,
+        "p50_ms": 5.9875205042771995,
+        "p95_ms": 54.35817746911198,
+        "p99_ms": 186.3551277376246,
+        "statuses": {
+          "200": 56
+        }
+      },
+      "download_full": {
+        "count": 56,
+        "p50_ms": 25.725250074174255,
+        "p95_ms": 158.8099264772609,
+        "p99_ms": 317.9867062252024,
+        "statuses": {
+          "200": 56
+        }
+      },
+      "download_mapped": {
+        "count": 56,
+        "p50_ms": 6.586041476111859,
+        "p95_ms": 267.05702077015303,
+        "p99_ms": 318.0644543317615,
+        "statuses": {
+          "200": 56
+        }
+      },
+      "list": {
+        "count": 9027,
+        "p50_ms": 69.85245796386153,
+        "p95_ms": 500.2864501671865,
+        "p99_ms": 942.1694319206282,
+        "statuses": {
+          "200": 9027
+        }
+      },
+      "release_create": {
+        "count": 56,
+        "p50_ms": 10.046250536106527,
+        "p95_ms": 28.90210400801152,
+        "p99_ms": 222.3416142107463,
+        "statuses": {
+          "201": 56
+        }
+      },
+      "release_list": {
+        "count": 518,
+        "p50_ms": 53.49720793310553,
+        "p95_ms": 463.8797473220615,
+        "p99_ms": 839.2958660586737,
+        "statuses": {
+          "200": 518
+        }
+      },
+      "release_publish": {
+        "count": 56,
+        "p50_ms": 10.831937019247562,
+        "p95_ms": 236.70520828454755,
+        "p99_ms": 391.3927272078582,
+        "statuses": {
+          "200": 56
+        }
+      },
+      "release_status": {
+        "count": 486,
+        "p50_ms": 9.193687525112182,
+        "p95_ms": 372.785718733212,
+        "p99_ms": 923.5498063615478,
+        "statuses": {
+          "200": 486
+        }
+      },
+      "release_validate": {
+        "count": 56,
+        "p50_ms": 5.863437487278134,
+        "p95_ms": 13.031031732680276,
+        "p99_ms": 223.95646630320707,
+        "statuses": {
+          "202": 56
+        }
+      },
+      "review": {
+        "count": 2901,
+        "p50_ms": 48.994084005244076,
+        "p95_ms": 489.0282080741599,
+        "p99_ms": 959.7775000147521,
+        "statuses": {
+          "201": 2901
+        }
+      },
+      "search_exact": {
+        "count": 870,
+        "p50_ms": 32.510812452528626,
+        "p95_ms": 470.0190314732026,
+        "p99_ms": 926.4731547469213,
+        "statuses": {
+          "200": 870
+        }
+      },
+      "search_fuzzy": {
+        "count": 902,
+        "p50_ms": 149.51016701525077,
+        "p95_ms": 552.1367899375035,
+        "p99_ms": 1077.9705974832182,
+        "statuses": {
+          "200": 902
+        }
+      },
+      "search_prefix": {
+        "count": 919,
+        "p50_ms": 32.80666598584503,
+        "p95_ms": 475.99040387431154,
+        "p99_ms": 879.5711674494634,
+        "statuses": {
+          "200": 919
+        }
+      }
+    },
+    "cold": {
+      "background_create": {
+        "count": 4,
+        "p50_ms": 106.75962502136827,
+        "p95_ms": 262.06384367542336,
+        "p99_ms": 278.99686871329317,
+        "statuses": {
+          "202": 4
+        }
+      },
+      "background_status": {
+        "count": 136,
+        "p50_ms": 11.218833446037024,
+        "p95_ms": 163.33849966758862,
+        "p99_ms": 474.6816392464118,
+        "statuses": {
+          "200": 136
+        }
+      },
+      "detail": {
+        "count": 185,
+        "p50_ms": 74.66249994467944,
+        "p95_ms": 368.47938315477194,
+        "p99_ms": 804.117613453418,
+        "statuses": {
+          "200": 185
+        }
+      },
+      "download_delta": {
+        "count": 4,
+        "p50_ms": 80.73908352525905,
+        "p95_ms": 178.1970401003491,
+        "p99_ms": 182.44457521825098,
+        "statuses": {
+          "200": 4
+        }
+      },
+      "download_full": {
+        "count": 4,
+        "p50_ms": 77.5071875541471,
+        "p95_ms": 153.07143306708892,
+        "p99_ms": 163.61665301839818,
+        "statuses": {
+          "200": 4
+        }
+      },
+      "download_mapped": {
+        "count": 4,
+        "p50_ms": 14.589979546144605,
+        "p95_ms": 20.052101823966947,
+        "p99_ms": 20.805686691310257,
+        "statuses": {
+          "200": 4
+        }
+      },
+      "list": {
+        "count": 618,
+        "p50_ms": 81.0119170928374,
+        "p95_ms": 276.3643357029649,
+        "p99_ms": 601.8771299219227,
+        "statuses": {
+          "200": 618
+        }
+      },
+      "release_create": {
+        "count": 4,
+        "p50_ms": 9.581562946550548,
+        "p95_ms": 14.00837146793492,
+        "p99_ms": 14.35484147281386,
+        "statuses": {
+          "201": 4
+        }
+      },
+      "release_list": {
+        "count": 33,
+        "p50_ms": 61.04416702874005,
+        "p95_ms": 427.16817499604065,
+        "p99_ms": 552.9603221360594,
+        "statuses": {
+          "200": 33
+        }
+      },
+      "release_publish": {
+        "count": 4,
+        "p50_ms": 9.972625004593283,
+        "p95_ms": 18.806339369621124,
+        "p99_ms": 20.033034335356202,
+        "statuses": {
+          "200": 4
+        }
+      },
+      "release_status": {
+        "count": 49,
+        "p50_ms": 6.253042025491595,
+        "p95_ms": 223.69244198780507,
+        "p99_ms": 439.1324249887833,
+        "statuses": {
+          "200": 49
+        }
+      },
+      "release_validate": {
+        "count": 4,
+        "p50_ms": 6.758625037036836,
+        "p95_ms": 12.730975070735438,
+        "p99_ms": 13.356695024995132,
+        "statuses": {
+          "202": 4
+        }
+      },
+      "review": {
+        "count": 189,
+        "p50_ms": 86.32100000977516,
+        "p95_ms": 478.49174179136753,
+        "p99_ms": 707.7395670209081,
+        "statuses": {
+          "201": 189
+        }
+      },
+      "search_exact": {
+        "count": 51,
+        "p50_ms": 73.61129194032401,
+        "p95_ms": 318.1427289964631,
+        "p99_ms": 599.0109999547713,
+        "statuses": {
+          "200": 51
+        }
+      },
+      "search_fuzzy": {
+        "count": 57,
+        "p50_ms": 177.95637506060302,
+        "p95_ms": 446.37717558071006,
+        "p99_ms": 714.8514515208071,
+        "statuses": {
+          "200": 57
+        }
+      },
+      "search_prefix": {
+        "count": 66,
+        "p50_ms": 78.72939656954259,
+        "p95_ms": 286.66312524001114,
+        "p99_ms": 604.3157483742101,
+        "statuses": {
+          "200": 66
+        }
+      }
+    },
+    "steady": {
+      "auth_refresh": {
+        "count": 24,
+        "p50_ms": 44.65827054809779,
+        "p95_ms": 262.0186857122462,
+        "p99_ms": 262.38051562104374,
+        "statuses": {
+          "200": 24
+        }
+      },
+      "background_create": {
+        "count": 20,
+        "p50_ms": 42.68656246131286,
+        "p95_ms": 81.27072894130835,
+        "p99_ms": 98.52304583997463,
+        "statuses": {
+          "202": 20
+        }
+      },
+      "background_status": {
+        "count": 1986,
+        "p50_ms": 12.60224950965494,
+        "p95_ms": 367.3170729598496,
+        "p99_ms": 739.5186516689182,
+        "statuses": {
+          "200": 1986
+        }
+      },
+      "detail": {
+        "count": 2549,
+        "p50_ms": 41.77237499970943,
+        "p95_ms": 474.4678495684638,
+        "p99_ms": 1009.1152231907469,
+        "statuses": {
+          "200": 2549
+        }
+      },
+      "download_delta": {
+        "count": 52,
+        "p50_ms": 5.866500025149435,
+        "p95_ms": 17.014322790782877,
+        "p99_ms": 104.80485271429676,
+        "statuses": {
+          "200": 52
+        }
+      },
+      "download_full": {
+        "count": 52,
+        "p50_ms": 25.120937498286366,
+        "p95_ms": 142.87392277037713,
+        "p99_ms": 330.59069122187856,
+        "statuses": {
+          "200": 52
+        }
+      },
+      "download_mapped": {
+        "count": 52,
+        "p50_ms": 6.515666493214667,
+        "p95_ms": 267.7734373777639,
+        "p99_ms": 322.2952576528771,
+        "statuses": {
+          "200": 52
+        }
+      },
+      "list": {
+        "count": 8409,
+        "p50_ms": 68.03174992091954,
+        "p95_ms": 507.4154752539469,
+        "p99_ms": 999.0973982214931,
+        "statuses": {
+          "200": 8409
+        }
+      },
+      "release_create": {
+        "count": 52,
+        "p50_ms": 10.046250536106527,
+        "p95_ms": 30.39232080336657,
+        "p99_ms": 236.01683921064318,
+        "statuses": {
+          "201": 52
+        }
+      },
+      "release_list": {
+        "count": 485,
+        "p50_ms": 52.1159169729799,
+        "p95_ms": 445.666207792234,
+        "p99_ms": 846.8928114697322,
+        "statuses": {
+          "200": 485
+        }
+      },
+      "release_publish": {
+        "count": 52,
+        "p50_ms": 10.93662454513833,
+        "p95_ms": 246.3174748874733,
+        "p99_ms": 392.2664622426965,
+        "statuses": {
+          "200": 52
+        }
+      },
+      "release_status": {
+        "count": 437,
+        "p50_ms": 9.56712500192225,
+        "p95_ms": 385.8128002379088,
+        "p99_ms": 1020.3037568554255,
+        "statuses": {
+          "200": 437
+        }
+      },
+      "release_validate": {
+        "count": 52,
+        "p50_ms": 5.863437487278134,
+        "p95_ms": 12.489298434229564,
+        "p99_ms": 225.1334596658126,
+        "statuses": {
+          "202": 52
+        }
+      },
+      "review": {
+        "count": 2712,
+        "p50_ms": 40.066667017526925,
+        "p95_ms": 493.5229375958426,
+        "p99_ms": 1005.6161396275269,
+        "statuses": {
+          "201": 2712
+        }
+      },
+      "search_exact": {
+        "count": 819,
+        "p50_ms": 31.058749998919666,
+        "p95_ms": 470.7881916780022,
+        "p99_ms": 982.6010349718783,
+        "statuses": {
+          "200": 819
+        }
+      },
+      "search_fuzzy": {
+        "count": 845,
+        "p50_ms": 144.91829101461917,
+        "p95_ms": 565.3460917761548,
+        "p99_ms": 1104.0810135100012,
+        "statuses": {
+          "200": 845
+        }
+      },
+      "search_prefix": {
+        "count": 853,
+        "p50_ms": 29.048958094790578,
+        "p95_ms": 476.14211656618863,
+        "p99_ms": 892.4486299976708,
+        "statuses": {
+          "200": 853
+        }
+      }
+    }
+  },
+  "background_runs": [
+    {
+      "id": "47092e5c-71d5-4833-a23f-aa849a232c53",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:32:50.053042+00:00",
+      "started_at": "2026-09-10T11:32:51.007405+00:00",
+      "finished_at": "2026-09-10T11:35:08.547207+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 0.9543709754943848,
+        "index_seconds": 4.957745208055712,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 78.80358587822411,
+        "persistence_prepare_seconds": 25.926202080678195
+      }
+    },
+    {
+      "id": "5c5d34fe-422e-4a62-8886-6ea9772c8159",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:32:49.863079+00:00",
+      "started_at": "2026-09-10T11:32:50.996448+00:00",
+      "finished_at": "2026-09-10T11:35:07.898873+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 1.1333777904510498,
+        "index_seconds": 5.041901416960172,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 79.14595607714728,
+        "persistence_prepare_seconds": 27.09877907752525
+      }
+    },
+    {
+      "id": "24fa36bf-373b-410c-b723-39011ec389e3",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:32:49.941244+00:00",
+      "started_at": "2026-09-10T11:35:09.725440+00:00",
+      "finished_at": "2026-09-10T11:37:23.580816+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 139.78420305252075,
+        "index_seconds": 0.00045229203533381224,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 78.57906770543195,
+        "persistence_prepare_seconds": 26.689139789668843
+      }
+    },
+    {
+      "id": "ba9a708f-bf13-455a-8306-b94e54aa17ae",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:32:50.081381+00:00",
+      "started_at": "2026-09-10T11:35:09.767256+00:00",
+      "finished_at": "2026-09-10T11:37:24.670478+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 139.685879945755,
+        "index_seconds": 0.00030220800545066595,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 78.36037508433219,
+        "persistence_prepare_seconds": 29.30412932962645
+      }
+    },
+    {
+      "id": "304fa789-2206-4b55-ac17-aafda8d40742",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:35:13.441766+00:00",
+      "started_at": "2026-09-10T11:37:23.931313+00:00",
+      "finished_at": "2026-09-10T11:39:59.457196+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 130.4895520210266,
+        "index_seconds": 0.0003487920621410012,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 88.86785191111267,
+        "persistence_prepare_seconds": 39.355610906961374
+      }
+    },
+    {
+      "id": "3c8f74b6-e950-4616-967f-a5f63530c9e3",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:35:13.339160+00:00",
+      "started_at": "2026-09-10T11:37:26.129233+00:00",
+      "finished_at": "2026-09-10T11:40:04.338358+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 132.79007816314697,
+        "index_seconds": 0.00034612498711794615,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 91.71683059481438,
+        "persistence_prepare_seconds": 39.048172370297834
+      }
+    },
+    {
+      "id": "bb1d4913-d9b9-4682-a34f-2764befc1bf8",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:37:27.115826+00:00",
+      "started_at": "2026-09-10T11:40:00.420691+00:00",
+      "finished_at": "2026-09-10T11:42:37.497274+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 153.3048710823059,
+        "index_seconds": 0.0014658330474048853,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 87.8292662112508,
+        "persistence_prepare_seconds": 39.73587071336806
+      }
+    },
+    {
+      "id": "0acd6558-3c47-4c42-b28b-074658baeca2",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:37:27.687632+00:00",
+      "started_at": "2026-09-10T11:40:04.610903+00:00",
+      "finished_at": "2026-09-10T11:42:41.199794+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 156.92327570915222,
+        "index_seconds": 0.00026291701942682266,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 90.33002129127271,
+        "persistence_prepare_seconds": 39.17197549168486
+      }
+    },
+    {
+      "id": "9682f0b8-bdd8-4353-a1fb-dab00d4a82c0",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:40:00.300012+00:00",
+      "started_at": "2026-09-10T11:42:39.203859+00:00",
+      "finished_at": "2026-09-10T11:45:21.382181+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 158.9038519859314,
+        "index_seconds": 0.00027079100254923105,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 92.97188261873089,
+        "persistence_prepare_seconds": 40.229253027704544
+      }
+    },
+    {
+      "id": "6461b017-3451-4823-a777-5714dce9db4f",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:40:05.971419+00:00",
+      "started_at": "2026-09-10T11:42:41.493770+00:00",
+      "finished_at": "2026-09-10T11:45:22.910925+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 155.5223560333252,
+        "index_seconds": 0.00027220905758440495,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 90.65787311585154,
+        "persistence_prepare_seconds": 40.681333152228035
+      }
+    },
+    {
+      "id": "993c54c3-7c90-4cc8-80f8-7ddce785e0ce",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:42:38.217036+00:00",
+      "started_at": "2026-09-10T11:45:22.990015+00:00",
+      "finished_at": "2026-09-10T11:48:07.097390+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 164.77298402786255,
+        "index_seconds": 0.0003262920072302222,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 88.00412841921207,
+        "persistence_prepare_seconds": 45.97313220507931
+      }
+    },
+    {
+      "id": "32db8b15-b1a7-4d62-aa05-11b7fb0f5462",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:42:43.747032+00:00",
+      "started_at": "2026-09-10T11:45:25.059679+00:00",
+      "finished_at": "2026-09-10T11:48:10.331318+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 161.31265330314636,
+        "index_seconds": 0.0021855829982087016,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 94.25478292023763,
+        "persistence_prepare_seconds": 44.51337733538821
+      }
+    },
+    {
+      "id": "e4cd8239-3619-49ed-81dd-ea636d442a82",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:45:24.640889+00:00",
+      "started_at": "2026-09-10T11:48:12.368357+00:00",
+      "finished_at": "2026-09-10T11:51:03.113422+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 167.72747206687927,
+        "index_seconds": 0.000288916053250432,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 92.77464496542234,
+        "persistence_prepare_seconds": 50.3591071969131
+      }
+    },
+    {
+      "id": "1d52b949-7c7e-4888-81d9-b0a12f16be6c",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:45:23.059359+00:00",
+      "started_at": "2026-09-10T11:48:08.279382+00:00",
+      "finished_at": "2026-09-10T11:51:03.934156+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 165.22002792358398,
+        "index_seconds": 0.0015819160034880042,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 98.03874603833538,
+        "persistence_prepare_seconds": 49.07418436661828
+      }
+    },
+    {
+      "id": "c80feb48-4d4f-43f2-af8f-2fa5345dc343",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:48:11.891922+00:00",
+      "started_at": "2026-09-10T11:51:03.466854+00:00",
+      "finished_at": "2026-09-10T11:54:02.715318+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 171.57493805885315,
+        "index_seconds": 0.00029433309100568295,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 99.34233120374847,
+        "persistence_prepare_seconds": 52.31850415642839
+      }
+    },
+    {
+      "id": "1ad0e40e-2e54-4307-9b59-ccef045fdfa3",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:48:09.910053+00:00",
+      "started_at": "2026-09-10T11:51:05.623145+00:00",
+      "finished_at": "2026-09-10T11:54:11.425428+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 175.7130970954895,
+        "index_seconds": 0.0003304580459371209,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 100.24734880018514,
+        "persistence_prepare_seconds": 54.02006508933846
+      }
+    },
+    {
+      "id": "dd9766ae-418e-48a7-ae04-af3b42962c57",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:51:04.968450+00:00",
+      "started_at": "2026-09-10T11:54:03.197559+00:00",
+      "finished_at": "2026-09-10T11:57:12.575311+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 178.22911381721497,
+        "index_seconds": 0.00034016696736216545,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 101.62358183960896,
+        "persistence_prepare_seconds": 54.6527525796555
+      }
+    },
+    {
+      "id": "78de2ea1-d6b0-4310-a3fa-0eb1bee6b421",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:51:06.620659+00:00",
+      "started_at": "2026-09-10T11:54:13.499434+00:00",
+      "finished_at": "2026-09-10T11:57:19.044024+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 186.87878108024597,
+        "index_seconds": 0.0003399580018594861,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 97.20709841279313,
+        "persistence_prepare_seconds": 56.30114053771831
+      }
+    },
+    {
+      "id": "649787ba-ab98-44b1-bd20-47f5d31e10d1",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:54:03.728499+00:00",
+      "started_at": "2026-09-10T11:57:13.135885+00:00",
+      "finished_at": "2026-09-10T12:00:25.458908+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 189.40739107131958,
+        "index_seconds": 0.00026770890690386295,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 101.09308558469638,
+        "persistence_prepare_seconds": 60.37545583141036
+      }
+    },
+    {
+      "id": "204b2fd7-bbc9-4127-92a0-592747701c65",
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-10T11:54:14.901656+00:00",
+      "started_at": "2026-09-10T11:57:21.172615+00:00",
+      "finished_at": "2026-09-10T12:00:34.455670+00:00",
+      "processed": 10000,
+      "timings": {
+        "queue_seconds": 186.2709641456604,
+        "index_seconds": 0.0002674580318853259,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 104.58881829562597,
+        "persistence_prepare_seconds": 54.96089478849899
+      }
+    },
+    {
+      "id": "1893a93c-8a37-4d9e-b1bd-6895888cefac",
+      "status": "RUNNING",
+      "created_at": "2026-09-10T11:57:12.705054+00:00",
+      "started_at": "2026-09-10T12:00:25.655909+00:00",
+      "finished_at": null,
+      "processed": 7550,
+      "timings": {
+        "queue_seconds": 192.95086002349854,
+        "index_seconds": 0.0017242090543732047,
+        "index_hash": "6ad92135ba8d21633c29b1766d5a08b48527c9d963a796b3500619bd00bc5dac",
+        "matching_seconds": 73.85460799385328,
+        "persistence_prepare_seconds": 42.173249584273435
+      }
+    },
+    {
+      "id": "9ce1591e-c37e-4a83-b533-7f3083c2114f",
+      "status": "QUEUED",
+      "created_at": "2026-09-10T12:00:32.518649+00:00",
+      "started_at": null,
+      "finished_at": null,
+      "processed": 0,
+      "timings": {}
+    },
+    {
+      "id": "d71ca5be-4434-46eb-8bf1-4735fc3d0540",
+      "status": "RUNNING",
+      "created_at": "2026-09-10T11:57:19.582400+00:00",
+      "started_at": "2026-09-10T12:00:36.468954+00:00",
+      "finished_at": null,
+      "processed": 6900,
+      "timings": {
+        "queue_seconds": 196.8865578174591,
+        "index_seconds": 0.0002717499155551195,
+        "index_hash": "1033baa10b121a7de6410053ec8bcf61eace4b51bb9f8c6824024442c6279526",
+        "matching_seconds": 71.23531245510094,
+        "persistence_prepare_seconds": 38.100572743685916
+      }
+    },
+    {
+      "id": "519d6d64-3cf8-4f88-9f54-a129036eb5b1",
+      "status": "QUEUED",
+      "created_at": "2026-09-10T12:00:35.707034+00:00",
+      "started_at": null,
+      "finished_at": null,
+      "processed": 0,
+      "timings": {}
+    }
+  ],
+  "peak_total_sampled_rss_mb": 1792.1875,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpu_count": 8,
+  "raw_requests": "requests.jsonl",
+  "resources": "resources.jsonl",
+  "limitations": [
+    "SQLite writer scheduling is not PostgreSQL transaction capacity",
+    "2 workflow drivers supplement 10 interactive users",
+    "100-row publications are separate from 10000-row matching batches",
+    "First 120 seconds classified cold; existing model files present, worker process cache starts empty",
+    "Jobs pending at measurement end are listed and not counted as completed",
+    "DB lock-statement timing includes statement work; PostgreSQL wait-event analysis not executed"
+  ]
+}
