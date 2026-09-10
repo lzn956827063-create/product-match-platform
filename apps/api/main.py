@@ -14,7 +14,10 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func, select, text
 
 from apps.api.schemas import *
+from packages.domain import telemetry
 from packages.domain import storage
+from packages.domain.imports import request_job, read_result, parsed_file
+from packages.domain.corrections import save_draft, submit_drafts, source_fields
 from packages.domain.auth import authenticate, context, issue_session, password_hash, scoped, token_hash, verify_password
 from packages.domain.config import ALLOWED_ORIGINS, COOKIE_SECURE, QUEUE_MODE, REDIS_URL, ROOT
 from packages.domain.db import initialize, now, transaction, uid
@@ -22,6 +25,7 @@ from packages.domain.errors import Problem, require
 from packages.domain.ingest import FIELDS, MAX_BYTES, parse_file, preview
 from packages.domain.models import *
 from packages.domain.services import audit, create_catalog_version, create_revision, create_run, decide, export_snapshot, idempotent, load_rows
+from packages.domain.queries import item_page, item_summaries, run_page, export_page, compare_versions
 from packages.matching.engine import DEFAULT_POLICY
 from packages.matching.normalize import digest
 
@@ -34,7 +38,7 @@ async def lifespan(app):
     yield
 
 
-app = FastAPI(title="商品数据匹配与核对平台", version="1.0.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
+app = FastAPI(title="商品数据匹配与核对平台", version="1.1.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
 PREFIX = "/api/v1"
 
 
@@ -55,6 +59,9 @@ async def request_context(request, call_next):
     if request.url.path.startswith(PREFIX):
         response.headers["Cache-Control"] = "no-store"
     log.info(json.dumps({"event": "request", "request_id": request.state.request_id, "method": request.method, "path": request.url.path, "status": response.status_code, "seconds": round(time.perf_counter()-started, 4)}))
+    route = request.scope.get('route')
+    if route and getattr(route, 'path', '').startswith(PREFIX):
+        telemetry.observe(route.path, request.method, response.status_code, time.perf_counter()-started)
     return response
 
 
@@ -157,23 +164,25 @@ def dashboard(s=Depends(db), c=Depends(ctx)):
     return {"runs": counts(Run, Run.status), "suggestions": counts(Item, Item.suggestion), "decisions": counts(Item, Item.status), "catalog_products": s.scalar(select(func.count()).select_from(Product).where(Product.org_id == c.org_id)), "queue_mode": QUEUE_MODE}
 
 
-@app.post(PREFIX+"/files", status_code=201)
+@app.post(PREFIX+"/files", status_code=202)
 def upload(file: UploadFile = Upload(...), encoding: str = "utf-8", s=Depends(db), c=Depends(ctx)):
     c.permit("operator", "admin")
     content = file.file.read(MAX_BYTES+1)
-    parsed = parse_file(content, file.filename or "file", encoding)
     filename = Path((file.filename or "file").replace("\\", "/")).name[:250]
-    obj = File(id=uid(), org_id=c.org_id, name=filename, object_key=storage.put(c.org_id, content, Path(filename).suffix[1:]), sha256=digest(content), size=len(content), encoding=encoding, sheets=list(parsed))
-    s.add(obj)
-    s.flush()
+    require(len(content)<=MAX_BYTES, 413, "FILE_TOO_LARGE", "文件不能超过 20MB")
+    require(Path(filename).suffix.lower() in (".csv", ".xlsx"), 422, "INVALID_FILE", "仅支持 CSV 和 XLSX")
+    require(encoding in ("utf-8", "gb18030"), 422, "INVALID_ENCODING", "请选择有效编码")
+    obj = File(id=uid(), org_id=c.org_id, name=filename, object_key=storage.put(c.org_id, content, Path(filename).suffix[1:]), sha256=digest(content), size=len(content), encoding=encoding, sheets=[])
+    s.add(obj);s.flush()
+    job = request_job(s, c, obj, "parse")
     audit(s, c, "file.upload", obj.id, {"bytes": obj.size})
-    return data(obj, ("object_key",))
+    return {**data(obj, ("object_key",)), "job_id": job.id, "status": job.status}
 
 
 @app.get(PREFIX+"/files/{ident}/preview")
 def file_preview(ident: str, sheet: str, header_row: int = 1, s=Depends(db), c=Depends(ctx)):
     file = scoped(s, File, ident, c)
-    return {**preview(parse_file(storage.read(file.object_key), file.name, file.encoding), sheet, header_row), "fields": FIELDS}
+    return {**preview(parsed_file(s, c, file, allow_sync=True), sheet, header_row), "fields": FIELDS}
 
 
 @app.post(PREFIX+"/imports/validate")
@@ -194,9 +203,12 @@ def catalogs_create(body: Named, s=Depends(db), c=Depends(ctx)):
 
 
 @app.get(PREFIX+"/catalogs")
-def catalogs_list(s=Depends(db), c=Depends(ctx)):
-    cats = s.scalars(select(Catalog).where(Catalog.org_id == c.org_id).order_by(Catalog.created_at.desc())).all()
-    return {"items": [{**data(cat), "versions": [data(v) for v in s.scalars(select(CatalogVersion).where(CatalogVersion.org_id == c.org_id, CatalogVersion.catalog_id == cat.id).order_by(CatalogVersion.number.desc()))]} for cat in cats]}
+def catalogs_list(q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
+    cats, cursor = page(s, select(Catalog).where(Catalog.org_id == c.org_id, Catalog.name.icontains(q, autoescape=True)), Catalog, cursor, limit)
+    versions = {}
+    for v in s.scalars(select(CatalogVersion).where(CatalogVersion.org_id == c.org_id, CatalogVersion.catalog_id.in_([x.id for x in cats])).order_by(CatalogVersion.number.desc())):
+        versions.setdefault(v.catalog_id, []).append(data(v))
+    return {"items": [{**data(cat), "versions": versions.get(cat.id, [])} for cat in cats], "next_cursor": cursor}
 
 
 @app.post(PREFIX+"/catalogs/{ident}/versions", status_code=202)
@@ -222,25 +234,30 @@ def products_list(ident: str, q: str = "", cursor: str | None = None, limit: int
     query = select(Product).where(Product.org_id == c.org_id, Product.version_id == ident)
     if q:
         from sqlalchemy import cast, String, or_
-        query = query.where(or_(Product.sku.icontains(q, autoescape=True), cast(Product.normalized, String).icontains(q, autoescape=True)))
+        query = query.where(or_(Product.sku.icontains(q, autoescape=True), Product.normalized["name"].as_string().icontains(q, autoescape=True), Product.normalized["model"].as_string().icontains(q, autoescape=True)))
     rows, cursor = page(s, query, Product, cursor, limit)
     return {"items": [data(x) for x in rows], "next_cursor": cursor}
 
 
 @app.post(PREFIX+"/batches", status_code=201)
-def batch_create(body: BatchInput, s=Depends(db), c=Depends(ctx)):
+def batch_create(body: BatchInput, request: Request, s=Depends(db), c=Depends(ctx)):
     c.permit("operator", "admin")
-    batch = Batch(id=uid(), org_id=c.org_id, name=body.name, supplier=body.supplier, created_by=c.user_id)
-    s.add(batch)
-    s.flush()
-    revision = create_revision(s, c, batch, body.model_dump(exclude={"name", "supplier"}))
-    return {"batch": data(batch), "revision": data(revision)}
+    def operation():
+        batch = Batch(id=uid(), org_id=c.org_id, name=body.name, supplier=body.supplier, created_by=c.user_id)
+        s.add(batch)
+        s.flush()
+        revision = create_revision(s, c, batch, body.model_dump(exclude={"name", "supplier"}))
+        return {"batch": data(batch), "revision": data(revision)}
+    return idempotent(s, c, "batches", request.headers.get("idempotency-key") or digest(body.model_dump()), body.model_dump(), operation)
 
 
 @app.get(PREFIX+"/batches")
-def batches_list(s=Depends(db), c=Depends(ctx)):
-    batches = s.scalars(select(Batch).where(Batch.org_id == c.org_id).order_by(Batch.created_at.desc()).limit(100)).all()
-    return {"items": [{**data(b), "revisions": [data(r) for r in s.scalars(select(Revision).where(Revision.org_id == c.org_id, Revision.batch_id == b.id).order_by(Revision.number.desc()))]} for b in batches]}
+def batches_list(q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
+    batches, cursor = page(s, select(Batch).where(Batch.org_id == c.org_id, Batch.name.icontains(q, autoescape=True) | Batch.supplier.icontains(q, autoescape=True)), Batch, cursor, limit)
+    revisions = {}
+    for r in s.scalars(select(Revision).where(Revision.org_id == c.org_id, Revision.batch_id.in_([b.id for b in batches])).order_by(Revision.number.desc())):
+        revisions.setdefault(r.batch_id, []).append(data(r))
+    return {"items": [{**data(b), "revisions": revisions.get(b.id, [])} for b in batches], "next_cursor": cursor}
 
 
 @app.post(PREFIX+"/batches/{ident}/revisions", status_code=202)
@@ -257,12 +274,7 @@ def revision_preview(ident: str, cursor: str | None = None, limit: int = Query(5
 
 
 def run_data(s, c, run):
-    revision = scoped(s, Revision, run.revision_id, c)
-    batch = scoped(s, Batch, revision.batch_id, c)
-    actor = s.get(User, run.created_by)
-    groups = dict(s.execute(select(Item.suggestion, func.count()).where(Item.org_id == c.org_id, Item.run_id == run.id).group_by(Item.suggestion)).all())
-    decisions = dict(s.execute(select(Item.status, func.count()).where(Item.org_id == c.org_id, Item.run_id == run.id).group_by(Item.status)).all())
-    return {**data(run), "batch_name": batch.name, "batch_id": batch.id, "supplier": batch.supplier, "revision_number": revision.number, "creator_name": actor.name, "suggestions": groups, "decisions": decisions}
+    return run_page(s, c, [run])[0]
 
 
 @app.post(PREFIX+"/runs", status_code=202)
@@ -271,14 +283,16 @@ def runs_create(body: RunInput, request: Request, s=Depends(db), c=Depends(ctx))
 
 
 @app.get(PREFIX+"/runs")
-def runs_list(status: str | None = None, q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
+def runs_list(status: str | None = None, q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), batch_id: str | None = None, s=Depends(db), c=Depends(ctx)):
     query = select(Run).where(Run.org_id == c.org_id)
+    if batch_id:
+        query = query.where(Run.revision_id.in_(select(Revision.id).where(Revision.org_id==c.org_id, Revision.batch_id==batch_id)))
     if status:
         query = query.where(Run.status == status)
     if q:
         query = query.join(Revision, (Revision.id == Run.revision_id) & (Revision.org_id == Run.org_id)).join(Batch, (Batch.id == Revision.batch_id) & (Batch.org_id == Run.org_id)).where(Batch.name.icontains(q, autoescape=True) | Batch.supplier.icontains(q, autoescape=True))
     rows, cursor = page(s, query, Run, cursor, limit)
-    return {"items": [run_data(s, c, r) for r in rows], "next_cursor": cursor}
+    return {"items": run_page(s, c, rows), "next_cursor": cursor}
 
 
 @app.get(PREFIX+"/runs/{ident}")
@@ -305,31 +319,18 @@ def retry(ident: str, request: Request, s=Depends(db), c=Depends(ctx)):
 
 
 @app.get(PREFIX+"/runs/{ident}/compare/{other_id}")
-def compare_runs(ident: str, other_id: str, s=Depends(db), c=Depends(ctx)):
+def compare_runs(ident: str, other_id: str, cursor: int = Query(0, ge=0), limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
     left, right = scoped(s, Run, ident, c), scoped(s, Run, other_id, c)
     require(scoped(s, Revision, left.revision_id, c).batch_id == scoped(s, Revision, right.revision_id, c).batch_id, 422, "INCOMPARABLE_RUNS", "请选择同一批次的运行版本")
-    def indexed(run):
-        result = {}
-        for item, source in s.execute(select(Item, Source).join(Source, (Source.id == Item.source_id) & (Source.org_id == Item.org_id)).where(Item.org_id == c.org_id, Item.run_id == run.id)):
-            best = s.scalar(select(Candidate).where(Candidate.org_id == c.org_id, Candidate.item_id == item.id, Candidate.rank == 1))
-            product = scoped(s, Product, best.product_id, c) if best else None
-            # Original row identity is explicit; edited/reordered files need manual comparison.
-            result[(source.row_no, source.sku)] = {"suggestion": item.suggestion, "status": item.status, "target_sku": product.sku if product else None, "source_hash": digest(source.raw)}
-        return result
-    a, b = indexed(left), indexed(right)
-    keys = sorted(set(a) | set(b))
-    return {"changes": [{"row_no": k[0], "sku": k[1], "before": a.get(k), "after": b.get(k)} for k in keys if a.get(k) != b.get(k)], "manifest_before": left.manifest, "manifest_after": right.manifest, "identity": "原始行号与来源编号；重排记录显示为新增或移除"}
+    return compare_versions(s, c, left, right, cursor, limit)
 
 
 def item_data(s, c, item):
-    source = scoped(s, Source, item.source_id, c)
-    candidates = s.scalars(select(Candidate).where(Candidate.org_id == c.org_id, Candidate.item_id == item.id).order_by(Candidate.rank).limit(5)).all()
-    event = scoped(s, ReviewEvent, item.current_decision_id, c) if item.current_decision_id else None
-    return {**data(item), "source": data(source), "candidates": [{**data(cand), "product": data(scoped(s, Product, cand.product_id, c))} for cand in candidates], "decision": data(event) if event else None}
+    return item_page(s, c, [item])[0]
 
 
 @app.get(PREFIX+"/runs/{ident}/items")
-def items_list(ident: str, suggestion: str | None = None, status: str | None = None, q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
+def items_list(ident: str, suggestion: str | None = None, status: str | None = None, q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx), details: bool = True):
     scoped(s, Run, ident, c)
     query = select(Item).where(Item.org_id == c.org_id, Item.run_id == ident)
     if suggestion:
@@ -338,9 +339,9 @@ def items_list(ident: str, suggestion: str | None = None, status: str | None = N
         query = query.where(Item.status == status)
     if q:
         from sqlalchemy import cast, String
-        query = query.join(Source, (Source.id == Item.source_id) & (Source.org_id == Item.org_id)).where(Source.sku.icontains(q, autoescape=True) | cast(Source.normalized, String).icontains(q, autoescape=True))
+        query = query.join(Source, (Source.id == Item.source_id) & (Source.org_id == Item.org_id)).where(Source.sku.icontains(q, autoescape=True) | Source.normalized["name"].as_string().icontains(q, autoescape=True))
     rows, cursor = page(s, query, Item, cursor, limit)
-    return {"items": [item_data(s, c, x) for x in rows], "next_cursor": cursor}
+    return {"items": (item_page if details else item_summaries)(s, c, rows), "next_cursor": cursor}
 
 
 @app.get(PREFIX+"/items/{ident}/candidates")
@@ -350,12 +351,14 @@ def candidates(ident: str, s=Depends(db), c=Depends(ctx)):
 
 
 @app.get(PREFIX+"/items/{ident}/history")
-def history(ident: str, s=Depends(db), c=Depends(ctx)):
+def history(ident: str, cursor: int | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
     item = scoped(s, Item, ident, c)
-    events = s.scalars(select(ReviewEvent).where(ReviewEvent.org_id == c.org_id, ReviewEvent.item_id == item.id).order_by(ReviewEvent.seq.desc())).all()
-    source = scoped(s, Source, item.source_id, c)
-    previous = s.execute(select(Item, Run).join(Run, (Run.id == Item.run_id) & (Run.org_id == Item.org_id)).where(Item.org_id == c.org_id, Item.source_id == source.id, Item.run_id != item.run_id).order_by(Run.created_at.desc()).limit(10)).all()
-    return {"items": [{**data(e), "actor_name": s.get(User, e.actor_id).name} for e in events], "previous_runs": [{"run_id": r.id, "status": i.status, "suggestion": i.suggestion} for i, r in previous]}
+    query = select(ReviewEvent, User.name).join(User, User.id == ReviewEvent.actor_id).where(ReviewEvent.org_id == c.org_id, ReviewEvent.item_id == item.id)
+    if cursor is not None:
+        query = query.where(ReviewEvent.seq < cursor)
+    events = s.execute(query.order_by(ReviewEvent.seq.desc()).limit(limit+1)).all()
+    previous = s.execute(select(Item, Run).join(Run, (Run.id == Item.run_id) & (Run.org_id == Item.org_id)).where(Item.org_id == c.org_id, Item.source_id == item.source_id, Item.run_id != item.run_id).order_by(Run.created_at.desc()).limit(10)).all()
+    return {"items": [{**data(e), "actor_name": name} for e, name in events[:limit]], "next_cursor": events[limit-1][0].seq if len(events)>limit else None, "previous_runs": [{"run_id": r.id, "status": i.status, "suggestion": i.suggestion} for i, r in previous]}
 
 
 @app.post(PREFIX+"/items/{ident}/decisions", status_code=201)
@@ -416,11 +419,7 @@ def export_create(ident: str, body: ExportInput, request: Request, s=Depends(db)
 @app.get(PREFIX+"/exports")
 def exports_list(cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
     rows, cursor = page(s, select(Export).where(Export.org_id == c.org_id), Export, cursor, limit)
-    result = []
-    for e in rows:
-        changed = s.scalar(select(func.count()).select_from(ExportRow).join(Item, (Item.id == ExportRow.item_id) & (Item.org_id == ExportRow.org_id)).where(ExportRow.org_id == c.org_id, ExportRow.export_id == e.id, Item.version != ExportRow.item_version))
-        result.append({**data(e, ("object_key",)), "stale": bool(changed), "changed_decisions": changed, "creator_name": s.get(User, e.created_by).name})
-    return {"items": result, "next_cursor": cursor}
+    return {"items": export_page(s, c, rows), "next_cursor": cursor}
 
 
 @app.get(PREFIX+"/exports/{ident}/download")
@@ -465,10 +464,17 @@ def policy_create(body: PolicyInput, s=Depends(db), c=Depends(ctx)):
     c.permit("admin")
     config = {**DEFAULT_POLICY, "engine": body.engine, "high_threshold": body.high_threshold, "margin": body.margin}
     if body.engine == "lightgbm":
-        model = s.get(ModelVersion, body.model_id)
-        require(model and model.status == "AVAILABLE", 409, "MODEL_NOT_READY", "模型尚未通过准入评测")
-        require(digest(Path(model.artifact_path).read_bytes()) == model.artifact_hash, 409, "MODEL_HASH_MISMATCH", "模型文件校验失败")
-        config.update({"model_path": model.artifact_path, "model_hash": model.artifact_hash, "feature_schema": model.schema_version, "calibration": model.metrics.get("calibration"), "validated": True})
+        from packages.matching.policy import admission, validate_bundle
+        evaluation = scoped(s, PolicyEvaluation, body.evaluation_id or "", c)
+        require(digest(evaluation.report) == evaluation.report_hash, 409, "REPORT_HASH_MISMATCH", "评测报告校验失败")
+        try:
+            gate = admission(evaluation.report, evaluation.config)
+        except (ValueError, KeyError, OSError) as exc:
+            raise Problem(409, "BUNDLE_INVALID", "完整策略制品校验失败") from exc
+        require(gate['eligible'], 409, "POLICY_NOT_READY", "此完整策略未通过手机业务准入", gate)
+        require(body.high_threshold == evaluation.config['high_threshold'] and body.margin == evaluation.config['margin'], 409, "POLICY_REPORT_MISMATCH", "阈值或分差变化后需要重新评测")
+        config = {**evaluation.config, "validated": True, "admission": {**gate, "evaluation_id": evaluation.id, "report_hash": evaluation.report_hash}}
+
     p = Policy(org_id=c.org_id, name=body.name, config=config)
     s.add(p)
     s.flush()
@@ -477,10 +483,13 @@ def policy_create(body: PolicyInput, s=Depends(db), c=Depends(ctx)):
 
 
 @app.get(PREFIX+"/members")
-def members(s=Depends(db), c=Depends(ctx)):
+def members(q: str = "", cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
     c.permit("admin")
-    rows = s.execute(select(Membership, User).join(User, User.id == Membership.user_id).where(Membership.org_id == c.org_id)).all()
-    return {"items": [{**data(m), "name": u.name, "email": u.email} for m, u in rows]}
+    query = select(Membership, User).join(User, User.id == Membership.user_id).where(Membership.org_id == c.org_id, User.name.icontains(q, autoescape=True) | User.email.icontains(q, autoescape=True))
+    if cursor:
+        query = query.where(Membership.id > cursor)
+    rows = s.execute(query.order_by(Membership.id).limit(limit+1)).all()
+    return {"items": [{**data(m), "name": u.name, "email": u.email} for m, u in rows[:limit]], "next_cursor": rows[limit-1][0].id if len(rows)>limit else None}
 
 
 @app.post(PREFIX+"/members", status_code=201)
@@ -514,14 +523,15 @@ def member_update(ident: str, body: MemberUpdate, s=Depends(db), c=Depends(ctx))
 def audit_list(cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
     c.permit("admin")
     rows, cursor = page(s, select(Audit).where(Audit.org_id == c.org_id), Audit, cursor, limit)
-    return {"items": [{**data(a), "actor_name": s.get(User, a.actor_id).name} for a in rows], "next_cursor": cursor}
+    names = dict(s.execute(select(Audit.id, User.name).join(User, User.id == Audit.actor_id).where(Audit.org_id == c.org_id, Audit.id.in_([a.id for a in rows]))).all())
+    return {"items": [{**data(a), "actor_name": names[a.id]} for a in rows], "next_cursor": cursor}
 
 
 @app.get(PREFIX+"/health")
 def health():
     with transaction() as s:
         s.execute(text("SELECT 1"))
-    return {"status": "ok", "version": "1.0.0"}
+    return {"status": "ok", "version": "1.1.0"}
 
 
 @app.get(PREFIX+"/readiness")
@@ -557,7 +567,181 @@ def metrics(s=Depends(db), c=Depends(ctx)):
     lines = [f'product_match_runs{{status="{status}"}} {count}' for status, count in values]
     expired = s.scalar(select(func.count()).select_from(Chunk).where(Chunk.org_id == c.org_id, Chunk.status == "RUNNING", Chunk.lease_until < time.time()))
     lines.append(f"product_match_expired_leases {expired}")
+    oldest = s.scalar(select(func.min(Outbox.created_at)).where(Outbox.org_id==c.org_id, Outbox.completed.is_(False)))
+    from datetime import datetime
+    age = max(0,time.time()-datetime.fromisoformat(oldest).timestamp()) if oldest else 0
+    lines.append(f"product_match_outbox_oldest_seconds {age}")
+    retries = s.scalar(select(func.coalesce(func.sum(Chunk.attempts-1),0)).where(Chunk.org_id==c.org_id,Chunk.attempts>1))
+    lines.append(f"product_match_chunk_retries {retries}")
+    for status,count in s.execute(select(ImportJob.status,func.count()).where(ImportJob.org_id==c.org_id).group_by(ImportJob.status)):
+        lines.append(f'product_match_imports{{status="{status}"}} {count}')
+    cleanups = s.scalar(select(func.count()).select_from(ArtifactDeletion).where(ArtifactDeletion.org_id==c.org_id,ArtifactDeletion.deleted_at.is_(None)))
+    lines.append(f"product_match_cleanup_pending {cleanups}")
+    lines.extend(telemetry.render())
     return Response("\n".join(lines)+"\n", media_type="text/plain")
+
+
+@app.post(PREFIX+"/import-jobs", status_code=202)
+def import_validate_job(body: ImportConfig, catalog: bool = False, s=Depends(db), c=Depends(ctx)):
+    c.permit('operator', 'admin')
+    file = scoped(s, File, body.file_id, c)
+    parsed_file(s, c, file)
+    return data(request_job(s, c, file, 'validate', {**body.model_dump(exclude={'exclude_rows'}), 'catalog': catalog}), ('result_key',))
+
+
+@app.get(PREFIX+"/import-jobs/{ident}")
+def import_status(ident: str, s=Depends(db), c=Depends(ctx)):
+    return data(scoped(s, ImportJob, ident, c), ('result_key',))
+
+
+@app.post(PREFIX+"/import-jobs/{ident}/retry", status_code=202)
+def import_retry(ident: str, s=Depends(db), c=Depends(ctx)):
+    c.permit('operator', 'admin')
+    job=scoped(s, ImportJob, ident, c, True)
+    require(job.status=='FAILED', 409, 'INVALID_TRANSITION', '只有失败的导入可以重试')
+    job.status, job.error, job.progress, job.lease_until = 'UPLOADED', None, 0, 0
+    event=s.scalar(select(Outbox).where(Outbox.org_id==c.org_id, Outbox.event_key=='import:'+ident))
+    event.completed, event.published_at=False, None
+    return data(job, ('result_key',))
+
+
+@app.get(PREFIX+"/import-jobs/{ident}/rows")
+def import_rows(ident: str, cursor: int = Query(0, ge=0), limit: int = Query(50, ge=1, le=100), issues_only: bool = False, download: bool = False, s=Depends(db), c=Depends(ctx)):
+    job=scoped(s, ImportJob, ident, c)
+    require(job.kind=='validate' and job.status=='READY',409,'IMPORT_NOT_READY','校验尚未完成')
+    rows=read_result(job)
+    if issues_only: rows=[r for r in rows if r['issues']]
+    rows.sort(key=lambda r:(not any(i['level']=='error' for i in r['issues']),r['row_no']))
+    if download:
+        import csv
+        from workers.jobs import safe_text
+        buf=io.StringIO(newline='');writer=csv.writer(buf);writer.writerow(['原始行号','来源编号','商品名称','问题原因'])
+        writer.writerows([[r['row_no'],safe_text(r['sku']),safe_text(r['normalized']['name']),safe_text('；'.join(i['message'] for i in r['issues']))] for r in rows])
+        return Response(buf.getvalue().encode('utf-8-sig'),media_type='text/csv',headers={'Content-Disposition':'attachment; filename="import-issues.csv"'})
+    return {'items':rows[cursor:cursor+limit], 'total':len(rows), 'next_cursor':str(cursor+limit) if cursor+limit<len(rows) else None}
+
+
+@app.get(PREFIX+"/mapping-templates")
+def template_list(supplier: str = '', cursor: str | None = None, limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
+    query=select(MappingTemplate).where(MappingTemplate.org_id==c.org_id)
+    if supplier: query=query.where(MappingTemplate.supplier.icontains(supplier,autoescape=True))
+    rows,cursor=page(s,query,MappingTemplate,cursor,limit)
+    return {'items':[data(r) for r in rows],'next_cursor':cursor}
+
+
+@app.post(PREFIX+"/mapping-templates", status_code=201)
+def template_save(body: TemplateInput, s=Depends(db), c=Depends(ctx)):
+    c.permit('operator','admin')
+    require(body.mapping and all(k in FIELDS and v in body.headers for k,v in body.mapping.items()) and len(set(body.mapping.values()))==len(body.mapping),422,'INVALID_MAPPING','映射包含未知列或重复列')
+    query=select(MappingTemplate).where(MappingTemplate.org_id==c.org_id,MappingTemplate.supplier==body.supplier,MappingTemplate.name==body.name)
+    latest=s.scalar(query.order_by(MappingTemplate.number.desc()))
+    if latest and latest.mapping==body.mapping and latest.headers==body.headers: return data(latest)
+    row=MappingTemplate(org_id=c.org_id,**body.model_dump(),number=(latest.number if latest else 0)+1,created_by=c.user_id)
+    s.add(row);s.flush();audit(s,c,'mapping_template.create',row.id)
+    return data(row)
+
+
+@app.get(PREFIX+"/runs/{ident}/problems")
+def problems(ident: str, cursor: str | None = None, limit: int = Query(50, ge=1, le=100), download: bool = False, s=Depends(db), c=Depends(ctx)):
+    run=scoped(s,Run,ident,c)
+    query=select(Item).where(Item.org_id==c.org_id,Item.run_id==ident,(Item.status=='NEEDS_INFO') | Item.suggestion.in_(['CONFLICT','REVIEW','NO_CANDIDATE']))
+    if download:
+        import csv
+        from workers.jobs import safe_text
+        revision=scoped(s,Revision,run.revision_id,c)
+        rows=s.execute(select(Item,Source).join(Source,(Source.org_id==Item.org_id)&(Source.id==Item.source_id)).where(Item.org_id==c.org_id,Item.run_id==ident,(Item.status=='NEEDS_INFO') | Item.suggestion.in_(['CONFLICT','REVIEW','NO_CANDIDATE'])).order_by(Source.row_no))
+        buf=io.StringIO(newline='');writer=csv.writer(buf);writer.writerow(['source_id','原始行号',*FIELDS,'问题原因','资料来源'])
+        for item,src in rows:
+            values=source_fields(src,revision)
+            writer.writerow([src.id,src.row_no,*[safe_text(values.get(k,'')) for k in FIELDS],safe_text('；'.join(i['message'] for i in src.issues) or item.suggestion),''])
+        return Response(buf.getvalue().encode('utf-8-sig'),media_type='text/csv',headers={'Content-Disposition':'attachment; filename="corrections.csv"'})
+    total=s.scalar(select(func.count()).select_from(query.subquery()))
+    rows,cursor=page(s,query,Item,cursor,limit)
+    return {'items':item_page(s,c,rows),'next_cursor':cursor,'total':total}
+
+
+@app.get(PREFIX+"/runs/{ident}/corrections")
+def drafts_list(ident: str, s=Depends(db), c=Depends(ctx)):
+    scoped(s,Run,ident,c);c.permit('operator','admin')
+    rows=s.scalars(select(CorrectionDraft).where(CorrectionDraft.org_id==c.org_id,CorrectionDraft.run_id==ident,CorrectionDraft.actor_id==c.user_id).order_by(CorrectionDraft.updated_at.desc()))
+    return {'items':[data(r) for r in rows]}
+
+
+@app.put(PREFIX+"/runs/{ident}/corrections/{source_id}")
+def draft_save(ident: str, source_id: str, body: CorrectionInput, s=Depends(db), c=Depends(ctx)):
+    draft,preview=save_draft(s,c,scoped(s,Run,ident,c),scoped(s,Source,source_id,c),body.fields,body.evidence,body.expected_version)
+    return {**data(draft),'preview':preview}
+
+
+@app.post(PREFIX+"/runs/{ident}/corrections/submit", status_code=202)
+def draft_submit(ident: str, body: CorrectionSubmit, request: Request, s=Depends(db), c=Depends(ctx)):
+    run=scoped(s,Run,ident,c)
+    return idempotent(s,c,'correction-submit:'+ident,request.headers.get('idempotency-key'),body.model_dump(),lambda:submit_drafts(s,c,run,body.draft_ids))
+
+
+@app.get(PREFIX+"/policy-evaluations")
+def policy_evaluations(s=Depends(db), c=Depends(ctx)):
+    c.permit('admin')
+    return {'items':[data(e) for e in s.scalars(select(PolicyEvaluation).where(PolicyEvaluation.org_id==c.org_id).order_by(PolicyEvaluation.created_at.desc()))]}
+
+
+@app.post(PREFIX+"/runs/{ident}/shadow", status_code=202)
+def shadow_create(ident: str, body: ShadowInput, request: Request, s=Depends(db), c=Depends(ctx)):
+    c.permit('admin');run=scoped(s,Run,ident,c)
+    require(run.status=='SUCCEEDED',409,'RUN_NOT_READY','请选择成功运行')
+    evaluation=scoped(s,PolicyEvaluation,body.evaluation_id,c)
+    from packages.matching.policy import validate_bundle
+    try:validate_bundle(evaluation.config)
+    except (ValueError,KeyError,OSError) as exc:raise Problem(409,'BUNDLE_INVALID','策略制品校验失败') from exc
+    def operation():
+        row=ShadowRun(id=uid(),org_id=c.org_id,run_id=ident,evaluation_id=evaluation.id)
+        s.add(row);s.flush()
+        s.add(Outbox(org_id=c.org_id,event_key='shadow:'+row.id,kind='shadow',resource_id=row.id))
+        return data(row)
+    return idempotent(s,c,'shadow:'+ident,request.headers.get('idempotency-key'),body.model_dump(),operation)
+
+
+@app.get(PREFIX+"/shadow-runs/{ident}")
+def shadow_status(ident: str,s=Depends(db),c=Depends(ctx)):
+    c.permit('admin');return data(scoped(s,ShadowRun,ident,c))
+
+
+@app.post(PREFIX+"/usage-events",status_code=201)
+def usage(body: UsageInput,s=Depends(db),c=Depends(ctx)):
+    run=scoped(s,Run,body.run_id,c)
+    if body.item_id:require(scoped(s,Item,body.item_id,c).run_id==run.id,404,'NOT_FOUND','记录不存在')
+    row=UsageEvent(org_id=c.org_id,actor_id=c.user_id,**body.model_dump());s.add(row)
+    return {'ok':True}
+
+
+@app.get(PREFIX+"/usage-events")
+def usage_report(run_id: str, s=Depends(db), c=Depends(ctx)):
+    c.permit('admin');scoped(s,Run,run_id,c)
+    from statistics import median
+    events=s.scalars(select(UsageEvent).where(UsageEvent.org_id==c.org_id,UsageEvent.run_id==run_id)).all()
+    times=[e.duration_ms for e in events if e.event=='review' and e.duration_ms is not None]
+    return {'events':len(events),'review_median_ms':median(times) if times else None,'search_count':sum(e.event=='search' for e in events),'correction_count':sum(e.event=='correction' for e in events),'participants':len({e.actor_id for e in events}),'scope':'操作遥测；误确认及人工对照须独立核验'}
+
+
+@app.get(PREFIX+"/operations")
+def operations(s=Depends(db), c=Depends(ctx)):
+    c.permit('admin')
+    from datetime import datetime
+    pending=s.scalar(select(func.count()).select_from(Outbox).where(Outbox.org_id==c.org_id,Outbox.completed.is_(False)))
+    oldest=s.scalar(select(func.min(Outbox.created_at)).where(Outbox.org_id==c.org_id,Outbox.completed.is_(False)))
+    age=max(0,time.time()-datetime.fromisoformat(oldest).timestamp()) if oldest else 0
+    expired=s.scalar(select(func.count()).select_from(Chunk).where(Chunk.org_id==c.org_id,Chunk.status=='RUNNING',Chunk.lease_until<time.time()))
+    no_heartbeat=s.scalar(select(func.count()).select_from(Chunk).where(Chunk.org_id==c.org_id,Chunk.status=='RUNNING',Chunk.lease_until<time.time()-180))
+    cleanup=s.scalar(select(func.count()).select_from(ArtifactDeletion).where(ArtifactDeletion.org_id==c.org_id,ArtifactDeletion.deleted_at.is_(None)))
+    errors=[{'reason':reason,'count':count} for reason,count in s.execute(select(ImportJob.error,func.count()).where(ImportJob.org_id==c.org_id,ImportJob.status=='FAILED').group_by(ImportJob.error))]
+    timings={k:0 for k in ('queue_seconds','index_seconds','matching_seconds','persistence_prepare_seconds','lease_recoveries')}
+    for values in s.scalars(select(Run.timings).where(Run.org_id==c.org_id)):
+        for k in timings:timings[k]+=values.get(k,0)
+    alerts=[]
+    if age>300:alerts.append('后台最老未完成事件超过 5 分钟，请检查调度器及依赖状态')
+    if no_heartbeat:alerts.append('存在 5 分钟未续租的任务，请检查 Worker')
+    if cleanup:alerts.append('存在待清理的到期文件，请查看清理队列和存储状态')
+    return {'outbox_pending':pending,'oldest_outbox_seconds':age,'expired_leases':expired,'cleanup_pending':cleanup,'imports':dict(s.execute(select(ImportJob.status,func.count()).where(ImportJob.org_id==c.org_id).group_by(ImportJob.status)).all()),'import_errors':errors,'timings':timings,'alerts':alerts}
 
 
 static = ROOT / "apps/web/dist"

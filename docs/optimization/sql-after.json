@@ -1,0 +1,41 @@
+{
+  "scope": "10,000 item SQLite run, core handler SQL excludes four authentication queries; one observation/page while HTTP workload is running",
+  "measurements": [
+    {
+      "limit": 10,
+      "returned": 10,
+      "business_sql": 6,
+      "elapsed_ms": 10.30804100446403
+    },
+    {
+      "limit": 100,
+      "returned": 100,
+      "business_sql": 6,
+      "elapsed_ms": 43.3307079365477
+    }
+  ],
+  "explain": [
+    [
+      5,
+      0,
+      61,
+      "SEARCH match_items USING INDEX ix_items_run_page (org_id=? AND run_id=?)"
+    ]
+  ],
+  "summary_measurements": [
+    {
+      "limit": 10,
+      "returned": 10,
+      "business_sql": 3,
+      "elapsed_ms": 3.3385000424459577,
+      "json_bytes": 6540
+    },
+    {
+      "limit": 100,
+      "returned": 100,
+      "business_sql": 3,
+      "elapsed_ms": 3.0247080139815807,
+      "json_bytes": 64732
+    }
+  ]
+}

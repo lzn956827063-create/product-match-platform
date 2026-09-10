@@ -16,7 +16,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score, f1_score, precision_score, recall_score
 from sklearn.model_selection import GroupShuffleSplit
 
-from packages.matching.engine import FEATURE_NAMES, FEATURE_VERSION, features, rule_score
+from packages.matching.engine import FEATURE_NAMES, FEATURE_VERSION, features, frozen_pair_features, rule_score
 from packages.matching.normalize import RULE_VERSION, digest, normalize
 
 
@@ -74,7 +74,7 @@ def main(data_dir,output):
         xs=[];ys=[];baseline=[];groups=[]
         for r in rows:
             lid,rid=r['ltable_id'],r['rtable_id'];sim=float(lv[lid].multiply(rv[rid]).sum())
-            fs=features(left[lid],right[rid],sim)
+            fs=frozen_pair_features(left[lid], [right[rid]], tfidf, rv[rid])[0]
             xs.append([fs[k] for k in FEATURE_NAMES]);baseline.append(rule_score(fs));ys.append(int(r['label']));groups.append(lid)
         arrays[split]=(np.array(xs),np.array(ys),np.array(baseline),np.array(groups))
     xtr,ytr,_,_=arrays['train'];xv,yv,bv,gv=arrays['valid'];xt,yt,bt,gt=arrays['test']

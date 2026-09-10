@@ -4,10 +4,10 @@ import json
 import shutil
 import sqlite3
 from pathlib import Path
-from sqlalchemy import select
-from packages.domain.config import DATA_DIR,DATABASE_URL,ROOT,STORAGE_BACKEND
-from packages.domain.db import transaction
-from packages.domain.models import File,Export
+from sqlalchemy import select,inspect
+from packages.domain.config import DATA_DIR,DATABASE_URL,ROOT,STORAGE_BACKEND,MODEL_DIR
+from packages.domain.db import transaction,engine
+from packages.domain.models import File,Export,ImportJob,ArtifactDeletion
 from packages.matching.normalize import digest
 
 
@@ -17,18 +17,25 @@ def create(destination):
     if not DATABASE_URL.startswith('sqlite') or STORAGE_BACKEND!='local':raise ValueError('Use the documented PostgreSQL/MinIO backup procedure for Compose')
     destination.mkdir(parents=True,mode=0o700)
     with transaction(write=True) as s:
-        src=sqlite3.connect(str(DATA_DIR/'app.db'));dst=sqlite3.connect(str(destination/'app.db'))
+        src=sqlite3.connect(str(engine.url.database));dst=sqlite3.connect(str(destination/'app.db'))
         try:src.backup(dst)
         finally:src.close();dst.close()
         shutil.copytree(DATA_DIR/'objects',destination/'objects',dirs_exist_ok=True)
         if (DATA_DIR/'session.key').exists():shutil.copy2(DATA_DIR/'session.key',destination/'session.key')
-        shutil.copytree(ROOT/'models',destination/'models',dirs_exist_ok=True)
+        shutil.copytree(MODEL_DIR,destination/'models',dirs_exist_ok=True)
+        if (ROOT/'ml/datasets').exists():shutil.copytree(ROOT/'ml/datasets',destination/'datasets')
+        from packages.domain.services import release_hashes
+        from packages.matching.normalize import RULE_VERSION
+        (destination/'runtime-config.json').write_text(json.dumps({'storage_backend':'local','database_backend':'sqlite','model_dir':'models','rule_version':RULE_VERSION,'release':release_hashes()},indent=2))
         refs={f.object_key:f.sha256 for f in s.scalars(select(File))}
-        refs.update({e.object_key:e.file_hash for e in s.scalars(select(Export).where(Export.status=='SUCCEEDED'))})
+        tables=set(inspect(engine).get_table_names())
+        deleted={r.export_id for r in s.scalars(select(ArtifactDeletion).where(ArtifactDeletion.deleted_at.is_not(None)))} if 'artifact_deletions' in tables else set()
+        refs.update({e.object_key:e.file_hash for e in s.scalars(select(Export).where(Export.status=='SUCCEEDED')) if e.id not in deleted})
+        if 'import_jobs' in tables:refs.update({j.result_key:j.result_hash for j in s.scalars(select(ImportJob).where(ImportJob.result_key.is_not(None)))})
     files={str(p.relative_to(destination)):digest(p.read_bytes()) for p in destination.rglob('*') if p.is_file()}
     for key,expected in refs.items():
         if files.get('objects/'+key)!=expected:raise ValueError('Referenced object verification failed')
-    manifest={'files':files,'referenced_objects':len(refs),'database':'SQLite consistent online backup','restore':'Restore to a fresh directory, point DATA_DIR at it; restore model bundle to the recorded release path.'}
+    manifest={'files':files,'referenced_objects':len(refs),'database':'SQLite consistent online backup','restore':'Restore to a fresh directory, point DATA_DIR at it; set MODEL_DIR to <restored>/models; artifacts use stable relative IDs.'}
     (destination/'manifest.json').write_text(json.dumps(manifest,indent=2));return manifest
 
 

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from sqlalchemy import select
 from packages.domain.db import initialize, transaction
+from packages.domain.config import MODEL_DIR
 from packages.domain.models import ModelVersion
 from packages.matching.normalize import digest
 
@@ -12,8 +13,10 @@ def register(path):
     assert digest(artifact.read_bytes())==metrics['model_sha256']
     with transaction(write=True) as s:
         old=s.scalar(select(ModelVersion).where(ModelVersion.artifact_hash==metrics['model_sha256']))
-        if old:return old.id
-        model=ModelVersion(name=path.name,artifact_path=str(artifact),artifact_hash=metrics['model_sha256'],schema_version=metrics['feature_schema'],metrics=metrics,status='EXPERIMENTAL')
+        if old:
+            old.artifact_path=str(artifact.relative_to(MODEL_DIR))
+            return old.id
+        model=ModelVersion(name=path.name,artifact_path=str(artifact.relative_to(MODEL_DIR)),artifact_hash=metrics['model_sha256'],schema_version=metrics['feature_schema'],metrics=metrics,status='EXPERIMENTAL')
         s.add(model);s.flush();return model.id
 
 

@@ -1,0 +1,23 @@
+# Dedicated acceptance deployment: steady-state CPU ceilings sum to 4, memory <16 GiB.
+services:
+  worker:
+    cpus: 2.0
+    mem_limit: 6g
+  api:
+    cpus: 0.75
+    mem_limit: 2g
+  postgres:
+    cpus: 0.5
+    mem_limit: 3g
+  redis:
+    cpus: 0.125
+    mem_limit: 512m
+  minio:
+    cpus: 0.25
+    mem_limit: 3g
+  dispatcher:
+    cpus: 0.125
+    mem_limit: 256m
+  web:
+    cpus: 0.25
+    mem_limit: 128m

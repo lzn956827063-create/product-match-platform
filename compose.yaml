@@ -16,7 +16,7 @@ x-backend: &backend
     S3_BUCKET: product-match
     ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
     COOKIE_SECURE: ${COOKIE_SECURE:-false}
-    CODE_VERSION: 1.0.0
+    CODE_VERSION: 1.1.0
   volumes:
     - app-data:/data
   restart: unless-stopped

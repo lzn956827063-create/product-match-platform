@@ -1,0 +1,29 @@
+{
+  "scope": "Local SQLite database dispatcher semantics, actual SIGKILL and natural 120-second lease; not Celery/Redis/PostgreSQL evidence",
+  "timeline": [
+    {
+      "event": "worker_sigkill",
+      "time": 1789014306.077719,
+      "pid": 47181,
+      "returncode": -9
+    },
+    {
+      "event": "natural_lease_expiry",
+      "time": 1789014426.0397382
+    },
+    {
+      "event": "recovery_observed",
+      "time": 1789014426.961128,
+      "token": 2
+    }
+  ],
+  "lease_was_manually_modified": false,
+  "recovery_observed_seconds_after_kill": 120.88340902328491,
+  "target_seconds": 180,
+  "status": "SUCCEEDED",
+  "total": 29,
+  "items": 29,
+  "unique_sources": 29,
+  "old_fence_rejected": true,
+  "duplicate_delivery_no_duplicate_items": true
+}

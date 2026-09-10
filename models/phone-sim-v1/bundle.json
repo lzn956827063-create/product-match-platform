@@ -1,0 +1,60 @@
+{
+  "engine": "lightgbm",
+  "high_threshold": 0.9,
+  "margin": 0.08,
+  "rule_version": "phone-cn-1.0.0",
+  "feature_schema": "pair-features-1.0.0",
+  "category": "phone",
+  "validated": false,
+  "feature_names": [
+    "name_ratio",
+    "name_tokens",
+    "tfidf",
+    "brand_same",
+    "brand_conflict",
+    "brand_missing",
+    "model_same",
+    "model_conflict",
+    "model_missing",
+    "ram_same",
+    "ram_conflict",
+    "ram_missing",
+    "storage_same",
+    "storage_conflict",
+    "storage_missing",
+    "color_same",
+    "color_conflict",
+    "color_missing",
+    "region_same",
+    "region_conflict",
+    "region_missing",
+    "pack_count_same",
+    "pack_count_conflict",
+    "pack_count_missing",
+    "coverage"
+  ],
+  "normalizer_hash": "cf41aa508dab250dd09f68c6b4e159625ecfcf8204737a7ab5ee2782d3572b97",
+  "scoring_code_hash": "c654a9d936d8e6814514e0cdb94b154c61321e159b8df8b999ee268c5e6460b4",
+  "retrieval": {
+    "version": "char-tfidf-2-4-v2",
+    "candidate_budget": 20,
+    "ngram_range": [
+      2,
+      4
+    ],
+    "max_features": 150000,
+    "minimum_similarity": 0.08,
+    "model_boost": 0.25
+  },
+  "calibration": {
+    "coef": 0.8358776205913815,
+    "intercept": -0.03766641743021459
+  },
+  "evaluation_dataset_hash": "137fc657671c7a481f04a3d445cf4a755d56ccf2a2fd6d1951290d8b2270b346",
+  "evaluation_dataset_version": "phone-sim-v1",
+  "model_artifact": "phone-sim-v1/model.txt",
+  "model_hash": "d43809950e6b5afb4a782b5168c55120cedfbbbd3701f471948c7f9b6066f21a",
+  "vectorizer_artifact": "phone-sim-v1/tfidf.joblib",
+  "vectorizer_hash": "ff4d3fc2c0d7381ade8820eb4f169397b64a9b6b3c8e795c3929b4c04db93c0b",
+  "bundle_hash": "dbb011350dc449fe87718cf510eb4deb921cd1610ec2f6bf435861827c2dd432"
+}

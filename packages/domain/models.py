@@ -197,7 +197,7 @@ class Item(Tenant, Base):
     status: Mapped[str] = mapped_column(String(30), default="PENDING")
     current_decision_id: Mapped[str | None] = mapped_column(String(36))
     version: Mapped[int] = mapped_column(Integer, default=0)
-    __table_args__ = tenant_constraints(ref("match_runs", "run_id"), ref("source_records", "source_id"), UniqueConstraint("org_id", "run_id", "source_id"), Index("ix_items_filter", "org_id", "run_id", "suggestion", "id"))
+    __table_args__ = tenant_constraints(ref("match_runs", "run_id"), ref("source_records", "source_id"), UniqueConstraint("org_id", "run_id", "source_id"), Index("ix_items_filter", "org_id", "run_id", "suggestion", "id"), Index("ix_items_run_page", "org_id", "run_id", "id"), Index("ix_items_status_page", "org_id", "run_id", "status", "id"))
 
 
 class Candidate(Tenant, Base):
@@ -296,3 +296,94 @@ class Idempotency(Tenant, Base):
 class Scheduler(Base):
     __tablename__ = "scheduler_locks"
     id: Mapped[str] = mapped_column(String(30), primary_key=True)
+
+
+class ImportJob(Tenant, Base):
+    __tablename__ = "import_jobs"
+    file_id: Mapped[str] = mapped_column(String(36))
+    kind: Mapped[str] = mapped_column(String(20))
+    cache_key: Mapped[str] = mapped_column(String(64))
+    config: Mapped[dict] = mapped_column(JSON, default=dict)
+    status: Mapped[str] = mapped_column(String(30), default="UPLOADED")
+    progress: Mapped[int] = mapped_column(Integer, default=0)
+    result_key: Mapped[str | None] = mapped_column(Text)
+    result_hash: Mapped[str | None] = mapped_column(String(64))
+    summary: Mapped[dict] = mapped_column(JSON, default=dict)
+    error: Mapped[str | None] = mapped_column(Text)
+    lease_until: Mapped[float] = mapped_column(Float, default=0)
+    fence_token: Mapped[int] = mapped_column(Integer, default=0)
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    __table_args__ = tenant_constraints(ref("files", "file_id"), UniqueConstraint("org_id", "kind", "cache_key"))
+
+
+class MappingTemplate(Tenant, Base):
+    __tablename__ = "mapping_templates"
+    supplier: Mapped[str] = mapped_column(String(200))
+    name: Mapped[str] = mapped_column(String(200))
+    number: Mapped[int] = mapped_column(Integer)
+    headers: Mapped[list] = mapped_column(JSON)
+    mapping: Mapped[dict] = mapped_column(JSON)
+    created_by: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    __table_args__ = tenant_constraints(UniqueConstraint("org_id", "supplier", "name", "number"))
+
+
+class CorrectionDraft(Tenant, Base):
+    __tablename__ = "correction_drafts"
+    run_id: Mapped[str] = mapped_column(String(36))
+    source_id: Mapped[str] = mapped_column(String(36))
+    actor_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    fields: Mapped[dict] = mapped_column(JSON)
+    evidence: Mapped[str] = mapped_column(Text)
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    updated_at: Mapped[str] = mapped_column(String(40), default=now)
+    submitted_revision_id: Mapped[str | None] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(ref("match_runs", "run_id"), ref("source_records", "source_id"), ref("batch_revisions", "submitted_revision_id"), UniqueConstraint("org_id", "run_id", "source_id", "actor_id"))
+
+
+class RevisionLineage(Tenant, Base):
+    __tablename__ = "revision_lineage"
+    revision_id: Mapped[str] = mapped_column(String(36))
+    parent_revision_id: Mapped[str] = mapped_column(String(36))
+    parent_run_id: Mapped[str] = mapped_column(String(36))
+    source_links: Mapped[dict] = mapped_column(JSON)
+    mode: Mapped[str] = mapped_column(String(30), default="correction_subset")
+    __table_args__ = tenant_constraints(ref("batch_revisions", "revision_id"), ref("batch_revisions", "parent_revision_id"), ref("match_runs", "parent_run_id"), UniqueConstraint("org_id", "revision_id"))
+
+
+class PolicyEvaluation(Tenant, Base):
+    __tablename__ = "policy_evaluations"
+    name: Mapped[str] = mapped_column(String(200))
+    config: Mapped[dict] = mapped_column(JSON)
+    report: Mapped[dict] = mapped_column(JSON)
+    report_hash: Mapped[str] = mapped_column(String(64))
+    __table_args__ = tenant_constraints()
+
+
+class ShadowRun(Tenant, Base):
+    __tablename__ = "shadow_runs"
+    run_id: Mapped[str] = mapped_column(String(36))
+    evaluation_id: Mapped[str] = mapped_column(String(36))
+    status: Mapped[str] = mapped_column(String(30), default="QUEUED")
+    report: Mapped[dict] = mapped_column(JSON, default=dict)
+    error: Mapped[str | None] = mapped_column(Text)
+    __table_args__ = tenant_constraints(ref("match_runs", "run_id"), ref("policy_evaluations", "evaluation_id"))
+
+
+class ArtifactDeletion(Tenant, Base):
+    __tablename__ = "artifact_deletions"
+    export_id: Mapped[str] = mapped_column(String(36))
+    deleted_at: Mapped[str | None] = mapped_column(String(40))
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    error: Mapped[str | None] = mapped_column(Text)
+    __table_args__ = tenant_constraints(ref("exports", "export_id"), UniqueConstraint("org_id", "export_id"))
+
+
+class UsageEvent(Tenant, Base):
+    __tablename__ = "usage_events"
+    actor_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    run_id: Mapped[str] = mapped_column(String(36))
+    item_id: Mapped[str | None] = mapped_column(String(36))
+    event: Mapped[str] = mapped_column(String(40))
+    duration_ms: Mapped[int | None] = mapped_column(Integer)
+    trial_id: Mapped[str | None] = mapped_column(String(100))
+    __table_args__ = tenant_constraints(ref("match_runs", "run_id"), ref("match_items", "item_id"))

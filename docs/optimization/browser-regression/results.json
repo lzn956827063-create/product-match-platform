@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "operator login",
+    "upload + mapping + explicit exclusions + worker completion",
+    "operator review disabled",
+    "reviewer confirmation",
+    "hard conflicts visible and confirmation disabled",
+    "return for information",
+    "manual catalog search",
+    "snapshot export + authorized download",
+    "revoke decision",
+    "old export stale marker",
+    "admin member management",
+    "390px responsive viewport without page overflow"
+  ],
+  "errors": [],
+  "at": "2026-09-10T04:59:37.049Z"
+}

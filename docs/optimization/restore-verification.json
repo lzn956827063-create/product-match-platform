@@ -1,0 +1,16 @@
+{
+  "scope": "Local SQLite restoration to a fresh directory; no production RPO/RTO claim",
+  "checks": {
+    "tenant_isolation": true,
+    "run_read": true,
+    "history_preserved": true,
+    "download_preserved": true,
+    "portable_model_and_vectorizer": true
+  },
+  "verified_files_before_open": 23,
+  "referenced_objects": 6,
+  "restored_history_events": 3,
+  "restored_policy_evaluations": 1,
+  "model_resolution": "MODEL_DIR/<stable-artifact-id>",
+  "database_and_objects": "SQLite consistent online backup under application write lock"
+}

@@ -50,10 +50,12 @@ def start_run(run_id):
             cancel_locked(s, run)
             return None
         if run.status == "QUEUED":
+            from datetime import datetime
             active = s.scalars(select(Run).where(Run.status.in_(["RUNNING", "CANCEL_REQUESTED"]))).all()
             if len(active) >= 2 or any(r.org_id == run.org_id for r in active):
                 return None
             run.status, run.started_at = "RUNNING", now()
+            run.timings = {**run.timings, "queue_seconds":max(0,time.time()-datetime.fromisoformat(run.created_at).timestamp())}
         return {"id": run.id, "org_id": run.org_id, "catalog_version_id": run.catalog_version_id, "manifest": run.manifest}
 
 
@@ -69,6 +71,9 @@ def claim_chunk(run_id):
         for c in chunks:
             if c.status == "DONE" or c.retry_after > time.time() or (c.status == "RUNNING" and c.lease_until > time.time()):
                 continue
+            if c.status == "RUNNING":
+                run.timings = {**run.timings, "lease_recoveries":run.timings.get("lease_recoveries",0)+1}
+                log.info("lease_recovered run_id=%s chunk_id=%s old_token=%s",run.id,c.id,c.fence_token)
             c.status, c.lease_until, c.fence_token, c.attempts = "RUNNING", time.time()+LEASE_SECONDS, c.fence_token+1, c.attempts+1
             return {"id": c.id, "org_id": c.org_id, "run_id": run.id, "source_ids": c.source_ids, "token": c.fence_token, "attempts": c.attempts}
         if all(c.status == "DONE" for c in chunks):
@@ -88,6 +93,7 @@ def renew(claim):
 
 
 def commit_chunk(claim, results, seconds):
+    persistence_started=time.perf_counter()
     with transaction(write=True) as s:
         run = s.scalar(select(Run).where(Run.id == claim["run_id"], Run.org_id == claim["org_id"]).with_for_update())
         c = s.scalar(select(Chunk).where(Chunk.id == claim["id"], Chunk.org_id == claim["org_id"]).with_for_update())
@@ -109,6 +115,7 @@ def commit_chunk(claim, results, seconds):
         if not remaining:
             run.status, run.finished_at = "SUCCEEDED", now()
             complete_outbox(s, "match", run.id)
+        run.timings={**run.timings,"persistence_prepare_seconds":run.timings.get("persistence_prepare_seconds",0)+time.perf_counter()-persistence_started}
         return True
 
 

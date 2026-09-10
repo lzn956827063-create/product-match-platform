@@ -38,6 +38,21 @@ def load_model(path, expected_hash):
     return Booster(model_file=path)
 
 
+def frozen_pair_features(source, targets, vectorizer, target_matrix=None):
+    """Used by offline training/evaluation and online scoring, with frozen IDF."""
+    matrix = target_matrix if target_matrix is not None else vectorizer.transform([t["search_text"] for t in targets])
+    similarities = (vectorizer.transform([source["search_text"]]) @ matrix.T).toarray().ravel()
+    return [features(source, target, float(sim)) for target, sim in zip(targets, similarities)]
+
+
+@lru_cache(maxsize=4)
+def load_vectorizer(path, expected_hash):
+    import joblib
+    if digest(Path(path).read_bytes()) != expected_hash:
+        raise ValueError("VECTORIZER_HASH_MISMATCH")
+    return joblib.load(path)
+
+
 class Matcher:
     def __init__(self, products, policy=None):
         self.products = products
@@ -46,6 +61,13 @@ class Matcher:
         corpus = [p["normalized"]["search_text"] or "未知" for p in products]
         self.matrix = self.vectorizer.fit_transform(corpus) if corpus else None
         self.transposed = self.matrix.T.tocsr() if corpus else None
+        self.scoring_vectorizer = None
+        self.scoring_matrix = None
+        if self.policy["engine"] == "lightgbm":
+            from .policy import artifact_path, validate_bundle
+            validate_bundle(self.policy)
+            self.scoring_vectorizer = load_vectorizer(str(artifact_path(self.policy["vectorizer_artifact"])), self.policy["vectorizer_hash"])
+            self.scoring_matrix = self.scoring_vectorizer.transform(corpus) if corpus else None
         self.by_model = {}
         for i, p in enumerate(products):
             m = p["normalized"].get("model")
@@ -67,17 +89,19 @@ class Matcher:
         eligible = np.union1d(eligible, exact).astype(np.int64)
         # Stable vectorized ordering avoids sorting tens of thousands of Python objects per query.
         indexes = eligible[np.lexsort((eligible, -retrieval_scores[eligible]))[:20]]
+        scored_features = frozen_pair_features(source, [self.products[i]["normalized"] for i in indexes], self.scoring_vectorizer, self.scoring_matrix[indexes]) if self.scoring_vectorizer is not None and len(indexes) else None
         rows = []
-        for i in indexes:
+        for pos, i in enumerate(indexes):
             p = self.products[i]
-            f = features(source, p["normalized"], float(similarities[i]))
+            f = scored_features[pos] if scored_features is not None else features(source, p["normalized"], float(similarities[i]))
             ev, conflicts, missing = compare(source, p["normalized"])
-            score = rule_score(f)
+            score = .65*f["tfidf"] + .35*sum(f[k+"_same"] for k in REQUIRED)/len(REQUIRED) if self.policy["engine"] == "text_constraints" else rule_score(f)
             rows.append({"product_id": p["id"], "score": score, "features": f, "evidence": ev, "conflicts": conflicts, "missing": missing})
         if rows and self.policy["engine"] == "lightgbm":
             if self.policy.get("feature_schema") != FEATURE_VERSION:
                 raise ValueError("FEATURE_SCHEMA_MISMATCH")
-            model = load_model(self.policy["model_path"], self.policy["model_hash"])
+            from .policy import artifact_path
+            model = load_model(str(artifact_path(self.policy["model_artifact"])), self.policy["model_hash"])
             scores = model.predict(np.array([[r["features"][f] for f in FEATURE_NAMES] for r in rows]), num_threads=1)
             calibration = self.policy.get("calibration")
             if calibration:

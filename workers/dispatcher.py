@@ -4,7 +4,7 @@ from sqlalchemy import or_, select
 from packages.domain.config import QUEUE_MODE
 from packages.domain.db import initialize, transaction
 from packages.domain.models import Outbox
-from workers.jobs import process_export, process_run
+from workers.routing import execute_job
 
 
 def dispatch_once():
@@ -15,7 +15,7 @@ def dispatch_once():
             from workers.tasks import execute
             execute.apply_async(args=[kind, resource_id], task_id=event_id)
         else:
-            (process_run if kind == "match" else process_export)(resource_id)
+            execute_job(kind, resource_id)
         # Crash here is safe: the same event will be delivered again.
         with transaction(write=True) as s:
             event = s.get(Outbox, event_id)
@@ -26,8 +26,12 @@ def dispatch_once():
 def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s %(message)s')
     initialize()
+    cleanup_at = 0
     while True:
         try:
+            if time.time()-cleanup_at > 3600:
+                from workers.maintenance import schedule_cleanup
+                schedule_cleanup(); cleanup_at=time.time()
             dispatch_once()
         except Exception as exc:
             logging.getLogger("dispatcher").error("dispatch_failed error_type=%s; durable outbox retained", type(exc).__name__)

@@ -1,0 +1,71 @@
+{
+  "feature_schema": "pair-features-1.0.0",
+  "feature_names": [
+    "name_ratio",
+    "name_tokens",
+    "tfidf",
+    "brand_same",
+    "brand_conflict",
+    "brand_missing",
+    "model_same",
+    "model_conflict",
+    "model_missing",
+    "ram_same",
+    "ram_conflict",
+    "ram_missing",
+    "storage_same",
+    "storage_conflict",
+    "storage_missing",
+    "color_same",
+    "color_conflict",
+    "color_missing",
+    "region_same",
+    "region_conflict",
+    "region_missing",
+    "pack_count_same",
+    "pack_count_conflict",
+    "pack_count_missing",
+    "coverage"
+  ],
+  "rule_version": "phone-cn-1.0.0",
+  "model_sha256": "d43809950e6b5afb4a782b5168c55120cedfbbbd3701f471948c7f9b6066f21a",
+  "tfidf_sha256": "ff4d3fc2c0d7381ade8820eb4f169397b64a9b6b3c8e795c3929b4c04db93c0b",
+  "calibration": {
+    "coef": 0.8358776205913815,
+    "intercept": -0.03766641743021459
+  },
+  "status": "EXPERIMENTAL",
+  "scope": "controlled_simulation",
+  "training_sample_counts": {
+    "positive": 318,
+    "hard_negative": 1414,
+    "random_negative": 742
+  },
+  "trials": [
+    {
+      "leaves": 7,
+      "depth": 4,
+      "tuning_ap": 1.0
+    },
+    {
+      "leaves": 7,
+      "depth": 6,
+      "tuning_ap": 1.0
+    },
+    {
+      "leaves": 15,
+      "depth": 4,
+      "tuning_ap": 1.0
+    },
+    {
+      "leaves": 15,
+      "depth": 6,
+      "tuning_ap": 0.9999999999999999
+    }
+  ],
+  "candidate_budget": 20,
+  "vocabulary_fit": "train query and train catalog entities only",
+  "training_entity_count": 120,
+  "seed": 42,
+  "dataset_hash": "137fc657671c7a481f04a3d445cf4a755d56ccf2a2fd6d1951290d8b2270b346"
+}

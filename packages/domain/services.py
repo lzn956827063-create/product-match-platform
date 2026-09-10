@@ -42,11 +42,8 @@ def idempotent(s, ctx, route, key, body, operation):
 
 
 def load_rows(s, ctx, data, catalog=False):
-    file = scoped(s, File, data["file_id"], ctx)
-    content = storage.read(file.object_key)
-    require(digest(content) == file.sha256, 409, "FILE_HASH_MISMATCH", "原始文件校验失败")
-    rows = mapped_rows(parse_file(content, file.name, file.encoding), data["sheet"], data["header_row"], data["mapping"], catalog)
-    return file, rows
+    from .imports import cached_rows
+    return cached_rows(s, ctx, data, catalog)
 
 
 def create_revision(s, ctx, batch, data):
@@ -57,8 +54,11 @@ def create_revision(s, ctx, batch, data):
     require(excludes <= {r["row_no"] for r in rows}, 422, "INVALID_EXCLUSIONS", "排除范围包含不存在的行")
     valid = len(rows) - len(excludes)
     require(valid > 0, 422, "NO_VALID_ROWS", "没有有效记录，无法创建输入版本")
+    content_hash = digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION})
+    old = s.scalar(select(Revision).where(Revision.org_id==ctx.org_id,Revision.batch_id==batch.id,Revision.content_hash==content_hash))
+    if old:return old
     number = (s.scalar(select(func.max(Revision.number)).where(Revision.org_id == ctx.org_id, Revision.batch_id == batch.id)) or 0) + 1
-    revision = Revision(id=uid(), org_id=ctx.org_id, batch_id=batch.id, file_id=file.id, number=number, sheet=data["sheet"], header_row=data["header_row"], mapping=data["mapping"], content_hash=digest({"file": file.sha256, "config": data, "rule": RULE_VERSION}), status="READY", total=len(rows), valid=valid, excluded=len(excludes), exclusion_rows=sorted(excludes), created_by=ctx.user_id, rule_version=RULE_VERSION)
+    revision = Revision(id=uid(), org_id=ctx.org_id, batch_id=batch.id, file_id=file.id, number=number, sheet=data["sheet"], header_row=data["header_row"], mapping=data["mapping"], content_hash=digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION}), status="READY", total=len(rows), valid=valid, excluded=len(excludes), exclusion_rows=sorted(excludes), created_by=ctx.user_id, rule_version=RULE_VERSION)
     s.add(revision)
     s.flush()
     for row in rows:
@@ -72,8 +72,11 @@ def create_catalog_version(s, ctx, catalog, data):
     file, rows = load_rows(s, ctx, data, True)
     errors = [{"row_no": r["row_no"], "issues": r["issues"]} for r in rows if any(i["level"] == "error" for i in r["issues"])]
     require(len(rows) > 0, 422, "NO_VALID_ROWS", "标准库为空")
+    content_hash = digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION})
+    old = s.scalar(select(CatalogVersion).where(CatalogVersion.org_id==ctx.org_id,CatalogVersion.catalog_id==catalog.id,CatalogVersion.content_hash==content_hash))
+    if old:return old
     number = (s.scalar(select(func.max(CatalogVersion.number)).where(CatalogVersion.org_id == ctx.org_id, CatalogVersion.catalog_id == catalog.id)) or 0) + 1
-    version = CatalogVersion(id=uid(), org_id=ctx.org_id, catalog_id=catalog.id, file_id=file.id, number=number, status="INVALID" if errors else "DRAFT", content_hash=digest({"file": file.sha256, "config": data, "rule": RULE_VERSION}), row_count=len(rows), errors=errors, mapping=data)
+    version = CatalogVersion(id=uid(), org_id=ctx.org_id, catalog_id=catalog.id, file_id=file.id, number=number, status="INVALID" if errors else "DRAFT", content_hash=digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION}), row_count=len(rows), errors=errors, mapping=data)
     s.add(version)
     s.flush()
     if not errors:
@@ -91,10 +94,20 @@ def create_run(s, ctx, data, retry_of=None):
     org = s.get(Organization, ctx.org_id)
     policy = scoped(s, Policy, data.get("policy_id") or org.default_policy_id, ctx)
     require(revision.status == "READY" and catalog.status == "PUBLISHED", 409, "INPUT_NOT_READY", "请选择就绪的输入版本和已发布的标准库")
+    if policy.config.get('engine') == 'lightgbm':
+        from packages.matching.policy import validate_bundle
+        try:validate_bundle(policy.config)
+        except (ValueError,KeyError,OSError) as exc:
+            from .errors import Problem
+            raise Problem(409, 'BUNDLE_INVALID', '完整策略制品校验失败') from exc
+        require(policy.config.get('validated'),409,'POLICY_NOT_READY','学习策略尚未通过准入')
     require(policy.config["rule_version"] == RULE_VERSION and revision.rule_version == RULE_VERSION, 409, "RULE_VERSION_UNAVAILABLE", "当前执行程序不支持此规则版本")
     file = scoped(s, File, revision.file_id, ctx)
     import os
-    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.0.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
+    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.1.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
+    lineage = s.scalar(select(RevisionLineage).where(RevisionLineage.org_id==ctx.org_id, RevisionLineage.revision_id==revision.id))
+    if lineage:
+        manifest.update({'correction_scope':lineage.mode, 'parent_run_id':lineage.parent_run_id})
     manifest.update(release_hashes())
     run = Run(id=uid(), org_id=ctx.org_id, revision_id=revision.id, catalog_version_id=catalog.id, policy_id=policy.id, created_by=ctx.user_id, retry_of=retry_of, manifest=manifest, total=revision.valid, excluded=revision.excluded)
     s.add(run)
@@ -171,30 +184,26 @@ def export_snapshot(s, ctx, run_id, data):
         query = query.where(Item.status == data["status"])
     if data.get("suggestion"):
         query = query.where(Item.suggestion == data["suggestion"])
-    items = s.scalars(query).all()
-    # All snapshots are frozen while holding the organization write lock.
-    export = Export(id=uid(), org_id=ctx.org_id, run_id=run.id, kind=data["kind"], format=data["format"], count=len(items), filters=data, snapshot_hash="", created_by=ctx.user_id, expires_at=time.time()+30*86400)
+    joined = query.add_columns(Source, ReviewEvent, Product, User.name).join(Source, (Source.org_id==Item.org_id)&(Source.id==Item.source_id)).outerjoin(ReviewEvent,(ReviewEvent.org_id==Item.org_id)&(ReviewEvent.id==Item.current_decision_id)).outerjoin(Product,(Product.org_id==ReviewEvent.org_id)&(Product.id==ReviewEvent.product_id)).outerjoin(User,User.id==ReviewEvent.actor_id)
+    records = s.execute(joined).all()
+    export = Export(id=uid(), org_id=ctx.org_id, run_id=run.id, kind=data["kind"], format=data["format"], count=len(records), filters=data, snapshot_hash="", created_by=ctx.user_id, expires_at=time.time()+30*86400)
     s.add(export)
     s.flush()
     snapshots = []
-    for i, item in enumerate(items, 1):
-        source = scoped(s, Source, item.source_id, ctx)
-        event = scoped(s, ReviewEvent, item.current_decision_id, ctx) if item.current_decision_id else None
-        product = scoped(s, Product, event.product_id, ctx) if event and event.action == "confirm" else None
-        actor = s.get(User, event.actor_id) if event else None
+    for i, (item, source, event, product, actor_name) in enumerate(records, 1):
         differences = []
         if product:
             evidence, _, _ = compare(source.normalized, product.normalized)
             differences = [e["text"] for e in evidence if e["state"] != "same"]
             if source.normalized.get("price") != product.normalized.get("price"):
                 differences.append(f"报价 {source.normalized.get('price') or '缺失'} / 标准价格 {product.normalized.get('price') or '缺失'}")
-        row = {"来源文件": file.name, "工作表": revision.sheet, "原始行号": str(source.row_no), "来源编号": source.sku, "编号类型": "系统记录号" if source.generated_sku else "来源编号", "原始名称": source.normalized["name"], "标准编号": product.sku if product else "", "标准名称": product.normalized["name"] if product else "", "差异说明": "；".join(differences), "审核状态": STATUS_LABELS[item.status], "审核原因": event.reason if event else "", "审核人": actor.name if actor else "", "审核时间": event.created_at if event else "", "运行编号": run.id, "决定编号": event.id if event else ""}
+        row = {"来源文件": file.name, "工作表": revision.sheet, "原始行号": str(source.row_no), "来源编号": source.sku, "编号类型": "系统记录号" if source.generated_sku else "来源编号", "原始名称": source.normalized["name"], "标准编号": product.sku if product else "", "标准名称": product.normalized["name"] if product else "", "差异说明": "；".join(differences), "审核状态": STATUS_LABELS[item.status], "审核原因": event.reason if event else "", "审核人": actor_name or "", "审核时间": event.created_at if event else "", "运行编号": run.id, "决定编号": event.id if event else ""}
         if data.get("include_raw"):
             row.update({"原始列_" + k: str(v) for k, v in source.raw.items()})
         snapshots.append(row)
         s.add(ExportRow(org_id=ctx.org_id, export_id=export.id, item_id=item.id, item_version=item.version, row_no=i, data=row))
     export.snapshot_hash = digest(snapshots)
     emit(s, ctx, "export", export.id)
-    audit(s, ctx, "export.create", export.id, {"count": len(items), "snapshot_hash": export.snapshot_hash})
+    audit(s, ctx, "export.create", export.id, {"count": len(records), "snapshot_hash": export.snapshot_hash})
     s.flush()
     return {"id": export.id, "status": export.status, "count": export.count, "snapshot_hash": export.snapshot_hash}

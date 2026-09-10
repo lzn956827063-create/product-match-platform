@@ -86,3 +86,31 @@ class PolicyInput(Named):
     high_threshold: float = Field(default=0.90, ge=0, le=1)
     margin: float = Field(default=0.08, ge=0, le=1)
     model_id: str | None = None
+    evaluation_id: str | None = None
+
+
+class TemplateInput(Named):
+    supplier: str = Field(min_length=1, max_length=200)
+    headers: list[str] = Field(min_length=1, max_length=100)
+    mapping: dict[str, str]
+
+
+class CorrectionInput(VersionInput):
+    fields: dict[str, str]
+    evidence: str = Field(min_length=2, max_length=2000)
+
+
+class CorrectionSubmit(Input):
+    draft_ids: list[str] = Field(min_length=1, max_length=10000)
+
+
+class ShadowInput(Input):
+    evaluation_id: str
+
+
+class UsageInput(Input):
+    run_id: str
+    item_id: str | None = None
+    event: Literal['select', 'review', 'search', 'correction', 'interruption']
+    duration_ms: int | None = Field(default=None, ge=0, le=86400000)
+    trial_id: str | None = Field(default=None, max_length=100)

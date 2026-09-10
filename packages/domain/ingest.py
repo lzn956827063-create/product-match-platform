@@ -22,7 +22,11 @@ def parse_file(data, filename, encoding="utf-8"):
             require(not data.startswith(b"PK") and b"\x00" not in data, 422, "INVALID_FILE", "CSV 文件格式无效")
             content = data.decode("utf-8-sig" if encoding == "utf-8" else "gb18030")
             csv.field_size_limit(10001)
-            rows = list(csv.reader(io.StringIO(content)))
+            rows = []
+            for row_no, row in enumerate(csv.reader(io.StringIO(content)), 1):
+                require(row_no <= 50100, 422, 'ROW_LIMIT', '文件行数过多')
+                validate_matrix([row])
+                rows.append(row)
             validate_matrix(rows)
             return {"CSV": {"rows": rows, "formulas": []}}
         require(data.startswith(b"PK\x03\x04"), 422, "INVALID_FILE", "XLSX 文件签名无效")

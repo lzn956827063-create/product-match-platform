@@ -12,7 +12,7 @@ export async function api(path:string, options:RequestInit={}, retry=true):Promi
     try { await restore(); return api(path, options, false) } catch { session.token='';session.user=null }
   }
   if(!response.ok) {const e = await response.json();throw new ApiError(e.code,e.message,e.details)}
-  if(path.endsWith('/download')) return response.blob()
+  if(path.endsWith('/download') || response.headers.get('content-type')?.includes('text/csv')) return response.blob()
   return response.json()
 }
 export const post = (path:string,body:any={},key?:string)=>api(path,{method:'POST',body:JSON.stringify(body),headers:key?{'Idempotency-Key':key}:{}})

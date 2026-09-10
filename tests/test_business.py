@@ -11,6 +11,7 @@ from sqlalchemy.exc import IntegrityError
 from packages.domain.db import transaction
 from packages.domain.models import *
 from scripts.seed import MAPPING, csv_bytes, sample_rows
+from workers.imports import process_import
 from workers.jobs import claim_chunk, commit_chunk, process_export, process_run, start_run
 
 P='/api/v1'
@@ -32,7 +33,8 @@ def test_full_import_review_export_revoke(env):
     c,h,run,items=env
     products,sources=sample_rows()
     f=c.post(P+'/files',headers=h['operator'],files={'file':('新商品表.csv',csv_bytes(sources),'text/csv')})
-    assert f.status_code==201
+    assert f.status_code==202
+    process_import(f.json()["job_id"])
     config={'file_id':f.json()['id'],'sheet':'CSV','header_row':1,'mapping':MAPPING,'exclude_rows':[]}
     q=c.post(P+'/imports/validate',headers=h['operator'],json=config)
     assert q.json()['error_rows']==[31] and q.json()['valid']==29
@@ -175,6 +177,7 @@ def test_new_revision_and_catalog_do_not_change_old_run(env):
     original=c.get(f"{P}/runs/{run['id']}",headers=h['operator']).json()['manifest']
     rows,_=sample_rows();rows[0][5]='512';rows[0][1]='修正商品'
     f=c.post(P+'/files',headers=h['operator'],files={'file':('修正.csv',csv_bytes(rows),'text/csv')}).json()
+    process_import(f['job_id'])
     body={'file_id':f['id'],'sheet':'CSV','header_row':1,'mapping':MAPPING,'exclude_rows':[]}
     revision=c.post(f"{P}/batches/{run['batch_id']}/revisions",headers=h['operator'],json=body)
     assert revision.status_code==202 and revision.json()['number']==2

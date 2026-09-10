@@ -1,0 +1,21 @@
+{
+  "head": "f484e73f04f0",
+  "before": {
+    "organizations": 2,
+    "batch_revisions": 3,
+    "match_runs": 3,
+    "source_records": 90,
+    "review_events": 3,
+    "exports": 1
+  },
+  "after": {
+    "organizations": 2,
+    "batch_revisions": 3,
+    "match_runs": 3,
+    "source_records": 90,
+    "review_events": 3,
+    "exports": 1
+  },
+  "preserved": true,
+  "schema_verified": true
+}

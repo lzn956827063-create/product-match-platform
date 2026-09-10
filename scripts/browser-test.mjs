@@ -24,7 +24,7 @@ try{
  await dialog.locator('input[type=file]').setInputFiles(path.join(root,'samples/供应商商品表.csv'))
  await dialog.getByRole('button',{name:'上传并配置字段'}).click()
  await dialog.getByRole('button',{name:'校验数据'}).click()
- await dialog.getByText('错误行不会参与匹配：第 31 行').waitFor()
+ await dialog.getByText(/错误行不会参与匹配：共 1 行/).waitFor()
  await shot('03-import-validation')
  await dialog.getByText('确认排除以上 1 条错误记录，保留 29 条有效记录',{exact:true}).click()
  const name='浏览器验收 · 手机供应商匹配'

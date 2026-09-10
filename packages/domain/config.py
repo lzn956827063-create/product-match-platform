@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = Path(os.getenv("DATA_DIR", ROOT / "var"))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
+MODEL_DIR = Path(os.getenv("MODEL_DIR", ROOT / "models"))
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DATA_DIR / 'app.db'}")
 QUEUE_MODE = os.getenv("QUEUE_MODE", "database")
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")

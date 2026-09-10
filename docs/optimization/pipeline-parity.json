@@ -1,0 +1,17 @@
+{
+  "scope": "Offline frozen-vector features + direct Booster scores vs production Matcher kernel used by worker and shadow jobs",
+  "inputs": 33,
+  "candidate_pairs": 660,
+  "maximum_feature_absolute_error": 0.0,
+  "maximum_score_absolute_error": 0.0,
+  "tolerance": 1e-06,
+  "ranking_and_status_equal": true,
+  "states": {
+    "CONFLICT": 9,
+    "RECOMMENDED": 19,
+    "REVIEW": 5
+  },
+  "bundle_hash": "dbb011350dc449fe87718cf510eb4deb921cd1610ec2f6bf435861827c2dd432",
+  "model_hash": "d43809950e6b5afb4a782b5168c55120cedfbbbd3701f471948c7f9b6066f21a",
+  "vectorizer_hash": "ff4d3fc2c0d7381ade8820eb4f169397b64a9b6b3c8e795c3929b4c04db93c0b"
+}

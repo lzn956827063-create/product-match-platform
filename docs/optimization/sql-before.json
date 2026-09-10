@@ -1,0 +1,23 @@
+{
+  "scope": "Current local demo; core handler SQL excludes authentication",
+  "measurements": [
+    {
+      "limit": 10,
+      "returned": 10,
+      "business_sql": 72
+    },
+    {
+      "limit": 100,
+      "returned": 29,
+      "business_sql": 197
+    }
+  ],
+  "explain": [
+    [
+      5,
+      0,
+      62,
+      "SEARCH match_items USING INDEX sqlite_autoindex_match_items_3 (org_id=?)"
+    ]
+  ]
+}

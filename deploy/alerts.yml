@@ -1,0 +1,18 @@
+groups:
+  - name: product-match
+    rules:
+      - alert: ProductMatchOutboxDelayed
+        expr: product_match_outbox_oldest_seconds > 300
+        for: 2m
+        annotations:
+          summary: 后台事件超过 5 分钟未完成；检查 dispatcher、Redis 和 Worker
+      - alert: ProductMatchHttpFailures
+        expr: sum(increase(product_match_http_seconds_count{status=~"5.."}[10m])) / sum(increase(product_match_http_seconds_count[10m])) > 0.05 and sum(increase(product_match_http_seconds_count[10m])) >= 100
+        for: 2m
+        annotations:
+          summary: 10 分钟内至少 100 次请求且服务端错误率超过 5%
+      - alert: ProductMatchExpiredLeases
+        expr: product_match_expired_leases > 0
+        for: 3m
+        annotations:
+          summary: 租约过期持续 3 分钟；检查 Worker 和数据库连接

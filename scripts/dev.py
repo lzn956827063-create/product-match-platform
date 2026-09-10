@@ -11,7 +11,12 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--port',type=int,default=18765);p.add_argument('--seed',action='store_true');a=p.parse_args()
     root=Path(__file__).resolve().parents[1];os.chdir(root)
     if not (root/'apps/web/dist/index.html').exists():raise SystemExit('Build the web app first: cd apps/web && pnpm install && pnpm build')
-    env=os.environ.copy();env.setdefault('ALLOWED_ORIGINS',f'http://127.0.0.1:{a.port},http://localhost:{a.port}')
+    env=os.environ.copy()
+    if sys.platform=='darwin' and not env.get('DYLD_LIBRARY_PATH'):
+        import site
+        omp=next((Path(p)/'sklearn/.dylibs' for p in site.getsitepackages() if (Path(p)/'sklearn/.dylibs').is_dir()),None)
+        if omp:env['DYLD_LIBRARY_PATH']=str(omp)
+    env.setdefault('ALLOWED_ORIGINS',f'http://127.0.0.1:{a.port},http://localhost:{a.port}')
     from packages.domain.db import initialize
     initialize()
     if a.seed:subprocess.run([sys.executable,'-m','scripts.seed'],check=True,env=env)

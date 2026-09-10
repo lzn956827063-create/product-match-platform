@@ -1,0 +1,10 @@
+{
+  "yaml_parsed": {
+    "compose.yaml": true,
+    "deploy/compose.acceptance.yaml": true,
+    "deploy/alerts.yml": true
+  },
+  "postgresql_ddl_generated": true,
+  "docker_executed": false,
+  "reason": "Docker command is unavailable on this host"
+}
