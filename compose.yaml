@@ -16,7 +16,13 @@ x-backend: &backend
     S3_BUCKET: product-match
     ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
     COOKIE_SECURE: ${COOKIE_SECURE:-false}
-    CODE_VERSION: 1.1.0
+    CODE_VERSION: 1.2.0
+    METRICS_TOKEN_FILE: /run/secrets/metrics_token
+    WORKER_METRICS_PORT: 9200
+    WEBHOOK_ALLOWED_HOSTS: ${WEBHOOK_ALLOWED_HOSTS:-}
+    WEBHOOK_ALLOW_LOOPBACK: false
+    INTEGRATION_MASTER_KEY: ${INTEGRATION_MASTER_KEY:-}
+  secrets: [metrics_token]
   volumes:
     - app-data:/data
   restart: unless-stopped
@@ -80,7 +86,14 @@ services:
       retries: 15
   worker:
     <<: *backend
-    command: [celery, -A, workers.tasks:app, worker, --loglevel=INFO, --concurrency=2]
+    command: [celery, -A, workers.tasks:app, worker, --loglevel=INFO, --concurrency=2, -Q, match]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+      storage-init: {condition: service_completed_successfully}
+  worker-short:
+    <<: *backend
+    command: [celery, -A, workers.tasks:app, worker, --loglevel=INFO, --concurrency=1, -Q, short]
     depends_on:
       migrate: {condition: service_completed_successfully}
       redis: {condition: service_healthy}
@@ -105,3 +118,7 @@ volumes:
   redis-data:
   object-data:
   app-data:
+
+secrets:
+  metrics_token:
+    file: ./var/secrets/metrics_token

@@ -52,11 +52,11 @@ def process_import(ident):
             summary = {'total': len(result), 'valid': len(result)-len(errors), 'error_rows': errors, 'warning_count': sum(any(i['level']=='warning' for i in r['issues']) for r in result)}
             status = 'READY'
         content = json.dumps(result, ensure_ascii=False).encode()
-        key = storage.put(org, content, 'json')
+        key = storage.quota_put(org, content, 'json')
         with transaction(write=True) as s:
             job = s.scalar(select(ImportJob).where(ImportJob.id == ident, ImportJob.org_id == org).with_for_update())
             if job.fence_token != token or job.lease_until <= time.time():
-                storage.delete(key)
+                # A deterministic object may already be referenced by the winning worker.
                 return
             job.result_key, job.result_hash, job.summary = key, digest(content), {**summary, 'seconds': time.perf_counter()-started}
             job.status, job.progress, job.lease_until, job.error = status, 100, 0, None

@@ -1,0 +1,15 @@
+{
+  "scope": "Full physical inventory at maintenance boundary",
+  "organizations": [
+    {
+      "org_id": "19b90ffd-f9d6-422e-b6df-8e07ba118057",
+      "objects": 4,
+      "bytes": 12915
+    },
+    {
+      "org_id": "d5f85a04-9038-4673-9e59-794d79603531",
+      "objects": 2,
+      "bytes": 4286
+    }
+  ]
+}

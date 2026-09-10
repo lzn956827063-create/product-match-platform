@@ -7,7 +7,7 @@ from pathlib import Path
 from sqlalchemy import select,inspect
 from packages.domain.config import DATA_DIR,DATABASE_URL,ROOT,STORAGE_BACKEND,MODEL_DIR
 from packages.domain.db import transaction,engine
-from packages.domain.models import File,Export,ImportJob,ArtifactDeletion
+from packages.domain.models import File,Export,ImportJob,ArtifactDeletion,ReleaseArtifact,QuotaReservation
 from packages.matching.normalize import digest
 
 
@@ -24,6 +24,10 @@ def create(destination):
         if (DATA_DIR/'session.key').exists():shutil.copy2(DATA_DIR/'session.key',destination/'session.key')
         shutil.copytree(MODEL_DIR,destination/'models',dirs_exist_ok=True)
         if (ROOT/'ml/datasets').exists():shutil.copytree(ROOT/'ml/datasets',destination/'datasets')
+        import os
+        recovery_keys={name:os.environ[name] for name in ('JWT_SECRET','INTEGRATION_MASTER_KEY') if os.getenv(name)}
+        if recovery_keys:
+            keys=destination/'recovery-keys.json';keys.write_text(json.dumps(recovery_keys));keys.chmod(0o600)
         from packages.domain.services import release_hashes
         from packages.matching.normalize import RULE_VERSION
         (destination/'runtime-config.json').write_text(json.dumps({'storage_backend':'local','database_backend':'sqlite','model_dir':'models','rule_version':RULE_VERSION,'release':release_hashes()},indent=2))
@@ -31,6 +35,7 @@ def create(destination):
         tables=set(inspect(engine).get_table_names())
         deleted={r.export_id for r in s.scalars(select(ArtifactDeletion).where(ArtifactDeletion.deleted_at.is_not(None)))} if 'artifact_deletions' in tables else set()
         refs.update({e.object_key:e.file_hash for e in s.scalars(select(Export).where(Export.status=='SUCCEEDED')) if e.id not in deleted})
+        if 'release_artifacts' in tables:refs.update({a.object_key:a.file_hash for a in s.scalars(select(ReleaseArtifact).where(ReleaseArtifact.status=='SUCCEEDED'))})
         if 'import_jobs' in tables:refs.update({j.result_key:j.result_hash for j in s.scalars(select(ImportJob).where(ImportJob.result_key.is_not(None)))})
     files={str(p.relative_to(destination)):digest(p.read_bytes()) for p in destination.rglob('*') if p.is_file()}
     for key,expected in refs.items():
@@ -56,7 +61,14 @@ def restore(source,destination):
     verify(source);destination=Path(destination)
     if destination.exists():raise ValueError('Restore destination must not exist; no live data is overwritten')
     shutil.copytree(source,destination)
-    return verify(destination)
+    result=verify(destination)
+    conn=sqlite3.connect(destination/'app.db')
+    try:
+        tables={r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        pending=conn.execute("SELECT COUNT(*) FROM deliveries WHERE status!='APPLIED'").fetchone()[0] if 'deliveries' in tables else 0
+        if pending:(destination/'delivery-restore-hold.json').write_text(json.dumps({'pending_deliveries':pending,'instruction':'Reconcile downstream application state before running scripts.reconcile_restore'}))
+    finally:conn.close()
+    return result
 
 
 if __name__=='__main__':

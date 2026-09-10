@@ -51,9 +51,9 @@ def submit_drafts(s, c, run, draft_ids):
     for d in drafts:
         writer.writerow({**source_fields(sources[d.source_id], parent), **d.fields})
     raw=buf.getvalue().encode('utf-8-sig')
-    file = File(id=uid(), org_id=c.org_id, name=f'补数_{len(drafts)}条.csv', object_key=storage.put(c.org_id, raw, 'csv'), sha256=digest(raw), size=len(raw), encoding='utf-8', sheets=['CSV'])
+    file = File(id=uid(), org_id=c.org_id, name=f'补数_{len(drafts)}条.csv', object_key=storage.quota_put(c.org_id, raw, 'csv', s=s), sha256=digest(raw), size=len(raw), encoding='utf-8', sheets=['CSV'])
     s.add(file);s.flush()
-    revision = create_revision(s, c, batch, {'file_id':file.id,'sheet':'CSV','header_row':1,'mapping':{k:k for k in FIELDS},'exclude_rows':[]})
+    revision = create_revision(s, c, batch, {'file_id':file.id,'sheet':'CSV','header_row':1,'mapping':{k:k for k in FIELDS},'exclude_rows':[]}, fingerprint_context={'parent_run_id':run.id,'draft_ids':sorted(draft_ids)})
     added = s.scalars(select(Source).where(Source.org_id==c.org_id, Source.revision_id==revision.id).order_by(Source.row_no)).all()
     links = {}
     for src, draft in zip(added, drafts):

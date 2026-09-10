@@ -27,6 +27,10 @@ def main(folder,port):
         (folder/'commands.log').open('a').write(' '.join(args)+'\n'+r.stdout+'\n'+r.stderr+'\n')
         r.check_returncode();return r.stdout
     subprocess.run(['docker','info'],check=True,stdout=subprocess.DEVNULL)
+    secret_dir=Path('var/secrets');secret_dir.mkdir(parents=True,exist_ok=True);secret_dir.chmod(0o700)
+    secret=secret_dir/'metrics_token'
+    if not secret.exists():secret.write_text(secrets.token_hex(32))
+    secret.chmod(0o644)
     compose('up','-d','--build')
     base=f'http://127.0.0.1:{port}/api/v1'
     for _ in range(180):
@@ -36,6 +40,7 @@ def main(folder,port):
         time.sleep(2)
     else:raise RuntimeError('Stack readiness timeout; inspect commands.log')
     compose('exec','-T','api','python','-m','scripts.seed')
+    compose('exec','-T','api','python','-m','scripts.demo_enterprise')
     timeline=[]
     with httpx.Client(base_url=base,timeout=30) as c:
         r=c.post('/auth/login',json={'email':'operator@demo.local','password':'Demo2026!match'});r.raise_for_status();c.headers['Authorization']='Bearer '+r.json()['access_token'];c.headers['X-Organization-ID']=c.get('/memberships').json()['items'][0]['org_id']

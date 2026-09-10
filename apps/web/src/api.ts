@@ -25,5 +25,7 @@ export async function restore(){
 export async function loadMemberships(){session.memberships=(await api('/memberships')).items;session.org=session.memberships[0]?.org_id||''}
 export const hasRole = (...roles:string[])=>session.memberships.find(m=>m.org_id===session.org)?.roles.some((r:string)=>roles.includes(r))||false
 export const date = (s:string)=>s?new Date(s).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'—'
-export const labels:Record<string,string>={SUCCEEDED:'计算完成',RUNNING:'处理中',QUEUED:'排队中',FAILED:'执行失败',CANCEL_REQUESTED:'取消中',CANCELLED:'已取消',RECOMMENDED:'推荐匹配',REVIEW:'需复核',CONFLICT:'规格冲突',NO_CANDIDATE:'暂无候选',PENDING:'未处理',CONFIRMED:'已确认',UNMATCHED:'当前未匹配',NEEDS_INFO:'待补充',REVOKED:'已撤销',PUBLISHED:'已发布',DRAFT:'待发布',INVALID:'校验失败',operator:'数据专员',reviewer:'审核员',admin:'管理员',viewer:'只读成员'}
+export const labels:Record<string,string>={SUCCEEDED:'计算完成',RUNNING:'处理中',QUEUED:'排队中',FAILED:'执行失败',CANCEL_REQUESTED:'取消中',CANCELLED:'已取消',RECOMMENDED:'推荐匹配',REVIEW:'需复核',CONFLICT:'规格冲突',NO_CANDIDATE:'暂无候选',PENDING:'未处理',CONFIRMED:'已确认',UNMATCHED:'当前未匹配',NEEDS_INFO:'待补充',REVOKED:'已撤销',PUBLISHED:'已发布',DRAFT:'待发布',INVALID:'校验失败',operator:'数据专员',reviewer:'审核员',admin:'管理员',publisher:'发布者',supervisor:'审核主管',integration_manager:'集成管理员',annotator:'独立标注员',adjudicator:'裁决员',viewer:'只读成员'}
 export const fields:Record<string,string>={sku:'商品编号',name:'商品名称',brand:'品牌',model:'型号',specs:'规格描述',ram:'运行内存',storage:'存储容量',color:'颜色',region:'销售版本',pack_count:'包装数量',price:'报价',currency:'币种'}
+
+export const claimTokens=reactive<Record<string,string>>({})

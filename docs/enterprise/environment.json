@@ -1,0 +1,16 @@
+{
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpu_count": 8,
+  "docker_executable": null,
+  "docker_engine_available": false,
+  "reason": "Docker executable unavailable",
+  "production_stack_executed": false,
+  "not_verified": [
+    "PostgreSQL Redis Celery MinIO reverse proxy integrated deployment",
+    "4 CPU 16 GiB production stack 30-minute capacity and total worker memory",
+    "Real PostgreSQL and MinIO outage timeline",
+    "Prometheus Grafana deployed alert-to-recovery exercise",
+    "Production RPO 24h RTO 2h and monthly availability"
+  ],
+  "local_evidence_is_separate": true
+}

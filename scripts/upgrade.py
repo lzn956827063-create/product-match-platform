@@ -30,19 +30,23 @@ def main(backup):
         else:
             with tempfile.TemporaryDirectory(prefix='product-match-schema-') as folder:
                 reference=create_engine('sqlite:///'+str(Path(folder)/'initial.db'))
-                module_path=next((ROOT/'db/migrations/versions').glob('d8c4c3aad74d_*.py'));spec=importlib.util.spec_from_file_location('initial_migration',module_path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-                with reference.begin() as connection:
-                    with Operations.context(MigrationContext.configure(connection)):module.upgrade()
-                expected=MetaData();expected.reflect(reference)
-                with engine.connect() as connection:changes=compare_metadata(MigrationContext.configure(connection),expected)
+                matched=None
+                for revision in ('d8c4c3aad74d','f484e73f04f0'):
+                    module_path=next((ROOT/'db/migrations/versions').glob(revision+'_*.py'));spec=importlib.util.spec_from_file_location('known_migration',module_path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+                    with reference.begin() as connection:
+                        with Operations.context(MigrationContext.configure(connection)):module.upgrade()
+                    expected=MetaData();expected.reflect(reference)
+                    with engine.connect() as connection:changes=compare_metadata(MigrationContext.configure(connection),expected)
+                    if not changes:matched=revision;break
                 reference.dispose()
-                if changes:raise ValueError('Unknown legacy schema; backup preserved. Inspect migration differences before stamping: '+repr(changes)[:500])
-            command.stamp(config,'d8c4c3aad74d')
+                if not matched:raise ValueError('Unknown legacy schema; backup preserved. Inspect migration differences before stamping: '+repr(changes)[:500])
+            command.stamp(config,matched)
     command.upgrade(config,'head')
     with engine.connect() as connection:
         differences=compare_metadata(MigrationContext.configure(connection),Base.metadata)
         if differences:raise ValueError('Schema drift after migration: '+repr(differences))
-    return {'migration':'verified','backup':str(Path(backup).resolve()),'head':'f484e73f04f0'}
+        head=MigrationContext.configure(connection).get_current_revision()
+    return {'migration':'verified','backup':str(Path(backup).resolve()),'head':str(head)}
 
 
 if __name__=='__main__':

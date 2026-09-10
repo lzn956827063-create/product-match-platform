@@ -12,7 +12,7 @@ from sqlalchemy import func, select
 
 from packages.domain import storage
 from packages.domain.db import now, transaction, uid
-from packages.domain.models import Candidate, CatalogVersion, Chunk, Export, ExportRow, Item, Outbox, Product, Run, Scheduler, Source
+from packages.domain.models import Candidate, CatalogVersion, Chunk, Export, ExportRow, Item, Outbox, Product, Run, Scheduler, Source, FairTurn, Membership, User
 from packages.matching.engine import FEATURE_VERSION, INDEX_VERSION, Matcher
 from packages.matching.normalize import RULE_VERSION, digest
 
@@ -54,6 +54,18 @@ def start_run(run_id):
             active = s.scalars(select(Run).where(Run.status.in_(["RUNNING", "CANCEL_REQUESTED"]))).all()
             if len(active) >= 2 or any(r.org_id == run.org_id for r in active):
                 return None
+            busy_orgs={r.org_id for r in active}
+            turns={t.org_id:t.last_started for t in s.scalars(select(FairTurn))}
+            queued=list(s.scalars(select(Run).where(Run.status=='QUEUED').order_by(Run.created_at,Run.id)))
+            eligible=[r for r in queued if r.org_id not in busy_orgs]
+            eligible.sort(key=lambda r:(turns.get(r.org_id,''),r.created_at,r.id))
+            if eligible and eligible[0].id!=run.id:return None
+            member=s.scalar(select(Membership).join(User,User.id==Membership.user_id).where(Membership.org_id==run.org_id,Membership.user_id==run.created_by,Membership.active.is_(True),User.active.is_(True)))
+            if not member or not set(member.roles)&{'operator','admin'}:
+                run.status,run.error,run.finished_at='FAILED','ACTOR_DISABLED',now();complete_outbox(s,'match',run.id);return None
+            turn=s.scalar(select(FairTurn).where(FairTurn.org_id==run.org_id))
+            if not turn:turn=FairTurn(org_id=run.org_id);s.add(turn)
+            turn.last_started=now()
             run.status, run.started_at = "RUNNING", now()
             run.timings = {**run.timings, "queue_seconds":max(0,time.time()-datetime.fromisoformat(run.created_at).timestamp())}
         return {"id": run.id, "org_id": run.org_id, "catalog_version_id": run.catalog_version_id, "manifest": run.manifest}
@@ -265,7 +277,7 @@ def process_export(export_id):
             buff = io.BytesIO()
             wb.save(buff)
             content = buff.getvalue()
-        key = storage.put(org_id, content, fmt)
+        key = storage.quota_put(org_id, content, fmt)
         with transaction(write=True) as s:
             export = s.scalar(select(Export).where(Export.id == export_id).with_for_update())
             if export.status != "SUCCEEDED":

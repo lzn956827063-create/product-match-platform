@@ -27,7 +27,7 @@ try{
  await dialog.getByText(/错误行不会参与匹配：共 1 行/).waitFor()
  await shot('03-import-validation')
  await dialog.getByText('确认排除以上 1 条错误记录，保留 29 条有效记录',{exact:true}).click()
- const name='浏览器验收 · 手机供应商匹配'
+ const name='浏览器验收 · 手机供应商匹配 '+Date.now()
  await dialog.getByPlaceholder('例如：九月手机采购商品核对').fill(name)
  await dialog.getByPlaceholder('填写供应商来源').fill('演示供应商（构造数据）')
  await dialog.getByRole('button',{name:'确认 29 条并开始匹配'}).click()
@@ -75,6 +75,9 @@ try{
  await page.getByText('当前结论：已撤销').waitFor();checks.push('revoke decision')
  await page.getByRole('button',{name:'导出记录',exact:true}).click()
  await page.getByText('历史快照 · 决定已变化').first().waitFor();checks.push('old export stale marker')
+ if(process.env.ENTERPRISE_BULK==='true'){
+  await page.getByRole('button',{name:'匹配任务',exact:false}).first().click();await page.getByRole('button',{name,exact:true}).click();await page.locator('.workbench-filters').getByRole('button',{name:/推荐匹配/}).click();await page.getByText(/选择已加载推荐/).click();const send=page.waitForResponse(r=>r.url().endsWith('/bulk-decisions')&&r.status()===200);send.catch(()=>{});await page.locator('.source-list').getByRole('button',{name:/^确认 \d+ 条$/}).click();await page.getByRole('button',{name:/^确认 \d+ 条$/}).last().click();const result=await(await send).json();assert(result.succeeded>0&&result.failed===0);checks.push('bulk claims and per-item review outcomes');await shot('09-bulk-review')
+ }
  await page.getByRole('button',{name:'退出并切换账号'}).click();await login('管理员')
  await page.getByRole('button',{name:'组织设置',exact:true}).click()
  await page.getByText('组织成员').waitFor();await shot('07-settings');checks.push('admin member management')

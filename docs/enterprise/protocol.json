@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "scope": "Actual TCP local API + SQLite durable worker + HTTP procurement simulator; no real ERP",
+  "total_rows": 30,
+  "mapped": 12,
+  "timeline": [
+    {
+      "case": "temporary_503_then_durable_retry_and_authenticated_APPLIED",
+      "attempts": [
+        {
+          "number": 1,
+          "status_code": 503,
+          "error": "HTTP_503"
+        },
+        {
+          "number": 2,
+          "status_code": 202,
+          "error": null
+        }
+      ]
+    },
+    {
+      "case": "ten_duplicate_notifications",
+      "event_records": 1,
+      "unique_source_rows": 30
+    },
+    {
+      "case": "partial_single_row_repair_and_replay",
+      "failed_rows": 1,
+      "same_event_id": true
+    },
+    {
+      "case": "separate_revocation_event_and_APPLIED_receipt",
+      "invalidated": true
+    }
+  ],
+  "immutable_full_sha256": "c6816bd3aaa95bbad9d68a70abf83f69e72f0ff0e78ca4b2f64dc053c7aa21f2",
+  "release_ids": [
+    "b737826a-9d5f-44f1-87bd-7782d69e0017",
+    "5e7f7270-845e-4776-9c35-a34c57306199"
+  ],
+  "integration_id": "1b46da14-6fc2-4428-98ef-10cb7b22b529",
+  "batch_id": "861bc992-983f-4618-ac8c-2a97e0910b78"
+}

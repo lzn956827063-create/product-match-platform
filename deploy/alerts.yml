@@ -16,3 +16,23 @@ groups:
         for: 3m
         annotations:
           summary: 租约过期持续 3 分钟；检查 Worker 和数据库连接
+      - alert: ProductMatchReleaseFilesFailed
+        expr: sum(product_match_release_artifacts{status="FAILED"}) > 0
+        for: 2m
+        annotations:
+          summary: 发布文件生成失败；在发布中心按 release_id 重试并核对对象哈希
+      - alert: ProductMatchDeliveryNeedsAttention
+        expr: sum(product_match_deliveries{status=~"MANUAL|PARTIAL|REJECTED"}) > 0
+        for: 5m
+        annotations:
+          summary: 交付需要人工处理；按 delivery_id 查看尝试及回执，先对账再重放
+      - alert: ProductMatchDiskLow
+        expr: min(product_match_disk_free_bytes) < 1073741824
+        for: 5m
+        annotations:
+          summary: 可用磁盘不足 1 GiB；检查对象保留与备份目录
+      - alert: ProductMatchListLatency
+        expr: histogram_quantile(0.95, sum by(le) (rate(product_match_http_seconds_bucket{route="/api/v1/runs/{ident}/items"}[10m]))) > 0.5 and sum(increase(product_match_http_seconds_count{route="/api/v1/runs/{ident}/items"}[10m])) >= 100
+        for: 5m
+        annotations:
+          summary: 至少 100 个列表样本的 P95 超过 500ms；检查实例、数据库连接和锁等待

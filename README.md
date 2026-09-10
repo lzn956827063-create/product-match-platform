@@ -1,16 +1,15 @@
-# 序同 商品数据匹配与核对平台 · 1.1
+# 序同 商品数据匹配与核对平台 · 1.2
 
 根据产品、技术方案及 2026 年 9 月 10 日优化方案实现的可运行项目。将供应商 CSV / XLSX 映射到已发布的手机标准商品库，经人工审核后导出可追溯结果。
 
 已提供前后端、数据库迁移、独立后台执行、离线 LightGBM 训练、评测、自动化测试和 Docker Compose。当前交付默认使用规则匹配；训练模型已登记为实验版本，尚未达到手机业务的模型准入条件。
 
-本轮新增：异步导入与映射模板、逐条补数草稿、来源编号版本比较、摘要列表与按需候选详情、冻结模型流水线、完整策略准入和影子评测。
+本轮新增：完整批次发布、审核分派与领取、标准库影响分析、系统交付与回执、供应商质量、独立标注，以及配额、监控和恢复机制。75 项后端测试及本地完整流程已验证，生产部署仍待目标环境验收。
 
-- [优化版使用说明](docs/优化版使用说明.md)
-- [优化交付验收报告](docs/优化交付验收报告.md)
-- [标注与试用规范](docs/标注与试用规范.md)
-
-![补数工作流](docs/optimization/browser/01-correction-draft.png)
+- [企业试用版使用说明](docs/企业试用版使用说明.md)
+- [企业试用优化验收报告](docs/企业试用优化验收报告.md)
+- [企业试用运行与验收](docs/企业试用运行与验收.md)
+- [v1.1 历史优化报告](docs/优化交付验收报告.md)
 
 ## 立即运行
 
@@ -20,7 +19,10 @@
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.lock
-python -m scripts.dev --seed
+python -m alembic upgrade head
+python -m scripts.seed
+python -m scripts.demo_enterprise
+python -m scripts.dev
 ```
 
 打开 <http://127.0.0.1:18765>。一个命令启动 API 和独立数据库任务执行器，数据保存在 `var/`。端口冲突时使用 `--port 18766`。Ctrl+C 结束本次启动的两个进程。

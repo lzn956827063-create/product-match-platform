@@ -1,0 +1,2579 @@
+{
+  "scope": "controlled_simulation_only",
+  "dataset_hash": "137fc657671c7a481f04a3d445cf4a755d56ccf2a2fd6d1951290d8b2270b346",
+  "code_hash": "d55c06f6816b95dbe23e3c34043dd9dabe468384a96fe610f6f385f5e1412d3f",
+  "frozen_protocol_hash_before_test": "2e4b85dfdd36f5ab4123b20df14bc33cee84feeb08b88bcb51bff29a2fe7861c",
+  "precision_constraint": 0.98,
+  "candidate_budget": 20,
+  "initial_pairs": 100,
+  "round_budget": 100,
+  "rounds": 3,
+  "seeds": [
+    17,
+    42,
+    89
+  ],
+  "fixed_evaluation_pair_counts": {
+    "threshold": 2400,
+    "tuning": 2400,
+    "test": 7200,
+    "calibration": 2400,
+    "series_holdout": 2400
+  },
+  "sampling": "Only train partition queries and train target entities; 20% random budget preserved. Same initial labels and model hyperparameters per seed; independent training per branch. Test labels inaccessible to selectors.",
+  "annotation_time": "No human annotation took place; minutes are null, never estimated from pair count.",
+  "eligibility": "EXPERIMENTAL; independent authorized phone labels and actual annotation cost still required.",
+  "protocol": [
+    {
+      "seed": 17,
+      "strategy": "random",
+      "initial_ids_hash": "57ad081683a4325809ecccbb6376402c89ee130cfd05bccf88aab797b151f429",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 70,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 54,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.45,
+            "end_to_end_recall": 0.5,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 94,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 107,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 114,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "8a09ea68cf4817ae2977709bdd3f456db40b5e009ff437e49b1cfc6cc4406641"
+    },
+    {
+      "seed": 17,
+      "strategy": "uncertainty",
+      "initial_ids_hash": "57ad081683a4325809ecccbb6376402c89ee130cfd05bccf88aab797b151f429",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 70,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 54,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.45,
+            "end_to_end_recall": 0.5,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 102,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 62,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5166666666666667,
+            "end_to_end_recall": 0.5740740740740741,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 115,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 56,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.4666666666666667,
+            "end_to_end_recall": 0.5185185185185185,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 117,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "d77393133751e242a2b506cf29cff9242ab33ac337a3ba1ccd48d36ff3d48312"
+    },
+    {
+      "seed": 17,
+      "strategy": "disagreement",
+      "initial_ids_hash": "57ad081683a4325809ecccbb6376402c89ee130cfd05bccf88aab797b151f429",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 70,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 54,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.45,
+            "end_to_end_recall": 0.5,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 101,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 109,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 112,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "daba7069fc7ea3aabce95f4fdff365ce5323e95866ae738c4b63542344e4cfb7"
+    },
+    {
+      "seed": 42,
+      "strategy": "random",
+      "initial_ids_hash": "04b6bdb9684daf9ad8cb07a7be1be9694e2a4f277331595d8e73b7db1a0ce783",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 62,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 70,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5833333333333334,
+            "end_to_end_recall": 0.6481481481481481,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 92,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 109,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 114,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "3b17998d953212d044b3ef104d77c2d53ed4c2369eaee352a9a1fb7621464648"
+    },
+    {
+      "seed": 42,
+      "strategy": "uncertainty",
+      "initial_ids_hash": "04b6bdb9684daf9ad8cb07a7be1be9694e2a4f277331595d8e73b7db1a0ce783",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 62,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 70,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5833333333333334,
+            "end_to_end_recall": 0.6481481481481481,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 107,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 114,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 118,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "3a6bddc7e39ad909e4d4f791955e363ddb5974ac99e1bb0680100d1430165ef0"
+    },
+    {
+      "seed": 42,
+      "strategy": "disagreement",
+      "initial_ids_hash": "04b6bdb9684daf9ad8cb07a7be1be9694e2a4f277331595d8e73b7db1a0ce783",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 62,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 70,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5833333333333334,
+            "end_to_end_recall": 0.6481481481481481,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 98,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 110,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.96,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 114,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "e4328aa916875e233e04f75861ce2ecdde4d94c8c2c5d07b0baaeb1eaad39f9e"
+    },
+    {
+      "seed": 89,
+      "strategy": "random",
+      "initial_ids_hash": "a18224904acb411d79894ffac3c58ec0995d1825f328796db4d3435777774a60",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 70,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 96,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 70,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5833333333333334,
+            "end_to_end_recall": 0.6481481481481481,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 108,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 114,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 69,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.575,
+            "end_to_end_recall": 0.6388888888888888,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "30691cf4f3d098a0097ec9d717b2fd6325751ec123ec29375eaba466921a93df"
+    },
+    {
+      "seed": 89,
+      "strategy": "uncertainty",
+      "initial_ids_hash": "a18224904acb411d79894ffac3c58ec0995d1825f328796db4d3435777774a60",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 70,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 94,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 111,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 115,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "dd1f6fdf0a569fd831b2228cf3ed6d0d3ec21cd3fafda17fcf2e7090c62538a6"
+    },
+    {
+      "seed": 89,
+      "strategy": "disagreement",
+      "initial_ids_hash": "a18224904acb411d79894ffac3c58ec0995d1825f328796db4d3435777774a60",
+      "rounds": [
+        {
+          "round": 0,
+          "labelled_training_pairs": 100,
+          "independent_training_entities": 70,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 1,
+          "labelled_training_pairs": 200,
+          "independent_training_entities": 92,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 71,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.5916666666666667,
+            "end_to_end_recall": 0.6574074074074074,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 2,
+          "labelled_training_pairs": 300,
+          "independent_training_entities": 110,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        },
+        {
+          "round": 3,
+          "labelled_training_pairs": 400,
+          "independent_training_entities": 114,
+          "validation": {
+            "n": 120,
+            "entities": 40,
+            "matchable": 108,
+            "recommended": 72,
+            "recommended_entities": 36,
+            "no_match": 12,
+            "recall_at_20": 1.0,
+            "top1_precision": 1.0,
+            "coverage": 0.6,
+            "end_to_end_recall": 0.6666666666666666,
+            "no_match_false_recommendation": 0.0
+          },
+          "threshold": 0.99,
+          "margin": 0.08,
+          "actual_human_minutes": null
+        }
+      ],
+      "selected_training_pairs_hash": "8630c0b7e6cd8b57b3d592def865b84706f5ab1868f0d20f01f42b6c81fdfff9"
+    }
+  ],
+  "final_test": [
+    {
+      "seed": 17,
+      "strategy": "random",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 4.564882761978055e-09,
+        "ece_10_equal_width_bins": 4.714293115221201e-05,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 3.663784701582583e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9997320575481463,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 5.342743515957582e-09,
+        "ece_10_equal_width_bins": 4.706104084452638e-05,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 3.4903672394156935e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.999697411150717,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 17,
+      "strategy": "uncertainty",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 0.0031930976461848797,
+        "ece_10_equal_width_bins": 0.003297949453958396,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6850,
+            "predicted": 0.00011969585730249913,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 350,
+            "predicted": 0.9997866269885095,
+            "observed": 0.9342857142857143
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 0.003097379751003294,
+        "ece_10_equal_width_bins": 0.0027915674027523692,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6850,
+            "predicted": 0.00047466742267242274,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 350,
+            "predicted": 0.9824223241557456,
+            "observed": 0.9342857142857143
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 17,
+      "strategy": "disagreement",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 0.01887735777021187,
+        "ece_10_equal_width_bins": 0.018928889803077293,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6737,
+            "predicted": 6.112502280268543e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 463,
+            "predicted": 0.999732629165302,
+            "observed": 0.7062634989200864
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 0.01276265095169955,
+        "ece_10_equal_width_bins": 0.0019915249644473446,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6737,
+            "predicted": 1.887230166424942e-07,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 20,
+            "predicted": 0.5625918651627034,
+            "observed": 0.0
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 443,
+            "predicted": 0.7451148329882702,
+            "observed": 0.7381489841986456
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 42,
+      "strategy": "random",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 4.744222064334844e-09,
+        "ece_10_equal_width_bins": 5.1600369578529856e-05,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 4.164856499205023e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9997392291321864,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 5.456279186292124e-09,
+        "ece_10_equal_width_bins": 5.1255726279586334e-05,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 3.965387927410857e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9997048926086787,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 42,
+      "strategy": "uncertainty",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 0.018369176575423984,
+        "ece_10_equal_width_bins": 0.02063000842711448,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6708,
+            "predicted": 0.00016577885813602009,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 54,
+            "predicted": 0.8246058692560418,
+            "observed": 0.0
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 438,
+            "predicted": 0.9814961167922867,
+            "observed": 0.7465753424657534
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 1.8332362219687868e-06,
+        "ece_10_equal_width_bins": 0.0002858440402787951,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 0.00017044391107036476,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9972886358127807,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 42,
+      "strategy": "disagreement",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 0.0015497723697486976,
+        "ece_10_equal_width_bins": 0.001621988411482964,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6861,
+            "predicted": 2.765051050303384e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 339,
+            "predicted": 0.9984914643366254,
+            "observed": 0.9646017699115044
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 0.000128843464291768,
+        "ece_10_equal_width_bins": 0.0005756575506300236,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6861,
+            "predicted": 2.027959781684443e-09,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 12,
+            "predicted": 0.27773672435362234,
+            "observed": 0.0
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.997517187282995,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 89,
+      "strategy": "random",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 1.6333679655423567e-06,
+        "ece_10_equal_width_bins": 0.00013571958587813097,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 0.0001240983717312516,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9996200216837503,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 3.969735002797204e-06,
+        "ece_10_equal_width_bins": 0.0001132669411546031,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 0.0001177058115585791,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9999800307844923,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 89,
+      "strategy": "uncertainty",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 7.445771698603281e-09,
+        "ece_10_equal_width_bins": 7.794114653151966e-05,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 6.993025443470422e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9997536831305895,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 3.5978927317948717e-09,
+        "ece_10_equal_width_bins": 5.045785833453117e-05,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6873,
+            "predicted": 4.341611718096375e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 327,
+            "predicted": 0.9998015363711809,
+            "observed": 1.0
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    },
+    {
+      "seed": 89,
+      "strategy": "disagreement",
+      "training_pairs": 400,
+      "metrics": {
+        "n": 360,
+        "entities": 120,
+        "matchable": 327,
+        "recommended": 218,
+        "recommended_entities": 109,
+        "no_match": 33,
+        "recall_at_20": 1.0,
+        "top1_precision": 1.0,
+        "coverage": 0.6055555555555555,
+        "end_to_end_recall": 0.6666666666666666,
+        "no_match_false_recommendation": 0.0,
+        "top1_precision_95_ci_group_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "top1_precision_95_ci_entity_wilson": [
+          0.9659570262486751,
+          1
+        ],
+        "top1_precision_95_ci": [
+          0.9659570262486751,
+          1.0
+        ],
+        "no_match_false_recommendation_95_ci_entity_wilson": [
+          0,
+          0.2588329669680317
+        ],
+        "no_match_entities": 11
+      },
+      "raw_calibration": {
+        "brier": 0.01887708418277517,
+        "ece_10_equal_width_bins": 0.01889113381988827,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6737,
+            "predicted": 2.2519113643684736e-05,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 463,
+            "predicted": 0.9997072402474688,
+            "observed": 0.7062634989200864
+          }
+        ],
+        "n": 7200
+      },
+      "platt_diagnostic": {
+        "brier": 0.013085429385069701,
+        "ece_10_equal_width_bins": 0.0021755050430060227,
+        "reliability": [
+          {
+            "from": 0.0,
+            "to": 0.1,
+            "n": 6737,
+            "predicted": 9.770703420853872e-07,
+            "observed": 0.0
+          },
+          {
+            "from": 0.1,
+            "to": 0.2,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.2,
+            "to": 0.30000000000000004,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.30000000000000004,
+            "to": 0.4,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.4,
+            "to": 0.5,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.5,
+            "to": 0.6,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.6000000000000001,
+            "to": 0.7000000000000001,
+            "n": 60,
+            "predicted": 0.6742769658941292,
+            "observed": 0.6166666666666667
+          },
+          {
+            "from": 0.7000000000000001,
+            "to": 0.8,
+            "n": 403,
+            "predicted": 0.7498770119928064,
+            "observed": 0.7196029776674938
+          },
+          {
+            "from": 0.8,
+            "to": 0.9,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          },
+          {
+            "from": 0.9,
+            "to": 1.0,
+            "n": 0,
+            "predicted": null,
+            "observed": null
+          }
+        ],
+        "n": 7200
+      },
+      "calibration_scope": "Platt is diagnostic only; recommendation thresholds use the predeclared raw scores.",
+      "actual_human_minutes": null
+    }
+  ],
+  "elapsed_seconds": 5.268039666931145,
+  "conclusion": "Report all branches including ties and negative results. This experiment does not promote a business policy."
+}

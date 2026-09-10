@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "scope": "Isolated local SQLite + local objects restore; original receiver offline and delivery hold enforced. No production RPO/RTO claim.",
+  "checks": {
+    "encrypted_signing_secret_portable": true,
+    "historical_decisions": true,
+    "release_files": true,
+    "tenant_isolation": true,
+    "pending_delivery_hold": true,
+    "no_unreconciled_notification_sent": true,
+    "model_and_vocabulary_portable": true
+  },
+  "verified_files": 34,
+  "release_artifacts": 15,
+  "history_events": 121,
+  "pending_deliveries": 1
+}

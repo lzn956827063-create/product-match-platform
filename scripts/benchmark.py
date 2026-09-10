@@ -43,7 +43,7 @@ else:
     with transaction(write=True) as s:
         org=Organization(id=uid(),name='Synthetic benchmark');user=User(id=uid(),email='bench@local',name='Benchmark',password_hash=password_hash('benchmark-only'))
         s.add_all([org,user]);s.flush();policy=Policy(id=uid(),org_id=org.id,name='Benchmark baseline',config=DEFAULT_POLICY);s.add(policy);org.default_policy_id=policy.id;s.flush()
-        ctx=Context(org.id,user.id,['admin','operator'])
+        ctx=Context(org.id,user.id,['admin','operator']);s.add(Membership(org_id=org.id,user_id=user.id,roles=ctx.roles));s.flush()
         def file(name,records):
             content=csv_bytes(records);f=File(id=uid(),org_id=org.id,name=name,object_key=storage.put(org.id,content,'csv'),sha256=digest(content),size=len(content),encoding='utf-8',sheets=['CSV']);s.add(f);s.flush();return f
         cat=Catalog(id=uid(),org_id=org.id,name='Benchmark');s.add(cat);s.flush();f=file('catalog.csv',standard)

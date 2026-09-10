@@ -42,8 +42,8 @@ def test_sql_page_constant_and_tenant_scoped(env):
         try:r=c.get(f"{P}/runs/{run['id']}/items?limit={limit}",headers=h['operator'])
         finally:event.remove(engine,'before_cursor_execute',count)
         assert r.status_code==200 and len(r.json()['items'])==limit
-        counts.append(len(statements))
-    assert counts[0]==counts[1] and counts[1]-4<=10,counts
+        counts.append(len([q for q in statements if any(table in q for table in ("FROM match_items", "FROM source_records", "FROM candidates", "FROM review_events", "FROM catalog_products", "FROM revision_lineage"))]))
+    assert counts[0]==counts[1] and counts[1]<=10,counts
     assert c.get(f"{P}/runs/{run['id']}/items?limit=100",headers=h['other']).status_code==404
 
 

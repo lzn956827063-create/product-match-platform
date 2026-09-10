@@ -1,0 +1,181 @@
+{
+  "title": "商品匹配企业试用运行",
+  "uid": "product-match-trial",
+  "schemaVersion": 40,
+  "version": 1,
+  "refresh": "15s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "接口 P95 延迟",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by(le,route) (rate(product_match_http_seconds_bucket[5m])))",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 2,
+      "title": "接口状态码与吞吐",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum by(status) (rate(product_match_http_seconds_count[5m]))",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 3,
+      "title": "队列与发件箱最老等待",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "{__name__=~\"product_match_(queue|outbox)_oldest_seconds\"}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 4,
+      "title": "运行与发布状态",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "{__name__=~\"product_match_(runs|releases|release_artifacts|deliveries)\"}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 5,
+      "title": "全部 Worker 峰值内存之和",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum(product_match_process_peak_rss_bytes{job=\"product-match-workers\"})",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 6,
+      "title": "数据库连接占用",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum(product_match_db_connections_checked_out)",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 7,
+      "title": "自然租约恢复次数",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "product_match_lease_recoveries_total",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "id": 8,
+      "title": "清理与磁盘",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "product-match",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "{__name__=~\"product_match_(cleanup_pending|disk_free_bytes)\"}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+name: Enterprise trial regression
+on: [push, pull_request]
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: productmatch_test
+          POSTGRES_USER: productmatch
+          POSTGRES_PASSWORD: ci-only-password
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.lock
+      - run: pytest -q --junitxml=docs/enterprise/sqlite-tests.xml
+      - name: PostgreSQL migrations and transactions
+        env:
+          TEST_DATABASE_URL: postgresql+psycopg://productmatch:ci-only-password@localhost:5432/productmatch_test
+          DATABASE_URL: postgresql+psycopg://productmatch:ci-only-password@localhost:5432/productmatch_test
+          JWT_SECRET: ci-only-key-with-at-least-thirty-two-bytes
+        run: |
+          alembic upgrade head
+          alembic check
+          pytest -q tests/test_enterprise.py tests/test_business.py tests/test_recovery.py --junitxml=docs/enterprise/postgresql-tests.xml
+      - uses: actions/upload-artifact@v4
+        with: {name: backend-evidence, path: 'docs/enterprise/*tests.xml'}
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: pnpm/action-setup@v4
+        with: {version: '10'}
+      - run: pnpm -C apps/web install --frozen-lockfile && pnpm -C apps/web build

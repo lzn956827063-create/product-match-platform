@@ -3,7 +3,7 @@ import time
 from sqlalchemy import select
 from packages.domain import storage
 from packages.domain.db import now, transaction, uid
-from packages.domain.models import ArtifactDeletion, Export, File, ImportJob, Outbox
+from packages.domain.models import ArtifactDeletion, Export, File, ImportJob, Outbox, ReleaseArtifact
 
 
 def schedule_cleanup():
@@ -28,9 +28,12 @@ def process_cleanup(ident):
         row.attempts+=1
         # Global reference check is internal maintenance, never exposed across tenants.
         referenced=s.scalar(select(File.id).where(File.object_key==e.object_key).limit(1)) or s.scalar(select(ImportJob.id).where(ImportJob.result_key==e.object_key).limit(1)) or s.scalar(select(Export.id).where(Export.id!=e.id,Export.object_key==e.object_key,Export.expires_at>time.time()).limit(1))
+        referenced = referenced or s.scalar(select(ReleaseArtifact.id).where(ReleaseArtifact.object_key==e.object_key).limit(1))
         if referenced:row.error='REFERENCED_OBJECT';return
         try:
             storage.delete(e.object_key)
+            from packages.domain.quotas import release_object
+            release_object(s,e.org_id,e.object_key)
             row.deleted_at,row.error=now(),None
             event.completed=True
         except Exception as exc:

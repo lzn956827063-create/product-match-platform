@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "scope": "Copy of current v1.1 SQLite database, backup then incremental migration; every old table row compared",
+  "from": "f484e73f04f0",
+  "to": "9b7798dcda5b",
+  "old_tables": {
+    "organizations": {
+      "rows": 2,
+      "identical": true
+    },
+    "users": {
+      "rows": 6,
+      "identical": true
+    },
+    "login_attempts": {
+      "rows": 4,
+      "identical": true
+    },
+    "model_versions": {
+      "rows": 2,
+      "identical": true
+    },
+    "scheduler_locks": {
+      "rows": 1,
+      "identical": true
+    },
+    "memberships": {
+      "rows": 6,
+      "identical": true
+    },
+    "auth_sessions": {
+      "rows": 8,
+      "identical": true
+    },
+    "files": {
+      "rows": 5,
+      "identical": true
+    },
+    "catalogs": {
+      "rows": 2,
+      "identical": true
+    },
+    "batches": {
+      "rows": 3,
+      "identical": true
+    },
+    "policies": {
+      "rows": 2,
+      "identical": true
+    },
+    "audit_logs": {
+      "rows": 13,
+      "identical": true
+    },
+    "outbox": {
+      "rows": 4,
+      "identical": true
+    },
+    "idempotency_keys": {
+      "rows": 2,
+      "identical": true
+    },
+    "catalog_versions": {
+      "rows": 2,
+      "identical": true
+    },
+    "batch_revisions": {
+      "rows": 3,
+      "identical": true
+    },
+    "catalog_products": {
+      "rows": 24,
+      "identical": true
+    },
+    "source_records": {
+      "rows": 90,
+      "identical": true
+    },
+    "match_runs": {
+      "rows": 3,
+      "identical": true
+    },
+    "run_chunks": {
+      "rows": 3,
+      "identical": true
+    },
+    "match_items": {
+      "rows": 87,
+      "identical": true
+    },
+    "exports": {
+      "rows": 1,
+      "identical": true
+    },
+    "candidates": {
+      "rows": 693,
+      "identical": true
+    },
+    "review_events": {
+      "rows": 3,
+      "identical": true
+    },
+    "export_rows": {
+      "rows": 1,
+      "identical": true
+    },
+    "mappings": {
+      "rows": 1,
+      "identical": true
+    },
+    "mapping_templates": {
+      "rows": 0,
+      "identical": true
+    },
+    "policy_evaluations": {
+      "rows": 1,
+      "identical": true
+    },
+    "import_jobs": {
+      "rows": 0,
+      "identical": true
+    },
+    "correction_drafts": {
+      "rows": 0,
+      "identical": true
+    },
+    "revision_lineage": {
+      "rows": 0,
+      "identical": true
+    },
+    "shadow_runs": {
+      "rows": 0,
+      "identical": true
+    },
+    "artifact_deletions": {
+      "rows": 0,
+      "identical": true
+    },
+    "usage_events": {
+      "rows": 0,
+      "identical": true
+    }
+  },
+  "empty_database_migration": "passed with alembic check",
+  "postgresql": "DDL generated only; server unavailable",
+  "known_unstamped_v11_upgrade": "passed"
+}

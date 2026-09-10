@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "release_id": "b737826a-9d5f-44f1-87bd-7782d69e0017",
+  "download_sha256": "c6816bd3aaa95bbad9d68a70abf83f69e72f0ff0e78ca4b2f64dc053c7aa21f2",
+  "checks": [
+    "publisher freezes reviewed complete batch via confirmation dialog",
+    "generated full CSV downloaded through UI",
+    "no browser exceptions"
+  ]
+}

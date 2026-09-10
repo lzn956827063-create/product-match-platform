@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, JSON, String, Text, UniqueConstraint, text
+from sqlalchemy import BigInteger, Boolean, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, JSON, String, Text, UniqueConstraint, text
 from sqlalchemy.orm import Mapped, mapped_column
 from .db import Base, now, uid
 
@@ -387,3 +387,304 @@ class UsageEvent(Tenant, Base):
     duration_ms: Mapped[int | None] = mapped_column(Integer)
     trial_id: Mapped[str | None] = mapped_column(String(100))
     __table_args__ = tenant_constraints(ref("match_runs", "run_id"), ref("match_items", "item_id"))
+
+
+# Enterprise trial additions are separate tables so v1.1 history stays intact.
+class BatchResultState(Tenant, Base):
+    __tablename__ = 'batch_result_states'
+    batch_id: Mapped[str] = mapped_column(String(36))
+    version: Mapped[int] = mapped_column(Integer, default=0)
+    __table_args__ = tenant_constraints(ref('batches', 'batch_id'), UniqueConstraint('org_id', 'batch_id'))
+
+
+class SourceIdentity(Tenant, Base):
+    __tablename__ = 'source_identities'
+    batch_id: Mapped[str] = mapped_column(String(36))
+    source_id: Mapped[str] = mapped_column(String(36))
+    stable_key: Mapped[str] = mapped_column(String(200))
+    reason: Mapped[str] = mapped_column(Text)
+    actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(ref('batches', 'batch_id'), ref('source_records', 'source_id'), UniqueConstraint('org_id', 'source_id'))
+
+
+class BatchRelease(Tenant, Base):
+    __tablename__ = 'batch_releases'
+    batch_id: Mapped[str] = mapped_column(String(36))
+    baseline_run_id: Mapped[str] = mapped_column(String(36))
+    base_release_id: Mapped[str | None] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(30), default='DRAFT')
+    config: Mapped[dict] = mapped_column(JSON)
+    version: Mapped[int] = mapped_column(Integer, default=0)
+    result_version: Mapped[int | None] = mapped_column(Integer)
+    manifest: Mapped[dict] = mapped_column(JSON, default=dict)
+    snapshot_hash: Mapped[str | None] = mapped_column(String(64))
+    validation: Mapped[dict] = mapped_column(JSON, default=dict)
+    invalidated: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    published_at: Mapped[str | None] = mapped_column(String(40))
+    __table_args__ = tenant_constraints(ref('batches', 'batch_id'), ref('match_runs', 'baseline_run_id'), ref('batch_releases', 'base_release_id'), UniqueConstraint('org_id', 'batch_id', 'number'), Index('uq_current_batch_release','org_id','batch_id',unique=True,sqlite_where=text("status = 'PUBLISHED'"),postgresql_where=text("status = 'PUBLISHED'")))
+
+
+class ReleaseRow(Tenant, Base):
+    __tablename__ = 'release_rows'
+    release_id: Mapped[str] = mapped_column(String(36))
+    stable_key: Mapped[str] = mapped_column(String(200))
+    source_id: Mapped[str] = mapped_column(String(36))
+    item_id: Mapped[str | None] = mapped_column(String(36))
+    decision_id: Mapped[str | None] = mapped_column(String(36))
+    product_id: Mapped[str | None] = mapped_column(String(36))
+    status: Mapped[str] = mapped_column(String(30))
+    data: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('batch_releases', 'release_id'), ref('source_records', 'source_id'), ref('match_items', 'item_id'), ref('review_events', 'decision_id'), ref('catalog_products', 'product_id'), UniqueConstraint('org_id', 'release_id', 'stable_key'), Index('ix_release_rows_product', 'org_id', 'product_id'), Index('ix_release_rows_item', 'org_id', 'item_id'))
+
+
+class ReleaseEvent(Tenant, Base):
+    __tablename__ = 'release_events'
+    release_id: Mapped[str] = mapped_column(String(36))
+    kind: Mapped[str] = mapped_column(String(40))
+    actor_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    detail: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('batch_releases', 'release_id'))
+
+
+class ReleaseArtifact(Tenant, Base):
+    __tablename__ = 'release_artifacts'
+    release_id: Mapped[str] = mapped_column(String(36))
+    kind: Mapped[str] = mapped_column(String(30))
+    status: Mapped[str] = mapped_column(String(30), default='QUEUED')
+    count: Mapped[int] = mapped_column(Integer, default=0)
+    object_key: Mapped[str | None] = mapped_column(Text)
+    file_hash: Mapped[str | None] = mapped_column(String(64))
+    error: Mapped[str | None] = mapped_column(Text)
+    __table_args__ = tenant_constraints(ref('batch_releases', 'release_id'), UniqueConstraint('org_id', 'release_id', 'kind'))
+
+
+class WorkflowSettings(Tenant, Base):
+    __tablename__ = 'workflow_settings'
+    require_claim: Mapped[bool] = mapped_column(Boolean, default=False)
+    claim_seconds: Mapped[int] = mapped_column(Integer, default=300)
+    queue_limit: Mapped[int] = mapped_column(Integer, default=20)
+    storage_bytes: Mapped[int] = mapped_column(BigInteger, default=1073741824)
+    requests_per_minute: Mapped[int] = mapped_column(Integer, default=1200)
+    __table_args__ = tenant_constraints(UniqueConstraint('org_id'))
+
+
+class ReviewAssignment(Tenant, Base):
+    __tablename__ = 'review_assignments'
+    item_id: Mapped[str] = mapped_column(String(36))
+    assignee_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    assigned_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    reason: Mapped[str] = mapped_column(Text)
+    updated_at: Mapped[str] = mapped_column(String(40), default=now)
+    __table_args__ = tenant_constraints(ref('match_items', 'item_id'), UniqueConstraint('org_id', 'item_id'))
+
+
+class ReviewClaim(Tenant, Base):
+    __tablename__ = 'review_claims'
+    item_id: Mapped[str] = mapped_column(String(36))
+    holder_id: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    token_hash: Mapped[str | None] = mapped_column(String(64))
+    lease_until: Mapped[float] = mapped_column(Float, default=0)
+    status: Mapped[str] = mapped_column(String(30), default='AVAILABLE')
+    __table_args__ = tenant_constraints(ref('match_items', 'item_id'), UniqueConstraint('org_id', 'item_id'))
+
+
+class CoordinationEvent(Tenant, Base):
+    __tablename__ = 'coordination_events'
+    item_id: Mapped[str] = mapped_column(String(36))
+    actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    kind: Mapped[str] = mapped_column(String(30))
+    detail: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('match_items', 'item_id'))
+
+
+class Supplier(Tenant, Base):
+    __tablename__ = 'suppliers'
+    name: Mapped[str] = mapped_column(String(200))
+    aliases: Mapped[list] = mapped_column(JSON, default=list)
+    __table_args__ = tenant_constraints()
+
+
+class BatchSupplier(Tenant, Base):
+    __tablename__ = 'batch_suppliers'
+    batch_id: Mapped[str] = mapped_column(String(36))
+    supplier_id: Mapped[str] = mapped_column(String(36))
+    actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    reason: Mapped[str] = mapped_column(Text)
+    __table_args__ = tenant_constraints(ref('batches', 'batch_id'), ref('suppliers', 'supplier_id'), UniqueConstraint('org_id', 'batch_id'))
+
+
+class TemplateSupplier(Tenant, Base):
+    __tablename__ = 'template_suppliers'
+    template_id: Mapped[str] = mapped_column(String(36))
+    supplier_id: Mapped[str] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(ref('mapping_templates', 'template_id'), ref('suppliers', 'supplier_id'), UniqueConstraint('org_id', 'template_id'))
+
+
+class CatalogIdentity(Tenant, Base):
+    __tablename__ = 'catalog_identities'
+    catalog_id: Mapped[str] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(ref('catalogs', 'catalog_id'))
+
+
+class ProductIdentity(Tenant, Base):
+    __tablename__ = 'product_identities'
+    product_id: Mapped[str] = mapped_column(String(36))
+    identity_id: Mapped[str] = mapped_column(String(36))
+    version_id: Mapped[str] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(ref('catalog_products', 'product_id'), ref('catalog_identities', 'identity_id'), ref('catalog_versions', 'version_id'), UniqueConstraint('org_id', 'product_id'), UniqueConstraint('org_id', 'identity_id', 'version_id'))
+
+
+class CatalogChange(Tenant, Base):
+    __tablename__ = 'catalog_changes'
+    catalog_id: Mapped[str] = mapped_column(String(36))
+    from_version_id: Mapped[str] = mapped_column(String(36))
+    to_version_id: Mapped[str] = mapped_column(String(36))
+    status: Mapped[str] = mapped_column(String(30), default='QUEUED')
+    links: Mapped[dict] = mapped_column(JSON)
+    report: Mapped[dict] = mapped_column(JSON, default=dict)
+    error: Mapped[str | None] = mapped_column(Text)
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(ref('catalogs', 'catalog_id'), ref('catalog_versions', 'from_version_id'), ref('catalog_versions', 'to_version_id'), UniqueConstraint('org_id', 'from_version_id', 'to_version_id'))
+
+
+class CatalogActivation(Tenant, Base):
+    __tablename__ = 'catalog_activations'
+    catalog_id: Mapped[str] = mapped_column(String(36))
+    version_id: Mapped[str] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(ref('catalogs', 'catalog_id'), ref('catalog_versions', 'version_id'), UniqueConstraint('org_id', 'catalog_id'))
+
+
+class ImpactTask(Tenant, Base):
+    __tablename__ = 'impact_tasks'
+    change_id: Mapped[str] = mapped_column(String(36))
+    product_id: Mapped[str] = mapped_column(String(36))
+    item_id: Mapped[str | None] = mapped_column(String(36))
+    release_id: Mapped[str | None] = mapped_column(String(36))
+    resource_key: Mapped[str] = mapped_column(String(100))
+    kind: Mapped[str] = mapped_column(String(30))
+    status: Mapped[str] = mapped_column(String(30), default='OPEN')
+    resolution: Mapped[dict] = mapped_column(JSON, default=dict)
+    __table_args__ = tenant_constraints(ref('catalog_changes', 'change_id'), ref('catalog_products', 'product_id'), ref('match_items', 'item_id'), ref('batch_releases', 'release_id'), UniqueConstraint('org_id', 'change_id', 'resource_key'))
+
+
+class ServiceAccount(Tenant, Base):
+    __tablename__ = 'service_accounts'
+    name: Mapped[str] = mapped_column(String(200))
+    token_hash: Mapped[str] = mapped_column(String(64))
+    scopes: Mapped[list] = mapped_column(JSON)
+    expires_at: Mapped[float] = mapped_column(Float)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    __table_args__ = tenant_constraints()
+
+
+class ServiceAccess(Tenant, Base):
+    __tablename__ = 'service_access'
+    account_id: Mapped[str] = mapped_column(String(36))
+    action: Mapped[str] = mapped_column(String(120))
+    resource_id: Mapped[str] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(ref('service_accounts', 'account_id'))
+
+
+class Integration(Tenant, Base):
+    __tablename__ = 'integrations'
+    name: Mapped[str] = mapped_column(String(200))
+    account_id: Mapped[str] = mapped_column(String(36))
+    url: Mapped[str] = mapped_column(Text)
+    secret_cipher: Mapped[str] = mapped_column(Text)
+    active: Mapped[bool] = mapped_column(Boolean, default=False)
+    __table_args__ = tenant_constraints(ref('service_accounts', 'account_id'))
+
+
+class Delivery(Tenant, Base):
+    __tablename__ = 'deliveries'
+    release_id: Mapped[str] = mapped_column(String(36))
+    integration_id: Mapped[str] = mapped_column(String(36))
+    event_id: Mapped[str] = mapped_column(String(36))
+    kind: Mapped[str] = mapped_column(String(40))
+    status: Mapped[str] = mapped_column(String(30), default='QUEUED')
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    next_retry: Mapped[float] = mapped_column(Float, default=0)
+    lease_until: Mapped[float] = mapped_column(Float, default=0)
+    fence_token: Mapped[int] = mapped_column(Integer, default=0)
+    last_error: Mapped[str | None] = mapped_column(Text)
+    receipt: Mapped[dict] = mapped_column(JSON, default=dict)
+    __table_args__ = tenant_constraints(ref('batch_releases', 'release_id'), ref('integrations', 'integration_id'), UniqueConstraint('org_id', 'integration_id', 'event_id'))
+
+
+class DeliveryAttempt(Tenant, Base):
+    __tablename__ = 'delivery_attempts'
+    delivery_id: Mapped[str] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    status_code: Mapped[int | None] = mapped_column(Integer)
+    error: Mapped[str | None] = mapped_column(Text)
+    __table_args__ = tenant_constraints(ref('deliveries', 'delivery_id'), UniqueConstraint('org_id', 'delivery_id', 'number'))
+
+
+class DatasetVersion(Tenant, Base):
+    __tablename__ = 'dataset_versions'
+    name: Mapped[str] = mapped_column(String(200))
+    provenance: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(30), default='DRAFT')
+    manifest: Mapped[dict] = mapped_column(JSON, default=dict)
+    content_hash: Mapped[str | None] = mapped_column(String(64))
+    __table_args__ = tenant_constraints()
+
+
+class AnnotationTask(Tenant, Base):
+    __tablename__ = 'annotation_tasks'
+    dataset_id: Mapped[str] = mapped_column(String(36))
+    item_id: Mapped[str] = mapped_column(String(36))
+    product_id: Mapped[str] = mapped_column(String(36))
+    entity_key: Mapped[str] = mapped_column(String(200))
+    partition: Mapped[str] = mapped_column(String(20))
+    snapshot: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(30), default='OPEN')
+    label: Mapped[str | None] = mapped_column(String(30))
+    __table_args__ = tenant_constraints(ref('dataset_versions', 'dataset_id'), ref('match_items', 'item_id'), ref('catalog_products', 'product_id'), UniqueConstraint('org_id', 'dataset_id', 'item_id', 'product_id'))
+
+
+class AnnotationDecision(Tenant, Base):
+    __tablename__ = 'annotation_decisions'
+    task_id: Mapped[str] = mapped_column(String(36))
+    actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    kind: Mapped[str] = mapped_column(String(20))
+    label: Mapped[str] = mapped_column(String(30))
+    reason: Mapped[str] = mapped_column(Text)
+    seconds: Mapped[int] = mapped_column(Integer)
+    __table_args__ = tenant_constraints(ref('annotation_tasks', 'task_id'), UniqueConstraint('org_id', 'task_id', 'actor_id'))
+
+
+class SamplingRound(Tenant, Base):
+    __tablename__ = 'sampling_rounds'
+    dataset_id: Mapped[str] = mapped_column(String(36))
+    strategy: Mapped[str] = mapped_column(String(30))
+    number: Mapped[int] = mapped_column(Integer)
+    seed: Mapped[int] = mapped_column(Integer)
+    task_ids: Mapped[list] = mapped_column(JSON)
+    budget: Mapped[dict] = mapped_column(JSON)
+    __table_args__ = tenant_constraints(ref('dataset_versions', 'dataset_id'), UniqueConstraint('org_id', 'dataset_id', 'strategy', 'seed', 'number'))
+
+
+class QuotaReservation(Tenant, Base):
+    __tablename__ = 'quota_reservations'
+    resource_key: Mapped[str] = mapped_column(String(150))
+    kind: Mapped[str] = mapped_column(String(30))
+    amount: Mapped[int] = mapped_column(BigInteger)
+    released: Mapped[bool] = mapped_column(Boolean, default=False)
+    __table_args__ = tenant_constraints(UniqueConstraint('org_id', 'resource_key'))
+
+
+class RateBucket(Tenant, Base):
+    __tablename__ = 'rate_buckets'
+    principal: Mapped[str] = mapped_column(String(80))
+    window: Mapped[int] = mapped_column(Integer)
+    count: Mapped[int] = mapped_column(Integer, default=0)
+    __table_args__ = tenant_constraints(UniqueConstraint('org_id', 'principal', 'window'))
+
+
+class FairTurn(Tenant, Base):
+    __tablename__ = 'fair_turns'
+    last_started: Mapped[str] = mapped_column(String(40), default='')
+    __table_args__ = tenant_constraints(UniqueConstraint('org_id'))

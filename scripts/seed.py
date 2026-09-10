@@ -58,7 +58,7 @@ def csv_bytes(rows):
 
 
 def add_file(s, org_id, name, content):
-    f = File(id=uid(), org_id=org_id, name=name, object_key=storage.put(org_id, content, "csv"), sha256=digest(content), size=len(content), encoding="utf-8", sheets=["CSV"])
+    f = File(id=uid(), org_id=org_id, name=name, object_key=storage.quota_put(org_id, content, "csv", s=s), sha256=digest(content), size=len(content), encoding="utf-8", sheets=["CSV"])
     s.add(f)
     s.flush()
     return f

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "reviewer claims assigned source and opens exact record in workbench",
+    "review with claim token and optimistic version completes",
+    "full release validation visibly blocks pending reviews",
+    "supervisor bulk responsibility change is recorded",
+    "supplier identity binding and reproducible numerator/denominator quality drilldown",
+    "service account issued with scoped expiry and one-time credential display",
+    "controlled provenance, entity partition and blind pair workspace",
+    "catalog correspondence and impact workflow accessible",
+    "mobile viewport contains the enterprise workspace without page overflow"
+  ]
+}

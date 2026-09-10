@@ -46,7 +46,7 @@ def load_rows(s, ctx, data, catalog=False):
     return cached_rows(s, ctx, data, catalog)
 
 
-def create_revision(s, ctx, batch, data):
+def create_revision(s, ctx, batch, data, fingerprint_context=None):
     file, rows = load_rows(s, ctx, data)
     excludes = set(data.get("exclude_rows", []))
     errors = {r["row_no"] for r in rows if any(i["level"] == "error" for i in r["issues"])}
@@ -54,15 +54,17 @@ def create_revision(s, ctx, batch, data):
     require(excludes <= {r["row_no"] for r in rows}, 422, "INVALID_EXCLUSIONS", "排除范围包含不存在的行")
     valid = len(rows) - len(excludes)
     require(valid > 0, 422, "NO_VALID_ROWS", "没有有效记录，无法创建输入版本")
-    content_hash = digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION})
+    content_hash = digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION, **({"context":fingerprint_context} if fingerprint_context else {})})
     old = s.scalar(select(Revision).where(Revision.org_id==ctx.org_id,Revision.batch_id==batch.id,Revision.content_hash==content_hash))
     if old:return old
     number = (s.scalar(select(func.max(Revision.number)).where(Revision.org_id == ctx.org_id, Revision.batch_id == batch.id)) or 0) + 1
-    revision = Revision(id=uid(), org_id=ctx.org_id, batch_id=batch.id, file_id=file.id, number=number, sheet=data["sheet"], header_row=data["header_row"], mapping=data["mapping"], content_hash=digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION}), status="READY", total=len(rows), valid=valid, excluded=len(excludes), exclusion_rows=sorted(excludes), created_by=ctx.user_id, rule_version=RULE_VERSION)
+    revision = Revision(id=uid(), org_id=ctx.org_id, batch_id=batch.id, file_id=file.id, number=number, sheet=data["sheet"], header_row=data["header_row"], mapping=data["mapping"], content_hash=digest({"file": file.sha256, "config": {k:v for k,v in data.items() if k!="file_id"}, "rule": RULE_VERSION, **({"context":fingerprint_context} if fingerprint_context else {})}), status="READY", total=len(rows), valid=valid, excluded=len(excludes), exclusion_rows=sorted(excludes), created_by=ctx.user_id, rule_version=RULE_VERSION)
     s.add(revision)
     s.flush()
     for row in rows:
         s.add(Source(org_id=ctx.org_id, revision_id=revision.id, excluded=row["row_no"] in excludes, **row))
+    from .releases import touch_batch
+    touch_batch(s, ctx.org_id, batch.id)
     audit(s, ctx, "revision.create", revision.id, {"valid": valid, "excluded_rows": sorted(excludes)})
     s.flush()
     return revision
@@ -89,6 +91,8 @@ def create_catalog_version(s, ctx, catalog, data):
 
 def create_run(s, ctx, data, retry_of=None):
     ctx.permit("admin", "operator")
+    from .quotas import queue_available
+    queue_available(s,ctx.org_id)
     revision = scoped(s, Revision, data["revision_id"], ctx)
     catalog = scoped(s, CatalogVersion, data["catalog_version_id"], ctx)
     org = s.get(Organization, ctx.org_id)
@@ -104,7 +108,7 @@ def create_run(s, ctx, data, retry_of=None):
     require(policy.config["rule_version"] == RULE_VERSION and revision.rule_version == RULE_VERSION, 409, "RULE_VERSION_UNAVAILABLE", "当前执行程序不支持此规则版本")
     file = scoped(s, File, revision.file_id, ctx)
     import os
-    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.1.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
+    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.2.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
     lineage = s.scalar(select(RevisionLineage).where(RevisionLineage.org_id==ctx.org_id, RevisionLineage.revision_id==revision.id))
     if lineage:
         manifest.update({'correction_scope':lineage.mode, 'parent_run_id':lineage.parent_run_id})
@@ -116,6 +120,8 @@ def create_run(s, ctx, data, retry_of=None):
     for i in range(0, len(sources), 200):
         s.add(Chunk(org_id=ctx.org_id, run_id=run.id, number=i // 200, source_ids=sources[i:i+200]))
     emit(s, ctx, "match", run.id)
+    from .releases import touch_batch
+    touch_batch(s, ctx.org_id, revision.batch_id)
     audit(s, ctx, "run.create", run.id)
     s.flush()
     return {"id": run.id, "status": run.status}
@@ -129,6 +135,8 @@ def decide(s, ctx, item_id, data, bulk=False):
     submitters = {run.created_by, run.manifest["batch_creator"], run.manifest["revision_creator"]}
     require(not run.manifest["dual_review"] or ctx.user_id not in submitters, 403, "SELF_REVIEW_DENIED", "双人复核已开启，提交者不能审核自己的批次")
     require(item.version == data["expected_version"], 409, "VERSION_CONFLICT", "记录已更新，请刷新后处理", {"version": item.version, "status": item.status})
+    from .review_claims import verify
+    claim = verify(s, ctx, item, data.get("claim_token"), required=False)
     action, reason, product_id = data["action"], data.get("reason", "").strip(), data.get("product_id")
     require(action in ("confirm", "unmatched", "needs_info", "revoke"), 422, "INVALID_ACTION", "不支持此审核操作")
     if action != "confirm" or item.status != "PENDING":
@@ -163,6 +171,14 @@ def decide(s, ctx, item_id, data, bulk=False):
         s.add(Mapping(org_id=ctx.org_id, item_id=item.id, decision_id=event.id, source_id=item.source_id, product_id=product_id))
     item.status = {"confirm": "CONFIRMED", "unmatched": "UNMATCHED", "needs_info": "NEEDS_INFO", "revoke": "REVOKED"}[action]
     item.current_decision_id, item.version = event.id, item.version + 1
+    if claim:
+        from .review_claims import event as claim_event
+        claim.status, claim.lease_until, claim.token_hash = "COMPLETED", 0, None
+        claim_event(s, ctx, item, "COMPLETED", {"decision_id":event.id})
+    from .releases import touch_batch, invalidate_for_item
+    revision = scoped(s, Revision, run.revision_id, ctx)
+    touch_batch(s, ctx.org_id, revision.batch_id)
+    invalidate_for_item(s, ctx, item.id, event.id)
     audit(s, ctx, "review." + action, item.id, {"event_id": event.id, "version": item.version})
     s.flush()
     return {"decision_id": event.id, "item_version": item.version, "status": item.status}

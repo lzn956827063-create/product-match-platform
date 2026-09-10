@@ -4,7 +4,7 @@ from pathlib import Path
 
 TEST_DIR = Path(tempfile.mkdtemp(prefix="product-match-tests-"))
 os.environ["DATA_DIR"] = str(TEST_DIR)
-os.environ["DATABASE_URL"] = "sqlite:///" + str(TEST_DIR / "tests.db")
+os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL") or "sqlite:///" + str(TEST_DIR / "tests.db")
 os.environ["JWT_SECRET"] = "test-only-key-with-at-least-thirty-two-bytes"
 
 import pytest

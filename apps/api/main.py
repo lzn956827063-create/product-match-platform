@@ -38,7 +38,7 @@ async def lifespan(app):
     yield
 
 
-app = FastAPI(title="商品数据匹配与核对平台", version="1.1.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
+app = FastAPI(title="商品数据匹配与核对平台", version="1.2.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
 PREFIX = "/api/v1"
 
 
@@ -48,6 +48,16 @@ async def request_context(request, call_next):
     started = time.perf_counter()
     if request.method not in ("GET", "HEAD", "OPTIONS") and request.headers.get("origin") and request.headers["origin"] not in ALLOWED_ORIGINS:
         return JSONResponse({"code": "ORIGIN_DENIED", "message": "请求来源未获授权", "request_id": request.state.request_id}, status_code=403)
+    if request.url.path.startswith(PREFIX) and not request.url.path.startswith(PREFIX+'/auth') and not request.url.path.startswith(PREFIX+'/service/') and request.headers.get('authorization') and request.headers.get('x-organization-id'):
+        from starlette.concurrency import run_in_threadpool
+        def throttle():
+            with transaction(write=True) as s:
+                actor=authenticate(s,request.headers['authorization'])
+                c=context(s,actor,request.headers['x-organization-id'],request.state.request_id,write=True)
+                from packages.domain.quotas import count_request
+                count_request(s,c)
+        try:await run_in_threadpool(throttle)
+        except Problem as exc:return await problem_handler(request,exc)
     try:
         response = await call_next(request)
     except Exception as exc:
@@ -76,7 +86,7 @@ async def validation_handler(request, exc):
 
 
 def db(request: Request):
-    with transaction(write=request.method not in ("GET", "HEAD")) as s:
+    with transaction(write=request.method not in ("GET", "HEAD") or request.url.path.startswith(PREFIX+"/service/")) as s:
         if request.method == "POST" and request.url.path.endswith("/exports") and s.bind.dialect.name == "postgresql":
             s.execute(text("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ"))
         yield s
@@ -172,7 +182,7 @@ def upload(file: UploadFile = Upload(...), encoding: str = "utf-8", s=Depends(db
     require(len(content)<=MAX_BYTES, 413, "FILE_TOO_LARGE", "文件不能超过 20MB")
     require(Path(filename).suffix.lower() in (".csv", ".xlsx"), 422, "INVALID_FILE", "仅支持 CSV 和 XLSX")
     require(encoding in ("utf-8", "gb18030"), 422, "INVALID_ENCODING", "请选择有效编码")
-    obj = File(id=uid(), org_id=c.org_id, name=filename, object_key=storage.put(c.org_id, content, Path(filename).suffix[1:]), sha256=digest(content), size=len(content), encoding=encoding, sheets=[])
+    obj = File(id=uid(), org_id=c.org_id, name=filename, object_key=storage.quota_put(c.org_id, content, Path(filename).suffix[1:], s=s), sha256=digest(content), size=len(content), encoding=encoding, sheets=[])
     s.add(obj);s.flush()
     job = request_job(s, c, obj, "parse")
     audit(s, c, "file.upload", obj.id, {"bytes": obj.size})
@@ -208,7 +218,8 @@ def catalogs_list(q: str = "", cursor: str | None = None, limit: int = Query(50,
     versions = {}
     for v in s.scalars(select(CatalogVersion).where(CatalogVersion.org_id == c.org_id, CatalogVersion.catalog_id.in_([x.id for x in cats])).order_by(CatalogVersion.number.desc())):
         versions.setdefault(v.catalog_id, []).append(data(v))
-    return {"items": [{**data(cat), "versions": versions.get(cat.id, [])} for cat in cats], "next_cursor": cursor}
+    active={x.catalog_id:x.version_id for x in s.scalars(select(CatalogActivation).where(CatalogActivation.org_id==c.org_id))}
+    return {"items": [{**data(cat), "active_version_id":active.get(cat.id), "versions": versions.get(cat.id, [])} for cat in cats], "next_cursor": cursor}
 
 
 @app.post(PREFIX+"/catalogs/{ident}/versions", status_code=202)
@@ -527,17 +538,31 @@ def audit_list(cursor: str | None = None, limit: int = Query(50, ge=1, le=100), 
     return {"items": [{**data(a), "actor_name": names[a.id]} for a in rows], "next_cursor": cursor}
 
 
+@app.get(PREFIX+"/live")
+def liveness():
+    return {"status":"alive"}
+
+
+@app.get(PREFIX+"/internal/metrics")
+def internal_metrics(request: Request):
+    from packages.domain.monitoring import authorized,render
+    require(authorized(request.headers.get('authorization','')),403,'METRICS_AUTH','监控身份无效')
+    return Response(render(),media_type='text/plain')
+
+
 @app.get(PREFIX+"/health")
 def health():
     with transaction() as s:
         s.execute(text("SELECT 1"))
-    return {"status": "ok", "version": "1.1.0"}
+    return {"status": "ok", "version": "1.2.0"}
 
 
 @app.get(PREFIX+"/readiness")
 def readiness():
-    with transaction() as s:
-        s.execute(text("SELECT 1"))
+    try:
+        with transaction() as s:s.execute(text("SELECT 1"))
+    except Exception:
+        return JSONResponse({"status":"unavailable","database":"unavailable","operations":[]},status_code=503)
     queue = "database"
     if QUEUE_MODE == "celery":
         try:
@@ -744,6 +769,10 @@ def operations(s=Depends(db), c=Depends(ctx)):
     return {'outbox_pending':pending,'oldest_outbox_seconds':age,'expired_leases':expired,'cleanup_pending':cleanup,'imports':dict(s.execute(select(ImportJob.status,func.count()).where(ImportJob.org_id==c.org_id).group_by(ImportJob.status)).all()),'import_errors':errors,'timings':timings,'alerts':alerts}
 
 
-static = ROOT / "apps/web/dist"
+from apps.api.enterprise import install as install_enterprise
+install_enterprise(app, db, ctx, data, page)
+
+import os
+static = Path(os.getenv("WEB_DIST", ROOT / "apps/web/dist"))
 if static.exists():
     app.mount("/", StaticFiles(directory=static, html=True), name="web")

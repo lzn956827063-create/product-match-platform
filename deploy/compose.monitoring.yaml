@@ -1,0 +1,21 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    profiles: [monitoring]
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./deploy/alerts.yml:/etc/prometheus/alerts.yml:ro
+    secrets: [metrics_token]
+    ports: ["127.0.0.1:19090:9090"]
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana:11.6.0
+    profiles: [monitoring]
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?Set GRAFANA_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboard.json:/etc/grafana/dashboards/product-match.json:ro
+    ports: ["127.0.0.1:13000:3000"]
+    restart: unless-stopped

@@ -43,6 +43,7 @@ class Reason(Input):
 
 
 class Decision(VersionInput):
+    claim_token: str | None = Field(default=None, max_length=200)
     action: Literal["confirm", "unmatched", "needs_info", "revoke"]
     product_id: str | None = None
     reason: str = Field(default="", max_length=2000)
@@ -68,11 +69,11 @@ class MemberInput(Input):
     email: str = Field(min_length=3, max_length=200)
     name: str = Field(min_length=1, max_length=100)
     password: str = Field(min_length=10, max_length=200)
-    roles: list[Literal["operator", "reviewer", "admin", "viewer"]] = Field(min_length=1)
+    roles: list[Literal["operator", "reviewer", "admin", "viewer", "publisher", "supervisor", "integration_manager", "annotator", "adjudicator"]] = Field(min_length=1)
 
 
 class MemberUpdate(Input):
-    roles: list[Literal["operator", "reviewer", "admin", "viewer"]] = Field(min_length=1)
+    roles: list[Literal["operator", "reviewer", "admin", "viewer", "publisher", "supervisor", "integration_manager", "annotator", "adjudicator"]] = Field(min_length=1)
     active: bool
 
 
