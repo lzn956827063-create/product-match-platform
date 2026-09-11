@@ -1,4 +1,4 @@
-"""Run the built web client, API and durable database worker locally."""
+"""Run the built web client, API, worker and ingestion poller locally."""
 import argparse
 import os
 import signal
@@ -12,15 +12,17 @@ def main():
     root=Path(__file__).resolve().parents[1];os.chdir(root)
     if not (root/'apps/web/dist/index.html').exists():raise SystemExit('Build the web app first: cd apps/web && pnpm install && pnpm build')
     env=os.environ.copy()
-    if sys.platform=='darwin' and not env.get('DYLD_LIBRARY_PATH'):
-        import site
-        omp=next((Path(p)/'sklearn/.dylibs' for p in site.getsitepackages() if (Path(p)/'sklearn/.dylibs').is_dir()),None)
-        if omp:env['DYLD_LIBRARY_PATH']=str(omp)
+    from packages.matching.runtime import runtime_environment
+    env=runtime_environment(env)
     env.setdefault('ALLOWED_ORIGINS',f'http://127.0.0.1:{a.port},http://localhost:{a.port}')
     from packages.domain.db import initialize
     initialize()
     if a.seed:subprocess.run([sys.executable,'-m','scripts.seed'],check=True,env=env)
-    processes=[subprocess.Popen([sys.executable,'-m','uvicorn','apps.api.main:app','--host','127.0.0.1','--port',str(a.port)],env=env),subprocess.Popen([sys.executable,'-m','workers.dispatcher'],env=env)]
+    processes=[
+        subprocess.Popen([sys.executable,'-m','uvicorn','apps.api.main:app','--host','127.0.0.1','--port',str(a.port)],env=env),
+        subprocess.Popen([sys.executable,'-m','workers.dispatcher'],env=env),
+        subprocess.Popen([sys.executable,'-m','scripts.poll_ingestion','--interval','10'],env=env),
+    ]
     def stop(*_):
         for process in processes:
             if process.poll() is None:process.terminate()

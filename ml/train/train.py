@@ -130,4 +130,6 @@ def main(data_dir,output):
 
 
 if __name__=='__main__':
+    from packages.matching.runtime import reexec_module
+    reexec_module('ml.train.train')
     parser=argparse.ArgumentParser();parser.add_argument('--data',default='ml/data/downloads/abt-buy');parser.add_argument('--output',default='models/abt-buy-v1');args=parser.parse_args();main(args.data,args.output)

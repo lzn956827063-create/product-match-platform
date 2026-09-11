@@ -20,6 +20,8 @@ class ImportConfig(Input):
     sheet: str
     header_row: int = Field(default=1, ge=1, le=100)
     mapping: dict[str, str]
+    transformations: dict[str, dict] = Field(default_factory=dict)
+    validations: dict = Field(default_factory=dict)
     exclude_rows: list[int] = Field(default_factory=list, max_length=10000)
 
 

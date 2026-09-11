@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "operator with annotator membership sees ingestion, smart review and algorithm navigation",
+    "reviewer with annotator membership sees risk-prioritized explainable queue",
+    "admin sees scoped frozen metrics, threshold version and simulation warning",
+    "mobile algorithm page remains within the viewport with stable navigation"
+  ],
+  "errors": []
+}

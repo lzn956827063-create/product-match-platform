@@ -776,3 +776,154 @@ class TodoAssignment(Tenant, Base):
     actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
     reason: Mapped[str] = mapped_column(Text)
     __table_args__ = tenant_constraints(UniqueConstraint('org_id','resource_key'))
+
+
+class IngestionSource(Tenant, Base):
+    __tablename__ = 'ingestion_sources'
+    name: Mapped[str] = mapped_column(String(200))
+    kind: Mapped[str] = mapped_column(String(30))
+    supplier_id: Mapped[str] = mapped_column(String(36))
+    location: Mapped[str] = mapped_column(Text, default='')
+    config: Mapped[dict] = mapped_column(JSON, default=dict)
+    secret_cipher: Mapped[str | None] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(30), default='ACTIVE')
+    last_checked_at: Mapped[str | None] = mapped_column(String(40))
+    last_success_at: Mapped[str | None] = mapped_column(String(40))
+    consecutive_failures: Mapped[int] = mapped_column(Integer, default=0)
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(
+        ref('suppliers', 'supplier_id'),
+        UniqueConstraint('org_id', 'name'),
+        Index('ix_ingestion_source_status', 'org_id', 'status', 'kind'),
+    )
+
+
+class ImportProfile(Tenant, Base):
+    __tablename__ = 'import_profiles'
+    supplier_id: Mapped[str] = mapped_column(String(36))
+    name: Mapped[str] = mapped_column(String(200))
+    number: Mapped[int] = mapped_column(Integer)
+    file_type: Mapped[str] = mapped_column(String(20))
+    sheet: Mapped[str] = mapped_column(String(200), default='CSV')
+    header_row: Mapped[int] = mapped_column(Integer, default=1)
+    encoding: Mapped[str] = mapped_column(String(20), default='utf-8')
+    mapping: Mapped[dict] = mapped_column(JSON)
+    transformations: Mapped[dict] = mapped_column(JSON, default=dict)
+    validations: Mapped[dict] = mapped_column(JSON, default=dict)
+    status: Mapped[str] = mapped_column(String(30), default='DRAFT')
+    lock_version: Mapped[int] = mapped_column(Integer, default=0)
+    effective_from: Mapped[str | None] = mapped_column(String(40))
+    change_note: Mapped[str] = mapped_column(Text)
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    approved_by: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    based_on_id: Mapped[str | None] = mapped_column(String(36))
+    __table_args__ = tenant_constraints(
+        ref('suppliers', 'supplier_id'),
+        ref('import_profiles', 'based_on_id'),
+        UniqueConstraint('org_id', 'supplier_id', 'name', 'number'),
+        Index('ix_import_profile_active', 'org_id', 'supplier_id', 'status'),
+    )
+
+
+class IngestionEvent(Tenant, Base):
+    __tablename__ = 'ingestion_events'
+    source_id: Mapped[str] = mapped_column(String(36))
+    profile_id: Mapped[str] = mapped_column(String(36))
+    external_key: Mapped[str] = mapped_column(String(200))
+    file_id: Mapped[str] = mapped_column(String(36))
+    object_sha256: Mapped[str] = mapped_column(String(64))
+    filename: Mapped[str] = mapped_column(String(250))
+    status: Mapped[str] = mapped_column(String(30), default='RECEIVED')
+    stage: Mapped[str] = mapped_column(String(30), default='VALIDATION')
+    summary: Mapped[dict] = mapped_column(JSON, default=dict)
+    batch_id: Mapped[str | None] = mapped_column(String(36))
+    revision_id: Mapped[str | None] = mapped_column(String(36))
+    last_error: Mapped[str | None] = mapped_column(Text)
+    version: Mapped[int] = mapped_column(Integer, default=0)
+    created_by: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(
+        ref('ingestion_sources', 'source_id'),
+        ref('import_profiles', 'profile_id'),
+        ref('files', 'file_id'),
+        ref('batches', 'batch_id'),
+        ref('batch_revisions', 'revision_id'),
+        UniqueConstraint('org_id', 'source_id', 'profile_id', 'object_sha256'),
+        UniqueConstraint('org_id', 'source_id', 'external_key'),
+        Index('ix_ingestion_event_status', 'org_id', 'status', 'created_at'),
+    )
+
+
+class IngestionAttempt(Tenant, Base):
+    __tablename__ = 'ingestion_attempts'
+    event_id: Mapped[str] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    stage: Mapped[str] = mapped_column(String(30))
+    status: Mapped[str] = mapped_column(String(30))
+    error: Mapped[str | None] = mapped_column(Text)
+    detail: Mapped[dict] = mapped_column(JSON, default=dict)
+    __table_args__ = tenant_constraints(
+        ref('ingestion_events', 'event_id'),
+        UniqueConstraint('org_id', 'event_id', 'number'),
+    )
+
+
+class EvaluationRun(Tenant, Base):
+    __tablename__ = 'evaluation_runs'
+    name: Mapped[str] = mapped_column(String(200))
+    dataset_id: Mapped[str] = mapped_column(String(36))
+    model_id: Mapped[str | None] = mapped_column(ForeignKey('model_versions.id'))
+    baseline_name: Mapped[str] = mapped_column(String(200))
+    status: Mapped[str] = mapped_column(String(30), default='COMPLETED')
+    scope: Mapped[str] = mapped_column(String(30))
+    config: Mapped[dict] = mapped_column(JSON, default=dict)
+    metrics: Mapped[dict] = mapped_column(JSON)
+    slices: Mapped[dict] = mapped_column(JSON, default=dict)
+    confidence_intervals: Mapped[dict] = mapped_column(JSON, default=dict)
+    regressions: Mapped[list] = mapped_column(JSON, default=list)
+    content_hash: Mapped[str] = mapped_column(String(64))
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(
+        ref('dataset_versions', 'dataset_id'),
+        UniqueConstraint('org_id', 'content_hash'),
+    )
+
+
+class ThresholdPolicy(Tenant, Base):
+    __tablename__ = 'threshold_policies'
+    name: Mapped[str] = mapped_column(String(200))
+    number: Mapped[int] = mapped_column(Integer)
+    evaluation_id: Mapped[str] = mapped_column(String(36))
+    matching_policy_id: Mapped[str | None] = mapped_column(String(36))
+    calibration_method: Mapped[str] = mapped_column(String(30))
+    thresholds: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(30), default='DRAFT')
+    effective_from: Mapped[str | None] = mapped_column(String(40))
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    approved_by: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    approval_note: Mapped[str] = mapped_column(Text, default='')
+    __table_args__ = tenant_constraints(
+        ref('evaluation_runs', 'evaluation_id'),
+        ref('policies', 'matching_policy_id'),
+        UniqueConstraint('org_id', 'name', 'number'),
+    )
+
+
+class LabelVersion(Tenant, Base):
+    __tablename__ = 'label_versions'
+    item_id: Mapped[str] = mapped_column(String(36))
+    decision_id: Mapped[str] = mapped_column(String(36))
+    product_id: Mapped[str | None] = mapped_column(String(36))
+    number: Mapped[int] = mapped_column(Integer)
+    label: Mapped[str] = mapped_column(String(30))
+    error_type: Mapped[str | None] = mapped_column(String(50))
+    evidence: Mapped[dict] = mapped_column(JSON, default=dict)
+    status: Mapped[str] = mapped_column(String(30))
+    created_by: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    __table_args__ = tenant_constraints(
+        ref('match_items', 'item_id'),
+        ref('review_events', 'decision_id'),
+        ref('catalog_products', 'product_id'),
+        UniqueConstraint('org_id', 'decision_id'),
+        UniqueConstraint('org_id', 'item_id', 'number'),
+        Index('ix_label_training_status', 'org_id', 'status', 'error_type'),
+    )

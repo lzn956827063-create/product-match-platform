@@ -108,7 +108,7 @@ def create_run(s, ctx, data, retry_of=None):
     require(policy.config["rule_version"] == RULE_VERSION and revision.rule_version == RULE_VERSION, 409, "RULE_VERSION_UNAVAILABLE", "当前执行程序不支持此规则版本")
     file = scoped(s, File, revision.file_id, ctx)
     import os
-    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.3.1"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
+    manifest = {"input_hash": revision.content_hash, "input_file_sha256": file.sha256, "mapping": revision.mapping, "rule_version": RULE_VERSION, "category": "phone", "required_fields": ["brand", "model", "ram", "storage", "color", "region", "pack_count"], "catalog_version_id": catalog.id, "catalog_hash": catalog.content_hash, "index_version": INDEX_VERSION, "feature_schema": FEATURE_VERSION, "policy_id": policy.id, "policy": policy.config, "dual_review": org.dual_review, "code_version": os.getenv("CODE_VERSION", "1.4.0"), "batch_creator": scoped(s, Batch, revision.batch_id, ctx).created_by, "revision_creator": revision.created_by}
     lineage = s.scalar(select(RevisionLineage).where(RevisionLineage.org_id==ctx.org_id, RevisionLineage.revision_id==revision.id))
     if lineage:
         manifest.update({'correction_scope':lineage.mode, 'parent_run_id':lineage.parent_run_id})
@@ -175,6 +175,8 @@ def decide(s, ctx, item_id, data, bulk=False):
         s.add(Mapping(org_id=ctx.org_id, item_id=item.id, decision_id=event.id, source_id=item.source_id, product_id=product_id))
     item.status = {"confirm": "CONFIRMED", "unmatched": "UNMATCHED", "needs_info": "NEEDS_INFO", "revoke": "REVOKED"}[action]
     item.current_decision_id, item.version = event.id, item.version + 1
+    from .v14_learning import sync_label
+    sync_label(s, ctx, item, event)
     if claim:
         from .review_claims import event as claim_event
         claim.status, claim.lease_until, claim.token_hash = "COMPLETED", 0, None

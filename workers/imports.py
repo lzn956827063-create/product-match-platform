@@ -47,7 +47,7 @@ def process_import(ident):
             if not parent_info or parent_info[2] != 'MAPPING_REQUIRED': raise ValueError('PARSE_REQUIRED')
             raw = storage.read(parent_info[0])
             if digest(raw) != parent_info[1]: raise ValueError('IMPORT_CACHE_CORRUPT')
-            result = mapped_rows(json.loads(raw), config['sheet'], config['header_row'], config['mapping'], config.get('catalog', False))
+            result = mapped_rows(json.loads(raw), config['sheet'], config['header_row'], config['mapping'], config.get('catalog', False), config.get('transformations'), config.get('validations'))
             errors = [r['row_no'] for r in result if any(i['level']=='error' for i in r['issues'])]
             summary = {'total': len(result), 'valid': len(result)-len(errors), 'error_rows': errors, 'warning_count': sum(any(i['level']=='warning' for i in r['issues']) for r in result)}
             status = 'READY'

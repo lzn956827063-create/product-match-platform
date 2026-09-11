@@ -79,7 +79,57 @@ def preview(parsed, sheet, header_row):
     return {"headers": headers, "rows": [{"row_no": i, "values": dict(zip(headers, row))} for i, row in enumerate(rows[header_row:], header_row + 1)][:50], "total": len(rows) - header_row, "suggested_mapping": {k: v for k, v in mapping.items() if v}, "formula_cells": parsed[sheet]["formulas"][:100]}
 
 
-def mapped_rows(parsed, sheet, header_row, mapping, catalog=False):
+def _transform_fields(fields, transformations):
+    require(set(transformations) <= set(FIELDS), 422, "INVALID_TRANSFORMATION", "转换规则包含未知标准字段")
+    output = {k: str(v or "") for k, v in fields.items()}
+    for field, rule in transformations.items():
+        require(isinstance(rule, dict) and set(rule) <= {"trim", "case", "default", "replace"}, 422, "INVALID_TRANSFORMATION", "转换规则格式不正确")
+        value = output.get(field, "")
+        if rule.get("trim", True):
+            value = value.strip()
+        replacements = rule.get("replace", {})
+        require(isinstance(replacements, dict) and len(replacements) <= 200, 422, "INVALID_TRANSFORMATION", "枚举替换规则过多或格式不正确")
+        value = str(replacements.get(value, value))
+        if not value and rule.get("default") is not None:
+            value = str(rule["default"])
+        case = rule.get("case")
+        require(case in (None, "upper", "lower"), 422, "INVALID_TRANSFORMATION", "大小写转换仅支持 upper 或 lower")
+        if case == "upper":
+            value = value.upper()
+        elif case == "lower":
+            value = value.lower()
+        output[field] = value
+    return output
+
+
+def _validation_issues(fields, validations):
+    require(isinstance(validations, dict) and set(validations) <= {"required", "regex", "allowed", "unique"}, 422, "INVALID_VALIDATION", "校验规则格式不正确")
+    required = validations.get("required", [])
+    regexes = validations.get("regex", {})
+    allowed = validations.get("allowed", {})
+    require(isinstance(required, list) and set(required) <= set(FIELDS), 422, "INVALID_VALIDATION", "必填规则包含未知标准字段")
+    require(isinstance(regexes, dict) and set(regexes) <= set(FIELDS), 422, "INVALID_VALIDATION", "格式规则包含未知标准字段")
+    require(isinstance(allowed, dict) and set(allowed) <= set(FIELDS), 422, "INVALID_VALIDATION", "枚举规则包含未知标准字段")
+    issues = []
+    for field in required:
+        if not str(fields.get(field, "")).strip():
+            issues.append({"level": "error", "message": f"必填字段为空：{LABELS.get(field, field)}"})
+    for field, pattern in regexes.items():
+        require(isinstance(pattern, str) and len(pattern) <= 200, 422, "INVALID_VALIDATION", "正则规则长度不能超过 200")
+        try:
+            matched = not fields.get(field) or re.fullmatch(pattern, str(fields[field]))
+        except re.error as exc:
+            raise Problem(422, "INVALID_VALIDATION", "格式校验正则无效") from exc
+        if not matched:
+            issues.append({"level": "error", "message": f"字段格式不符合配置：{LABELS.get(field, field)}"})
+    for field, choices in allowed.items():
+        require(isinstance(choices, list) and len(choices) <= 200, 422, "INVALID_VALIDATION", "枚举校验值过多或格式不正确")
+        if fields.get(field) and fields[field] not in {str(x) for x in choices}:
+            issues.append({"level": "error", "message": f"字段值不在允许范围：{LABELS.get(field, field)}"})
+    return issues
+
+
+def mapped_rows(parsed, sheet, header_row, mapping, catalog=False, transformations=None, validations=None):
     p = preview(parsed, sheet, header_row)
     require(mapping.get("name") in p["headers"], 422, "MAPPING_REQUIRED", "必须指定商品名称列")
     require(all(k in FIELDS and v in p["headers"] for k, v in mapping.items()), 422, "INVALID_MAPPING", "字段映射包含未知列")
@@ -87,12 +137,16 @@ def mapped_rows(parsed, sheet, header_row, mapping, catalog=False):
     if catalog:
         require(mapping.get("sku") in p["headers"], 422, "MAPPING_REQUIRED", "标准库必须指定内部编号列")
     formula_set = {tuple(x) for x in parsed[sheet]["formulas"]}
-    output, seen = [], set()
+    transformations, validations = transformations or {}, validations or {}
+    unique_fields = validations.get("unique", [])
+    require(isinstance(unique_fields, list) and set(unique_fields) <= set(FIELDS), 422, "INVALID_VALIDATION", "唯一规则包含未知标准字段")
+    output, seen, custom_seen = [], set(), set()
     for row_no, row in enumerate(parsed[sheet]["rows"][header_row:], header_row + 1):
         raw = {h: row[i] if i < len(row) else "" for i, h in enumerate(p["headers"])}
-        fields = {k: raw[v] for k, v in mapping.items()}
+        fields = _transform_fields({k: raw[v] for k, v in mapping.items()}, transformations)
         norm = normalize(fields)
         issues = [{"level": "warning", "message": x} for x in norm["issues"]]
+        issues.extend(_validation_issues(fields, validations))
         if not norm["name"]:
             issues.append({"level": "error", "message": "商品名称为空"})
         formula_cols = [h for i, h in enumerate(p["headers"]) if (row_no, i) in formula_set]
@@ -102,6 +156,11 @@ def mapped_rows(parsed, sheet, header_row, mapping, catalog=False):
         if sku and sku in seen:
             issues.append({"level": "error" if catalog else "warning", "message": "商品编号重复"})
         seen.add(sku)
+        if unique_fields:
+            unique_key = tuple(fields.get(k, "") for k in unique_fields)
+            if unique_key in custom_seen:
+                issues.append({"level": "error", "message": "配置的唯一字段组合重复"})
+            custom_seen.add(unique_key)
         if catalog and not sku:
             issues.append({"level": "error", "message": "内部编号为空"})
         if catalog and norm["issues"]:

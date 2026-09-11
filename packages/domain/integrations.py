@@ -17,6 +17,7 @@ from .models import *
 from .db import uid
 
 SCOPES={'releases:read','deliveries:read','receipts:write'}
+ALL_SCOPES=SCOPES|{'ingestion:write'}
 
 
 def cipher():

@@ -97,4 +97,6 @@ def main(dataset,output):
 
 
 if __name__=='__main__':
+    from packages.matching.runtime import reexec_module
+    reexec_module('ml.train.phone_experiment')
     p=argparse.ArgumentParser();p.add_argument('--dataset',default='ml/datasets/phone-sim-v1/manifest.json');p.add_argument('--output',default='models/phone-sim-v1');a=p.parse_args();main(a.dataset,a.output)

@@ -41,7 +41,7 @@ async def lifespan(app):
 
 from packages.domain import request_trace
 
-app = FastAPI(default_response_class=request_trace.MeasuredJSONResponse,title="商品数据匹配与核对平台", version="1.3.1", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
+app = FastAPI(default_response_class=request_trace.MeasuredJSONResponse,title="商品数据匹配与核对平台", version="1.4.0", openapi_url="/api/v1/openapi.json", docs_url="/api/v1/docs", lifespan=lifespan)
 PREFIX = "/api/v1"
 
 
@@ -565,7 +565,7 @@ def internal_metrics(request: Request):
 def health():
     with transaction() as s:
         s.execute(text("SELECT 1"))
-    return {"status": "ok", "version": "1.3.1"}
+    return {"status": "ok", "version": app.version}
 
 
 @app.get(PREFIX+"/readiness")
@@ -785,6 +785,8 @@ from apps.api.enterprise import install as install_enterprise
 install_enterprise(app, db, ctx, data, page)
 from apps.api.v13 import install as install_v13
 install_v13(app, db, ctx, data, page)
+from apps.api.v14 import install as install_v14
+install_v14(app, db, ctx, data, page)
 
 import os
 static = Path(os.getenv("WEB_DIST", ROOT / "apps/web/dist"))

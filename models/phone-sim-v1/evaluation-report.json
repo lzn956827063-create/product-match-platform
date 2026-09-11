@@ -7,9 +7,15 @@
   "no_match": 33,
   "recall_at_20": 1.0,
   "top1_precision": 1.0,
+  "mrr": 1.0,
+  "ndcg_at_5": 1.0,
   "coverage": 0.6055555555555555,
+  "rejection_rate": 0.3944444444444445,
   "end_to_end_recall": 0.6666666666666666,
   "no_match_false_recommendation": 0.0,
+  "hard_conflict_recommendations": 0,
+  "inference_mean_ms": 1.0415716329589486,
+  "inference_p95_ms": 1.3208125950768592,
   "top1_precision_95_ci_group_bootstrap": [
     1.0,
     1.0
@@ -36,9 +42,15 @@
     "no_match": 33,
     "recall_at_20": 1.0,
     "top1_precision": 1.0,
+    "mrr": 1.0,
+    "ndcg_at_5": 1.0,
     "coverage": 0.6055555555555555,
+    "rejection_rate": 0.3944444444444445,
     "end_to_end_recall": 0.6666666666666666,
     "no_match_false_recommendation": 0.0,
+    "hard_conflict_recommendations": 0,
+    "inference_mean_ms": 1.0415716329589486,
+    "inference_p95_ms": 1.3208125950768592,
     "top1_precision_95_ci_group_bootstrap": [
       1.0,
       1.0
@@ -79,9 +91,15 @@
       "no_match": 11,
       "recall_at_20": 1.0,
       "top1_precision": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_5": 1.0,
       "coverage": 0.9083333333333333,
+      "rejection_rate": 0.09166666666666667,
       "end_to_end_recall": 1.0,
       "no_match_false_recommendation": 0.0,
+      "hard_conflict_recommendations": 0,
+      "inference_mean_ms": 1.0405625391285866,
+      "inference_p95_ms": 1.2891763471998274,
       "top1_precision_95_ci_group_bootstrap": [
         1.0,
         1.0
@@ -109,9 +127,15 @@
       "no_match": 11,
       "recall_at_20": 1.0,
       "top1_precision": null,
+      "mrr": 1.0,
+      "ndcg_at_5": 1.0,
       "coverage": 0.0,
+      "rejection_rate": 1.0,
       "end_to_end_recall": 0.0,
       "no_match_false_recommendation": 0.0,
+      "hard_conflict_recommendations": 0,
+      "inference_mean_ms": 1.0405600674022906,
+      "inference_p95_ms": 1.2367500457912683,
       "top1_precision_95_ci_group_bootstrap": null,
       "top1_precision_95_ci_entity_wilson": null,
       "top1_precision_95_ci": null,
@@ -130,9 +154,15 @@
       "no_match": 0,
       "recall_at_20": 1.0,
       "top1_precision": null,
+      "mrr": 1.0,
+      "ndcg_at_5": 1.0,
       "coverage": 0.0,
+      "rejection_rate": 1.0,
       "end_to_end_recall": 0.0,
       "no_match_false_recommendation": null,
+      "hard_conflict_recommendations": 0,
+      "inference_mean_ms": 1.0062415405350216,
+      "inference_p95_ms": 1.280174613930285,
       "top1_precision_95_ci_group_bootstrap": null,
       "top1_precision_95_ci_entity_wilson": null,
       "top1_precision_95_ci": null,
@@ -148,9 +178,15 @@
       "no_match": 33,
       "recall_at_20": null,
       "top1_precision": null,
+      "mrr": null,
+      "ndcg_at_5": null,
       "coverage": 0.0,
+      "rejection_rate": 1.0,
       "end_to_end_recall": null,
       "no_match_false_recommendation": 0.0,
+      "hard_conflict_recommendations": 0,
+      "inference_mean_ms": 1.1184356302361598,
+      "inference_p95_ms": 1.5277827158570287,
       "top1_precision_95_ci_group_bootstrap": null,
       "top1_precision_95_ci_entity_wilson": null,
       "top1_precision_95_ci": null,
@@ -169,9 +205,15 @@
       "no_match": 33,
       "recall_at_20": 1.0,
       "top1_precision": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_5": 1.0,
       "coverage": 0.6055555555555555,
+      "rejection_rate": 0.3944444444444445,
       "end_to_end_recall": 0.6666666666666666,
       "no_match_false_recommendation": 0.0,
+      "hard_conflict_recommendations": 0,
+      "inference_mean_ms": 1.0415716329589486,
+      "inference_p95_ms": 1.3208125950768592,
       "top1_precision_95_ci_group_bootstrap": [
         1.0,
         1.0
@@ -192,8 +234,8 @@
     }
   },
   "scope": "controlled_simulation",
-  "elapsed_seconds": 0.4718996250303462,
-  "index_seconds": 0.020271208020858467,
+  "elapsed_seconds": 0.5100450420286506,
+  "index_seconds": 0.02223241701722145,
   "provenance": {
     "type": "controlled_simulation",
     "complete_entity_labels": true,
@@ -253,6 +295,7 @@
       "entity_id": "ENTITY-0003",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -260,6 +303,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0003",
+      "top1_conflicts": false,
+      "inference_ms": 1.5166248194873333,
       "top20": [
         "STD-ENTITY-0003",
         "STD-ENTITY-0001",
@@ -288,6 +333,7 @@
       "entity_id": "ENTITY-0003",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -296,6 +342,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0003",
+      "top1_conflicts": false,
+      "inference_ms": 1.2131661642342806,
       "top20": [
         "STD-ENTITY-0003",
         "STD-ENTITY-0002",
@@ -324,6 +372,7 @@
       "entity_id": "ENTITY-0003",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -332,6 +381,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0003",
+      "top1_conflicts": false,
+      "inference_ms": 1.2967500369995832,
       "top20": [
         "STD-ENTITY-0003",
         "STD-ENTITY-0015",
@@ -360,6 +411,7 @@
       "entity_id": "ENTITY-0012",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -367,6 +419,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0012",
+      "top1_conflicts": false,
+      "inference_ms": 1.1805829126387835,
       "top20": [
         "STD-ENTITY-0012",
         "STD-ENTITY-0014",
@@ -395,6 +449,7 @@
       "entity_id": "ENTITY-0012",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -403,6 +458,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0012",
+      "top1_conflicts": false,
+      "inference_ms": 1.134416088461876,
       "top20": [
         "STD-ENTITY-0012",
         "STD-ENTITY-0013",
@@ -431,6 +488,7 @@
       "entity_id": "ENTITY-0012",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -439,6 +497,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0012",
+      "top1_conflicts": true,
+      "inference_ms": 1.0020839981734753,
       "top20": [
         "STD-ENTITY-0012",
         "STD-ENTITY-0001",
@@ -467,6 +527,7 @@
       "entity_id": "ENTITY-0013",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -474,6 +535,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0013",
+      "top1_conflicts": false,
+      "inference_ms": 1.0318330023437738,
       "top20": [
         "STD-ENTITY-0013",
         "STD-ENTITY-0015",
@@ -502,6 +565,7 @@
       "entity_id": "ENTITY-0013",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -510,6 +574,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0013",
+      "top1_conflicts": false,
+      "inference_ms": 1.0220841504633427,
       "top20": [
         "STD-ENTITY-0013",
         "STD-ENTITY-0012",
@@ -538,6 +604,7 @@
       "entity_id": "ENTITY-0013",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -546,6 +613,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0013",
+      "top1_conflicts": false,
+      "inference_ms": 0.9960001334547997,
       "top20": [
         "STD-ENTITY-0013",
         "STD-ENTITY-0014",
@@ -574,6 +643,7 @@
       "entity_id": "ENTITY-0015",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -581,6 +651,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0015",
+      "top1_conflicts": false,
+      "inference_ms": 1.0017079766839743,
       "top20": [
         "STD-ENTITY-0015",
         "STD-ENTITY-0013",
@@ -609,6 +681,7 @@
       "entity_id": "ENTITY-0015",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -617,6 +690,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0015",
+      "top1_conflicts": false,
+      "inference_ms": 1.1661669705063105,
       "top20": [
         "STD-ENTITY-0015",
         "STD-ENTITY-0013",
@@ -645,6 +720,7 @@
       "entity_id": "ENTITY-0015",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -653,6 +729,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0015",
+      "top1_conflicts": false,
+      "inference_ms": 1.0125830303877592,
       "top20": [
         "STD-ENTITY-0015",
         "STD-ENTITY-0012",
@@ -681,6 +759,7 @@
       "entity_id": "ENTITY-0016",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -688,6 +767,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0016",
+      "top1_conflicts": false,
+      "inference_ms": 1.078292028978467,
       "top20": [
         "STD-ENTITY-0016",
         "STD-ENTITY-0018",
@@ -716,6 +797,7 @@
       "entity_id": "ENTITY-0016",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -724,6 +806,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0016",
+      "top1_conflicts": false,
+      "inference_ms": 1.1376668699085712,
       "top20": [
         "STD-ENTITY-0016",
         "STD-ENTITY-0017",
@@ -752,6 +836,7 @@
       "entity_id": "ENTITY-0016",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -760,6 +845,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0016",
+      "top1_conflicts": true,
+      "inference_ms": 0.9544158820062876,
       "top20": [
         "STD-ENTITY-0016",
         "STD-ENTITY-0005",
@@ -788,6 +875,7 @@
       "entity_id": "ENTITY-0022",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -795,6 +883,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0022",
+      "top1_conflicts": false,
+      "inference_ms": 1.007791142910719,
       "top20": [
         "STD-ENTITY-0022",
         "STD-ENTITY-0062",
@@ -823,6 +913,7 @@
       "entity_id": "ENTITY-0022",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -831,6 +922,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0022",
+      "top1_conflicts": false,
+      "inference_ms": 0.9488749783486128,
       "top20": [
         "STD-ENTITY-0022",
         "STD-ENTITY-0023",
@@ -859,6 +952,7 @@
       "entity_id": "ENTITY-0022",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -867,6 +961,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0022",
+      "top1_conflicts": true,
+      "inference_ms": 1.0755409020930529,
       "top20": [
         "STD-ENTITY-0022",
         "STD-ENTITY-0029",
@@ -895,6 +991,7 @@
       "entity_id": "ENTITY-0023",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -902,6 +999,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0023",
+      "top1_conflicts": false,
+      "inference_ms": 1.2901248410344124,
       "top20": [
         "STD-ENTITY-0023",
         "STD-ENTITY-0021",
@@ -930,6 +1029,7 @@
       "entity_id": "ENTITY-0023",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -938,6 +1038,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0023",
+      "top1_conflicts": false,
+      "inference_ms": 1.1489170137792826,
       "top20": [
         "STD-ENTITY-0023",
         "STD-ENTITY-0022",
@@ -966,6 +1068,7 @@
       "entity_id": "ENTITY-0023",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -974,6 +1077,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0023",
+      "top1_conflicts": false,
+      "inference_ms": 1.0052081197500229,
       "top20": [
         "STD-ENTITY-0023",
         "STD-ENTITY-0035",
@@ -1002,6 +1107,7 @@
       "entity_id": "ENTITY-0028",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1009,6 +1115,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0028",
+      "top1_conflicts": false,
+      "inference_ms": 0.9545001666992903,
       "top20": [
         "STD-ENTITY-0028",
         "STD-ENTITY-0048",
@@ -1037,6 +1145,7 @@
       "entity_id": "ENTITY-0028",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1045,6 +1154,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0028",
+      "top1_conflicts": false,
+      "inference_ms": 1.0246660094708204,
       "top20": [
         "STD-ENTITY-0028",
         "STD-ENTITY-0029",
@@ -1073,6 +1184,7 @@
       "entity_id": "ENTITY-0028",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -1081,6 +1193,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0028",
+      "top1_conflicts": true,
+      "inference_ms": 1.0034171864390373,
       "top20": [
         "STD-ENTITY-0028",
         "STD-ENTITY-0023",
@@ -1109,6 +1223,7 @@
       "entity_id": "ENTITY-0033",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1116,6 +1231,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0033",
+      "top1_conflicts": false,
+      "inference_ms": 1.0069170966744423,
       "top20": [
         "STD-ENTITY-0033",
         "STD-ENTITY-0035",
@@ -1144,6 +1261,7 @@
       "entity_id": "ENTITY-0033",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1152,6 +1270,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0033",
+      "top1_conflicts": false,
+      "inference_ms": 1.1420829687267542,
       "top20": [
         "STD-ENTITY-0033",
         "STD-ENTITY-0035",
@@ -1180,6 +1300,7 @@
       "entity_id": "ENTITY-0033",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -1188,6 +1309,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0033",
+      "top1_conflicts": false,
+      "inference_ms": 1.2080420274287462,
       "top20": [
         "STD-ENTITY-0033",
         "STD-ENTITY-0034",
@@ -1216,6 +1339,7 @@
       "entity_id": "ENTITY-0035",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1223,6 +1347,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0035",
+      "top1_conflicts": false,
+      "inference_ms": 1.1042081750929356,
       "top20": [
         "STD-ENTITY-0035",
         "STD-ENTITY-0033",
@@ -1251,6 +1377,7 @@
       "entity_id": "ENTITY-0035",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1259,6 +1386,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0035",
+      "top1_conflicts": false,
+      "inference_ms": 1.1480420362204313,
       "top20": [
         "STD-ENTITY-0035",
         "STD-ENTITY-0033",
@@ -1287,6 +1416,7 @@
       "entity_id": "ENTITY-0035",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -1295,6 +1425,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0035",
+      "top1_conflicts": false,
+      "inference_ms": 1.0020830668509007,
       "top20": [
         "STD-ENTITY-0035",
         "STD-ENTITY-0033",
@@ -1323,6 +1455,7 @@
       "entity_id": "ENTITY-0036",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1330,6 +1463,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0036",
+      "top1_conflicts": false,
+      "inference_ms": 0.9670418221503496,
       "top20": [
         "STD-ENTITY-0036",
         "STD-ENTITY-0038",
@@ -1358,6 +1493,7 @@
       "entity_id": "ENTITY-0036",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1366,6 +1502,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0036",
+      "top1_conflicts": false,
+      "inference_ms": 1.0817500296980143,
       "top20": [
         "STD-ENTITY-0036",
         "STD-ENTITY-0037",
@@ -1394,6 +1532,7 @@
       "entity_id": "ENTITY-0036",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -1402,6 +1541,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0036",
+      "top1_conflicts": true,
+      "inference_ms": 1.1191670782864094,
       "top20": [
         "STD-ENTITY-0036",
         "STD-ENTITY-0034",
@@ -1430,6 +1571,7 @@
       "entity_id": "ENTITY-0039",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1437,6 +1579,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0039",
+      "top1_conflicts": false,
+      "inference_ms": 1.007957849651575,
       "top20": [
         "STD-ENTITY-0039",
         "STD-ENTITY-0037",
@@ -1465,6 +1609,7 @@
       "entity_id": "ENTITY-0039",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1473,6 +1618,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0039",
+      "top1_conflicts": false,
+      "inference_ms": 1.084042014554143,
       "top20": [
         "STD-ENTITY-0039",
         "STD-ENTITY-0037",
@@ -1501,6 +1648,7 @@
       "entity_id": "ENTITY-0039",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -1509,6 +1657,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0039",
+      "top1_conflicts": false,
+      "inference_ms": 1.1424999684095383,
       "top20": [
         "STD-ENTITY-0039",
         "STD-ENTITY-0036",
@@ -1537,6 +1687,7 @@
       "entity_id": "ENTITY-0040",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -1545,6 +1696,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0042",
+      "top1_conflicts": true,
+      "inference_ms": 0.9598748292773962,
       "top20": [
         "STD-ENTITY-0042",
         "STD-ENTITY-0241",
@@ -1573,6 +1726,7 @@
       "entity_id": "ENTITY-0040",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -1582,6 +1736,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0041",
+      "top1_conflicts": true,
+      "inference_ms": 0.9149170946329832,
       "top20": [
         "STD-ENTITY-0041",
         "STD-ENTITY-0242",
@@ -1610,6 +1766,7 @@
       "entity_id": "ENTITY-0040",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -1619,6 +1776,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0053",
+      "top1_conflicts": true,
+      "inference_ms": 0.925583066418767,
       "top20": [
         "STD-ENTITY-0053",
         "STD-ENTITY-0241",
@@ -1647,6 +1806,7 @@
       "entity_id": "ENTITY-0044",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1654,6 +1814,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0044",
+      "top1_conflicts": false,
+      "inference_ms": 1.0539160575717688,
       "top20": [
         "STD-ENTITY-0044",
         "STD-ENTITY-0046",
@@ -1682,6 +1844,7 @@
       "entity_id": "ENTITY-0044",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1690,6 +1853,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0044",
+      "top1_conflicts": false,
+      "inference_ms": 0.9440828580409288,
       "top20": [
         "STD-ENTITY-0044",
         "STD-ENTITY-0045",
@@ -1718,6 +1883,7 @@
       "entity_id": "ENTITY-0044",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -1726,6 +1892,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0044",
+      "top1_conflicts": true,
+      "inference_ms": 1.1022910475730896,
       "top20": [
         "STD-ENTITY-0044",
         "STD-ENTITY-0057",
@@ -1754,6 +1922,7 @@
       "entity_id": "ENTITY-0047",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1761,6 +1930,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0047",
+      "top1_conflicts": false,
+      "inference_ms": 1.1892919428646564,
       "top20": [
         "STD-ENTITY-0047",
         "STD-ENTITY-0045",
@@ -1789,6 +1960,7 @@
       "entity_id": "ENTITY-0047",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1797,6 +1969,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0047",
+      "top1_conflicts": false,
+      "inference_ms": 1.0736670810729265,
       "top20": [
         "STD-ENTITY-0047",
         "STD-ENTITY-0046",
@@ -1825,6 +1999,7 @@
       "entity_id": "ENTITY-0047",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -1833,6 +2008,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0047",
+      "top1_conflicts": false,
+      "inference_ms": 1.1154168751090765,
       "top20": [
         "STD-ENTITY-0047",
         "STD-ENTITY-0059",
@@ -1861,6 +2038,7 @@
       "entity_id": "ENTITY-0049",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1868,6 +2046,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0049",
+      "top1_conflicts": false,
+      "inference_ms": 0.9722081013023853,
       "top20": [
         "STD-ENTITY-0049",
         "STD-ENTITY-0051",
@@ -1896,6 +2076,7 @@
       "entity_id": "ENTITY-0049",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1904,6 +2085,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0049",
+      "top1_conflicts": false,
+      "inference_ms": 0.9188340045511723,
       "top20": [
         "STD-ENTITY-0049",
         "STD-ENTITY-0048",
@@ -1932,6 +2115,7 @@
       "entity_id": "ENTITY-0049",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -1940,6 +2124,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0049",
+      "top1_conflicts": false,
+      "inference_ms": 0.9068751242011786,
       "top20": [
         "STD-ENTITY-0049",
         "STD-ENTITY-0051",
@@ -1968,6 +2154,7 @@
       "entity_id": "ENTITY-0051",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -1975,6 +2162,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0051",
+      "top1_conflicts": false,
+      "inference_ms": 0.9220000356435776,
       "top20": [
         "STD-ENTITY-0051",
         "STD-ENTITY-0049",
@@ -2003,6 +2192,7 @@
       "entity_id": "ENTITY-0051",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2011,6 +2201,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0051",
+      "top1_conflicts": false,
+      "inference_ms": 0.9212919976562262,
       "top20": [
         "STD-ENTITY-0051",
         "STD-ENTITY-0249",
@@ -2039,6 +2231,7 @@
       "entity_id": "ENTITY-0051",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2047,6 +2240,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0051",
+      "top1_conflicts": false,
+      "inference_ms": 0.9332080371677876,
       "top20": [
         "STD-ENTITY-0051",
         "STD-ENTITY-0048",
@@ -2075,6 +2270,7 @@
       "entity_id": "ENTITY-0052",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2082,6 +2278,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0052",
+      "top1_conflicts": false,
+      "inference_ms": 1.2004158925265074,
       "top20": [
         "STD-ENTITY-0052",
         "STD-ENTITY-0054",
@@ -2110,6 +2308,7 @@
       "entity_id": "ENTITY-0052",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2118,6 +2317,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0052",
+      "top1_conflicts": false,
+      "inference_ms": 1.1149579659104347,
       "top20": [
         "STD-ENTITY-0052",
         "STD-ENTITY-0053",
@@ -2146,6 +2347,7 @@
       "entity_id": "ENTITY-0052",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -2154,6 +2356,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0052",
+      "top1_conflicts": true,
+      "inference_ms": 0.9624999947845936,
       "top20": [
         "STD-ENTITY-0052",
         "STD-ENTITY-0041",
@@ -2182,6 +2386,7 @@
       "entity_id": "ENTITY-0057",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2189,6 +2394,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0057",
+      "top1_conflicts": false,
+      "inference_ms": 0.9469578508287668,
       "top20": [
         "STD-ENTITY-0057",
         "STD-ENTITY-0059",
@@ -2217,6 +2424,7 @@
       "entity_id": "ENTITY-0057",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2225,6 +2433,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0057",
+      "top1_conflicts": false,
+      "inference_ms": 0.963917002081871,
       "top20": [
         "STD-ENTITY-0057",
         "STD-ENTITY-0056",
@@ -2253,6 +2463,7 @@
       "entity_id": "ENTITY-0057",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2261,6 +2472,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0057",
+      "top1_conflicts": false,
+      "inference_ms": 1.0575829073786736,
       "top20": [
         "STD-ENTITY-0057",
         "STD-ENTITY-0058",
@@ -2289,6 +2502,7 @@
       "entity_id": "ENTITY-0063",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2296,6 +2510,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0063",
+      "top1_conflicts": false,
+      "inference_ms": 1.1531671043485403,
       "top20": [
         "STD-ENTITY-0063",
         "STD-ENTITY-0061",
@@ -2324,6 +2540,7 @@
       "entity_id": "ENTITY-0063",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2332,6 +2549,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0063",
+      "top1_conflicts": false,
+      "inference_ms": 1.246000174432993,
       "top20": [
         "STD-ENTITY-0063",
         "STD-ENTITY-0062",
@@ -2360,6 +2579,7 @@
       "entity_id": "ENTITY-0063",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2368,6 +2588,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0063",
+      "top1_conflicts": false,
+      "inference_ms": 1.0111669544130564,
       "top20": [
         "STD-ENTITY-0063",
         "STD-ENTITY-0071",
@@ -2396,6 +2618,7 @@
       "entity_id": "ENTITY-0071",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2403,6 +2626,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0071",
+      "top1_conflicts": false,
+      "inference_ms": 1.1285408399999142,
       "top20": [
         "STD-ENTITY-0071",
         "STD-ENTITY-0051",
@@ -2431,6 +2656,7 @@
       "entity_id": "ENTITY-0071",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2439,6 +2665,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0071",
+      "top1_conflicts": false,
+      "inference_ms": 1.044624950736761,
       "top20": [
         "STD-ENTITY-0071",
         "STD-ENTITY-0051",
@@ -2467,6 +2695,7 @@
       "entity_id": "ENTITY-0071",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2475,6 +2704,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0071",
+      "top1_conflicts": false,
+      "inference_ms": 0.9104169439524412,
       "top20": [
         "STD-ENTITY-0071",
         "STD-ENTITY-0069",
@@ -2503,6 +2734,7 @@
       "entity_id": "ENTITY-0073",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2510,6 +2742,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0073",
+      "top1_conflicts": false,
+      "inference_ms": 0.9173750877380371,
       "top20": [
         "STD-ENTITY-0073",
         "STD-ENTITY-0075",
@@ -2538,6 +2772,7 @@
       "entity_id": "ENTITY-0073",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2546,6 +2781,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0073",
+      "top1_conflicts": false,
+      "inference_ms": 0.9206668473780155,
       "top20": [
         "STD-ENTITY-0073",
         "STD-ENTITY-0072",
@@ -2574,6 +2811,7 @@
       "entity_id": "ENTITY-0073",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2582,6 +2820,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0073",
+      "top1_conflicts": false,
+      "inference_ms": 0.9289588779211044,
       "top20": [
         "STD-ENTITY-0073",
         "STD-ENTITY-0074",
@@ -2610,6 +2850,7 @@
       "entity_id": "ENTITY-0079",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2617,6 +2858,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0079",
+      "top1_conflicts": false,
+      "inference_ms": 0.9163329377770424,
       "top20": [
         "STD-ENTITY-0079",
         "STD-ENTITY-0077",
@@ -2645,6 +2888,7 @@
       "entity_id": "ENTITY-0079",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2653,6 +2897,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0079",
+      "top1_conflicts": false,
+      "inference_ms": 1.1191251687705517,
       "top20": [
         "STD-ENTITY-0079",
         "STD-ENTITY-0077",
@@ -2681,6 +2927,7 @@
       "entity_id": "ENTITY-0079",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2689,6 +2936,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0079",
+      "top1_conflicts": false,
+      "inference_ms": 1.1599170975387096,
       "top20": [
         "STD-ENTITY-0079",
         "STD-ENTITY-0076",
@@ -2717,6 +2966,7 @@
       "entity_id": "ENTITY-0081",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2724,6 +2974,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0081",
+      "top1_conflicts": false,
+      "inference_ms": 0.9945828933268785,
       "top20": [
         "STD-ENTITY-0081",
         "STD-ENTITY-0083",
@@ -2752,6 +3004,7 @@
       "entity_id": "ENTITY-0081",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2760,6 +3013,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0081",
+      "top1_conflicts": false,
+      "inference_ms": 0.9457918349653482,
       "top20": [
         "STD-ENTITY-0081",
         "STD-ENTITY-0041",
@@ -2788,6 +3043,7 @@
       "entity_id": "ENTITY-0081",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2796,6 +3052,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0081",
+      "top1_conflicts": false,
+      "inference_ms": 0.9666669648140669,
       "top20": [
         "STD-ENTITY-0081",
         "STD-ENTITY-0083",
@@ -2824,6 +3082,7 @@
       "entity_id": "ENTITY-0083",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2831,6 +3090,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0083",
+      "top1_conflicts": false,
+      "inference_ms": 0.9794170036911964,
       "top20": [
         "STD-ENTITY-0083",
         "STD-ENTITY-0081",
@@ -2859,6 +3120,7 @@
       "entity_id": "ENTITY-0083",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2867,6 +3129,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0083",
+      "top1_conflicts": false,
+      "inference_ms": 1.0318330023437738,
       "top20": [
         "STD-ENTITY-0083",
         "STD-ENTITY-0282",
@@ -2895,6 +3159,7 @@
       "entity_id": "ENTITY-0083",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -2903,6 +3168,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0083",
+      "top1_conflicts": false,
+      "inference_ms": 1.2985831126570702,
       "top20": [
         "STD-ENTITY-0083",
         "STD-ENTITY-0081",
@@ -2931,6 +3198,7 @@
       "entity_id": "ENTITY-0087",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2938,6 +3206,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0087",
+      "top1_conflicts": false,
+      "inference_ms": 1.0712919756770134,
       "top20": [
         "STD-ENTITY-0087",
         "STD-ENTITY-0085",
@@ -2966,6 +3236,7 @@
       "entity_id": "ENTITY-0087",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -2974,6 +3245,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0087",
+      "top1_conflicts": false,
+      "inference_ms": 1.0784589685499668,
       "top20": [
         "STD-ENTITY-0087",
         "STD-ENTITY-0286",
@@ -3002,6 +3275,7 @@
       "entity_id": "ENTITY-0087",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -3010,6 +3284,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0087",
+      "top1_conflicts": false,
+      "inference_ms": 1.0273340158164501,
       "top20": [
         "STD-ENTITY-0087",
         "STD-ENTITY-0085",
@@ -3038,6 +3314,7 @@
       "entity_id": "ENTITY-0098",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3045,6 +3322,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0098",
+      "top1_conflicts": false,
+      "inference_ms": 1.0114999022334814,
       "top20": [
         "STD-ENTITY-0098",
         "STD-ENTITY-0096",
@@ -3073,6 +3352,7 @@
       "entity_id": "ENTITY-0098",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3081,6 +3361,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0098",
+      "top1_conflicts": false,
+      "inference_ms": 0.9682499803602695,
       "top20": [
         "STD-ENTITY-0098",
         "STD-ENTITY-0099",
@@ -3109,6 +3391,7 @@
       "entity_id": "ENTITY-0098",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3117,6 +3400,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0098",
+      "top1_conflicts": true,
+      "inference_ms": 1.1845419649034739,
       "top20": [
         "STD-ENTITY-0098",
         "STD-ENTITY-0083",
@@ -3145,6 +3430,7 @@
       "entity_id": "ENTITY-0101",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3152,6 +3438,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0101",
+      "top1_conflicts": false,
+      "inference_ms": 1.2362080160528421,
       "top20": [
         "STD-ENTITY-0101",
         "STD-ENTITY-0103",
@@ -3180,6 +3468,7 @@
       "entity_id": "ENTITY-0101",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3188,6 +3477,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0101",
+      "top1_conflicts": false,
+      "inference_ms": 1.0019999463111162,
       "top20": [
         "STD-ENTITY-0101",
         "STD-ENTITY-0021",
@@ -3216,6 +3507,7 @@
       "entity_id": "ENTITY-0101",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -3224,6 +3516,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0101",
+      "top1_conflicts": false,
+      "inference_ms": 1.2783329002559185,
       "top20": [
         "STD-ENTITY-0101",
         "STD-ENTITY-0102",
@@ -3252,6 +3546,7 @@
       "entity_id": "ENTITY-0107",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3259,6 +3554,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0107",
+      "top1_conflicts": false,
+      "inference_ms": 1.4884578995406628,
       "top20": [
         "STD-ENTITY-0107",
         "STD-ENTITY-0105",
@@ -3287,6 +3584,7 @@
       "entity_id": "ENTITY-0107",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3295,6 +3593,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0107",
+      "top1_conflicts": false,
+      "inference_ms": 1.0249160695821047,
       "top20": [
         "STD-ENTITY-0107",
         "STD-ENTITY-0106",
@@ -3323,6 +3623,7 @@
       "entity_id": "ENTITY-0107",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -3331,6 +3632,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0107",
+      "top1_conflicts": false,
+      "inference_ms": 1.0370421223342419,
       "top20": [
         "STD-ENTITY-0107",
         "STD-ENTITY-0105",
@@ -3359,6 +3662,7 @@
       "entity_id": "ENTITY-0108",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3366,6 +3670,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0108",
+      "top1_conflicts": false,
+      "inference_ms": 1.0506249964237213,
       "top20": [
         "STD-ENTITY-0108",
         "STD-ENTITY-0048",
@@ -3394,6 +3700,7 @@
       "entity_id": "ENTITY-0108",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3402,6 +3709,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0108",
+      "top1_conflicts": false,
+      "inference_ms": 1.020957948639989,
       "top20": [
         "STD-ENTITY-0108",
         "STD-ENTITY-0109",
@@ -3430,6 +3739,7 @@
       "entity_id": "ENTITY-0108",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3438,6 +3748,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0108",
+      "top1_conflicts": true,
+      "inference_ms": 1.6353330574929714,
       "top20": [
         "STD-ENTITY-0108",
         "STD-ENTITY-0103",
@@ -3466,6 +3778,7 @@
       "entity_id": "ENTITY-0110",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3474,6 +3787,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0108",
+      "top1_conflicts": true,
+      "inference_ms": 1.4921659603714943,
       "top20": [
         "STD-ENTITY-0108",
         "STD-ENTITY-0308",
@@ -3502,6 +3817,7 @@
       "entity_id": "ENTITY-0110",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3511,6 +3827,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0111",
+      "top1_conflicts": true,
+      "inference_ms": 1.584499841555953,
       "top20": [
         "STD-ENTITY-0111",
         "STD-ENTITY-0308",
@@ -3539,6 +3857,7 @@
       "entity_id": "ENTITY-0110",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3548,6 +3867,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0101",
+      "top1_conflicts": true,
+      "inference_ms": 1.0802499018609524,
       "top20": [
         "STD-ENTITY-0101",
         "STD-ENTITY-0104",
@@ -3576,6 +3897,7 @@
       "entity_id": "ENTITY-0111",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3583,6 +3905,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0111",
+      "top1_conflicts": false,
+      "inference_ms": 0.9932918474078178,
       "top20": [
         "STD-ENTITY-0111",
         "STD-ENTITY-0051",
@@ -3611,6 +3935,7 @@
       "entity_id": "ENTITY-0111",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3619,6 +3944,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0111",
+      "top1_conflicts": false,
+      "inference_ms": 1.029792008921504,
       "top20": [
         "STD-ENTITY-0111",
         "STD-ENTITY-0051",
@@ -3647,6 +3974,7 @@
       "entity_id": "ENTITY-0111",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -3655,6 +3983,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0111",
+      "top1_conflicts": false,
+      "inference_ms": 0.9724160190671682,
       "top20": [
         "STD-ENTITY-0111",
         "STD-ENTITY-0109",
@@ -3683,6 +4013,7 @@
       "entity_id": "ENTITY-0112",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3690,6 +4021,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0112",
+      "top1_conflicts": false,
+      "inference_ms": 0.9675829205662012,
       "top20": [
         "STD-ENTITY-0112",
         "STD-ENTITY-0114",
@@ -3718,6 +4051,7 @@
       "entity_id": "ENTITY-0112",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3726,6 +4060,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0112",
+      "top1_conflicts": false,
+      "inference_ms": 0.9729999583214521,
       "top20": [
         "STD-ENTITY-0112",
         "STD-ENTITY-0113",
@@ -3754,6 +4090,7 @@
       "entity_id": "ENTITY-0112",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3762,6 +4099,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0112",
+      "top1_conflicts": true,
+      "inference_ms": 1.0859169997274876,
       "top20": [
         "STD-ENTITY-0112",
         "STD-ENTITY-0118",
@@ -3790,6 +4129,7 @@
       "entity_id": "ENTITY-0114",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3797,6 +4137,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0114",
+      "top1_conflicts": false,
+      "inference_ms": 1.6725000459700823,
       "top20": [
         "STD-ENTITY-0114",
         "STD-ENTITY-0112",
@@ -3825,6 +4167,7 @@
       "entity_id": "ENTITY-0114",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3833,6 +4176,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0114",
+      "top1_conflicts": false,
+      "inference_ms": 1.1549999471753836,
       "top20": [
         "STD-ENTITY-0114",
         "STD-ENTITY-0115",
@@ -3861,6 +4206,7 @@
       "entity_id": "ENTITY-0114",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3869,6 +4215,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0114",
+      "top1_conflicts": true,
+      "inference_ms": 1.2042908929288387,
       "top20": [
         "STD-ENTITY-0114",
         "STD-ENTITY-0108",
@@ -3897,6 +4245,7 @@
       "entity_id": "ENTITY-0116",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3904,6 +4253,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0116",
+      "top1_conflicts": false,
+      "inference_ms": 1.319583971053362,
       "top20": [
         "STD-ENTITY-0116",
         "STD-ENTITY-0118",
@@ -3932,6 +4283,7 @@
       "entity_id": "ENTITY-0116",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -3940,6 +4292,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0116",
+      "top1_conflicts": false,
+      "inference_ms": 1.799875171855092,
       "top20": [
         "STD-ENTITY-0116",
         "STD-ENTITY-0117",
@@ -3968,6 +4322,7 @@
       "entity_id": "ENTITY-0116",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -3976,6 +4331,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0116",
+      "top1_conflicts": true,
+      "inference_ms": 1.6643330454826355,
       "top20": [
         "STD-ENTITY-0116",
         "STD-ENTITY-0114",
@@ -4004,6 +4361,7 @@
       "entity_id": "ENTITY-0117",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4011,6 +4369,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0117",
+      "top1_conflicts": false,
+      "inference_ms": 1.4454580377787352,
       "top20": [
         "STD-ENTITY-0117",
         "STD-ENTITY-0119",
@@ -4039,6 +4399,7 @@
       "entity_id": "ENTITY-0117",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4047,6 +4408,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0117",
+      "top1_conflicts": false,
+      "inference_ms": 1.009874977171421,
       "top20": [
         "STD-ENTITY-0117",
         "STD-ENTITY-0119",
@@ -4075,6 +4438,7 @@
       "entity_id": "ENTITY-0117",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -4083,6 +4447,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0117",
+      "top1_conflicts": false,
+      "inference_ms": 0.9509169030934572,
       "top20": [
         "STD-ENTITY-0117",
         "STD-ENTITY-0118",
@@ -4111,6 +4477,7 @@
       "entity_id": "ENTITY-0119",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4118,6 +4485,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0119",
+      "top1_conflicts": false,
+      "inference_ms": 1.0616250801831484,
       "top20": [
         "STD-ENTITY-0119",
         "STD-ENTITY-0117",
@@ -4146,6 +4515,7 @@
       "entity_id": "ENTITY-0119",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4154,6 +4524,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0119",
+      "top1_conflicts": false,
+      "inference_ms": 1.0682919528335333,
       "top20": [
         "STD-ENTITY-0119",
         "STD-ENTITY-0118",
@@ -4182,6 +4554,7 @@
       "entity_id": "ENTITY-0119",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -4190,6 +4563,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0119",
+      "top1_conflicts": false,
+      "inference_ms": 0.9678329806774855,
       "top20": [
         "STD-ENTITY-0119",
         "STD-ENTITY-0116",
@@ -4218,6 +4593,7 @@
       "entity_id": "ENTITY-0125",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4225,6 +4601,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0125",
+      "top1_conflicts": false,
+      "inference_ms": 0.9575840085744858,
       "top20": [
         "STD-ENTITY-0125",
         "STD-ENTITY-0127",
@@ -4253,6 +4631,7 @@
       "entity_id": "ENTITY-0125",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4261,6 +4640,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0125",
+      "top1_conflicts": false,
+      "inference_ms": 0.9248340502381325,
       "top20": [
         "STD-ENTITY-0125",
         "STD-ENTITY-0124",
@@ -4289,6 +4670,7 @@
       "entity_id": "ENTITY-0125",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -4297,6 +4679,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0125",
+      "top1_conflicts": false,
+      "inference_ms": 1.368874916806817,
       "top20": [
         "STD-ENTITY-0125",
         "STD-ENTITY-0137",
@@ -4325,6 +4709,7 @@
       "entity_id": "ENTITY-0126",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4332,6 +4717,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0126",
+      "top1_conflicts": false,
+      "inference_ms": 1.2397500686347485,
       "top20": [
         "STD-ENTITY-0126",
         "STD-ENTITY-0124",
@@ -4360,6 +4747,7 @@
       "entity_id": "ENTITY-0126",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4368,6 +4756,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0126",
+      "top1_conflicts": false,
+      "inference_ms": 1.0074579622596502,
       "top20": [
         "STD-ENTITY-0126",
         "STD-ENTITY-0127",
@@ -4396,6 +4786,7 @@
       "entity_id": "ENTITY-0126",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -4404,6 +4795,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0126",
+      "top1_conflicts": true,
+      "inference_ms": 0.9761250112205744,
       "top20": [
         "STD-ENTITY-0126",
         "STD-ENTITY-0139",
@@ -4432,6 +4825,7 @@
       "entity_id": "ENTITY-0130",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -4440,6 +4834,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0128",
+      "top1_conflicts": true,
+      "inference_ms": 1.1684589553624392,
       "top20": [
         "STD-ENTITY-0128",
         "STD-ENTITY-0051",
@@ -4468,6 +4864,7 @@
       "entity_id": "ENTITY-0130",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -4477,6 +4874,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0131",
+      "top1_conflicts": true,
+      "inference_ms": 1.075624953955412,
       "top20": [
         "STD-ENTITY-0131",
         "STD-ENTITY-0051",
@@ -4505,6 +4904,7 @@
       "entity_id": "ENTITY-0130",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -4514,6 +4914,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0121",
+      "top1_conflicts": true,
+      "inference_ms": 1.4517910312861204,
       "top20": [
         "STD-ENTITY-0121",
         "STD-ENTITY-0132",
@@ -4542,6 +4944,7 @@
       "entity_id": "ENTITY-0134",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4549,6 +4952,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0134",
+      "top1_conflicts": false,
+      "inference_ms": 1.2514591217041016,
       "top20": [
         "STD-ENTITY-0134",
         "STD-ENTITY-0132",
@@ -4577,6 +4982,7 @@
       "entity_id": "ENTITY-0134",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4585,6 +4991,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0134",
+      "top1_conflicts": false,
+      "inference_ms": 0.9743750561028719,
       "top20": [
         "STD-ENTITY-0134",
         "STD-ENTITY-0135",
@@ -4613,6 +5021,7 @@
       "entity_id": "ENTITY-0134",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -4621,6 +5030,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0134",
+      "top1_conflicts": true,
+      "inference_ms": 0.960333039984107,
       "top20": [
         "STD-ENTITY-0134",
         "STD-ENTITY-0123",
@@ -4649,6 +5060,7 @@
       "entity_id": "ENTITY-0135",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4656,6 +5068,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0135",
+      "top1_conflicts": false,
+      "inference_ms": 1.0074172168970108,
       "top20": [
         "STD-ENTITY-0135",
         "STD-ENTITY-0133",
@@ -4684,6 +5098,7 @@
       "entity_id": "ENTITY-0135",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4692,6 +5107,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0135",
+      "top1_conflicts": false,
+      "inference_ms": 0.9441250003874302,
       "top20": [
         "STD-ENTITY-0135",
         "STD-ENTITY-0133",
@@ -4720,6 +5137,7 @@
       "entity_id": "ENTITY-0135",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -4728,6 +5146,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0135",
+      "top1_conflicts": false,
+      "inference_ms": 0.9112078696489334,
       "top20": [
         "STD-ENTITY-0135",
         "STD-ENTITY-0132",
@@ -4756,6 +5176,7 @@
       "entity_id": "ENTITY-0136",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4763,6 +5184,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0136",
+      "top1_conflicts": false,
+      "inference_ms": 0.9198340121656656,
       "top20": [
         "STD-ENTITY-0136",
         "STD-ENTITY-0122",
@@ -4791,6 +5214,7 @@
       "entity_id": "ENTITY-0136",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4799,6 +5223,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0136",
+      "top1_conflicts": false,
+      "inference_ms": 0.9062080644071102,
       "top20": [
         "STD-ENTITY-0136",
         "STD-ENTITY-0137",
@@ -4827,6 +5253,7 @@
       "entity_id": "ENTITY-0136",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -4835,6 +5262,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0136",
+      "top1_conflicts": true,
+      "inference_ms": 1.0670418851077557,
       "top20": [
         "STD-ENTITY-0136",
         "STD-ENTITY-0122",
@@ -4863,6 +5292,7 @@
       "entity_id": "ENTITY-0137",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4870,6 +5300,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0137",
+      "top1_conflicts": false,
+      "inference_ms": 1.346249831840396,
       "top20": [
         "STD-ENTITY-0137",
         "STD-ENTITY-0123",
@@ -4898,6 +5330,7 @@
       "entity_id": "ENTITY-0137",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4906,6 +5339,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0137",
+      "top1_conflicts": false,
+      "inference_ms": 1.0923331137746572,
       "top20": [
         "STD-ENTITY-0137",
         "STD-ENTITY-0139",
@@ -4934,6 +5369,7 @@
       "entity_id": "ENTITY-0137",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -4942,6 +5378,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0137",
+      "top1_conflicts": false,
+      "inference_ms": 0.9656669571995735,
       "top20": [
         "STD-ENTITY-0137",
         "STD-ENTITY-0125",
@@ -4970,6 +5408,7 @@
       "entity_id": "ENTITY-0138",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -4977,6 +5416,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0138",
+      "top1_conflicts": false,
+      "inference_ms": 1.0537090711295605,
       "top20": [
         "STD-ENTITY-0138",
         "STD-ENTITY-0136",
@@ -5005,6 +5446,7 @@
       "entity_id": "ENTITY-0138",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5013,6 +5455,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0138",
+      "top1_conflicts": false,
+      "inference_ms": 1.125916140154004,
       "top20": [
         "STD-ENTITY-0138",
         "STD-ENTITY-0139",
@@ -5041,6 +5485,7 @@
       "entity_id": "ENTITY-0138",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5049,6 +5494,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0138",
+      "top1_conflicts": true,
+      "inference_ms": 0.9934587869793177,
       "top20": [
         "STD-ENTITY-0138",
         "STD-ENTITY-0127",
@@ -5077,6 +5524,7 @@
       "entity_id": "ENTITY-0140",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5085,6 +5533,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0142",
+      "top1_conflicts": true,
+      "inference_ms": 1.3315000105649233,
       "top20": [
         "STD-ENTITY-0142",
         "STD-ENTITY-0342",
@@ -5113,6 +5563,7 @@
       "entity_id": "ENTITY-0140",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5122,6 +5573,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0141",
+      "top1_conflicts": true,
+      "inference_ms": 1.4355839230120182,
       "top20": [
         "STD-ENTITY-0141",
         "STD-ENTITY-0342",
@@ -5150,6 +5603,7 @@
       "entity_id": "ENTITY-0140",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5159,6 +5613,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0151",
+      "top1_conflicts": true,
+      "inference_ms": 1.1394999455660582,
       "top20": [
         "STD-ENTITY-0151",
         "STD-ENTITY-0146",
@@ -5187,6 +5643,7 @@
       "entity_id": "ENTITY-0142",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5194,6 +5651,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0142",
+      "top1_conflicts": false,
+      "inference_ms": 1.1933748610317707,
       "top20": [
         "STD-ENTITY-0142",
         "STD-ENTITY-0022",
@@ -5222,6 +5681,7 @@
       "entity_id": "ENTITY-0142",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5230,6 +5690,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0142",
+      "top1_conflicts": false,
+      "inference_ms": 0.9842079598456621,
       "top20": [
         "STD-ENTITY-0142",
         "STD-ENTITY-0143",
@@ -5258,6 +5720,7 @@
       "entity_id": "ENTITY-0142",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5266,6 +5729,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0142",
+      "top1_conflicts": true,
+      "inference_ms": 0.9429170750081539,
       "top20": [
         "STD-ENTITY-0142",
         "STD-ENTITY-0149",
@@ -5294,6 +5759,7 @@
       "entity_id": "ENTITY-0148",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5301,6 +5767,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0148",
+      "top1_conflicts": false,
+      "inference_ms": 0.9163750801235437,
       "top20": [
         "STD-ENTITY-0148",
         "STD-ENTITY-0048",
@@ -5329,6 +5797,7 @@
       "entity_id": "ENTITY-0148",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5337,6 +5806,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0148",
+      "top1_conflicts": false,
+      "inference_ms": 0.9136670269072056,
       "top20": [
         "STD-ENTITY-0148",
         "STD-ENTITY-0149",
@@ -5365,6 +5836,7 @@
       "entity_id": "ENTITY-0148",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5373,6 +5845,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0148",
+      "top1_conflicts": true,
+      "inference_ms": 0.906666973605752,
       "top20": [
         "STD-ENTITY-0148",
         "STD-ENTITY-0143",
@@ -5401,6 +5875,7 @@
       "entity_id": "ENTITY-0150",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5409,6 +5884,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0148",
+      "top1_conflicts": true,
+      "inference_ms": 1.220709178596735,
       "top20": [
         "STD-ENTITY-0148",
         "STD-ENTITY-0348",
@@ -5437,6 +5914,7 @@
       "entity_id": "ENTITY-0150",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5446,6 +5924,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0151",
+      "top1_conflicts": true,
+      "inference_ms": 1.4295419678092003,
       "top20": [
         "STD-ENTITY-0151",
         "STD-ENTITY-0348",
@@ -5474,6 +5954,7 @@
       "entity_id": "ENTITY-0150",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5483,6 +5964,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0141",
+      "top1_conflicts": true,
+      "inference_ms": 1.0332500096410513,
       "top20": [
         "STD-ENTITY-0141",
         "STD-ENTITY-0144",
@@ -5511,6 +5994,7 @@
       "entity_id": "ENTITY-0152",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5518,6 +6002,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0152",
+      "top1_conflicts": false,
+      "inference_ms": 0.98829111084342,
       "top20": [
         "STD-ENTITY-0152",
         "STD-ENTITY-0154",
@@ -5546,6 +6032,7 @@
       "entity_id": "ENTITY-0152",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5554,6 +6041,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0152",
+      "top1_conflicts": false,
+      "inference_ms": 1.173458993434906,
       "top20": [
         "STD-ENTITY-0152",
         "STD-ENTITY-0153",
@@ -5582,6 +6071,7 @@
       "entity_id": "ENTITY-0152",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5590,6 +6080,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0152",
+      "top1_conflicts": true,
+      "inference_ms": 1.0351669043302536,
       "top20": [
         "STD-ENTITY-0152",
         "STD-ENTITY-0158",
@@ -5618,6 +6110,7 @@
       "entity_id": "ENTITY-0160",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5626,6 +6119,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0162",
+      "top1_conflicts": true,
+      "inference_ms": 1.1150829959660769,
       "top20": [
         "STD-ENTITY-0162",
         "STD-ENTITY-0362",
@@ -5654,6 +6149,7 @@
       "entity_id": "ENTITY-0160",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5663,6 +6159,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0161",
+      "top1_conflicts": true,
+      "inference_ms": 1.581207849085331,
       "top20": [
         "STD-ENTITY-0161",
         "STD-ENTITY-0041",
@@ -5691,6 +6189,7 @@
       "entity_id": "ENTITY-0160",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5700,6 +6199,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0171",
+      "top1_conflicts": true,
+      "inference_ms": 1.006375066936016,
       "top20": [
         "STD-ENTITY-0171",
         "STD-ENTITY-0166",
@@ -5728,6 +6229,7 @@
       "entity_id": "ENTITY-0161",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5735,6 +6237,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0161",
+      "top1_conflicts": false,
+      "inference_ms": 0.9930829983204603,
       "top20": [
         "STD-ENTITY-0161",
         "STD-ENTITY-0163",
@@ -5763,6 +6267,7 @@
       "entity_id": "ENTITY-0161",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5771,6 +6276,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0161",
+      "top1_conflicts": false,
+      "inference_ms": 0.9643340017646551,
       "top20": [
         "STD-ENTITY-0161",
         "STD-ENTITY-0041",
@@ -5799,6 +6306,7 @@
       "entity_id": "ENTITY-0161",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -5807,6 +6315,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0161",
+      "top1_conflicts": false,
+      "inference_ms": 0.8905418217182159,
       "top20": [
         "STD-ENTITY-0161",
         "STD-ENTITY-0162",
@@ -5835,6 +6345,7 @@
       "entity_id": "ENTITY-0166",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5842,6 +6353,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0166",
+      "top1_conflicts": false,
+      "inference_ms": 0.9179578628391027,
       "top20": [
         "STD-ENTITY-0166",
         "STD-ENTITY-0164",
@@ -5870,6 +6383,7 @@
       "entity_id": "ENTITY-0166",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5878,6 +6392,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0166",
+      "top1_conflicts": false,
+      "inference_ms": 0.9292080067098141,
       "top20": [
         "STD-ENTITY-0166",
         "STD-ENTITY-0167",
@@ -5906,6 +6422,7 @@
       "entity_id": "ENTITY-0166",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -5914,6 +6431,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0166",
+      "top1_conflicts": true,
+      "inference_ms": 0.8999579586088657,
       "top20": [
         "STD-ENTITY-0166",
         "STD-ENTITY-0168",
@@ -5942,6 +6461,7 @@
       "entity_id": "ENTITY-0172",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5949,6 +6469,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0172",
+      "top1_conflicts": false,
+      "inference_ms": 0.9132500272244215,
       "top20": [
         "STD-ENTITY-0172",
         "STD-ENTITY-0174",
@@ -5977,6 +6499,7 @@
       "entity_id": "ENTITY-0172",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -5985,6 +6508,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0172",
+      "top1_conflicts": false,
+      "inference_ms": 0.9295830968767405,
       "top20": [
         "STD-ENTITY-0172",
         "STD-ENTITY-0173",
@@ -6013,6 +6538,7 @@
       "entity_id": "ENTITY-0172",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -6021,6 +6547,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0172",
+      "top1_conflicts": true,
+      "inference_ms": 0.9404581505805254,
       "top20": [
         "STD-ENTITY-0172",
         "STD-ENTITY-0178",
@@ -6049,6 +6577,7 @@
       "entity_id": "ENTITY-0174",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6056,6 +6585,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0174",
+      "top1_conflicts": false,
+      "inference_ms": 0.9433329105377197,
       "top20": [
         "STD-ENTITY-0174",
         "STD-ENTITY-0172",
@@ -6084,6 +6615,7 @@
       "entity_id": "ENTITY-0174",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6092,6 +6624,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0174",
+      "top1_conflicts": false,
+      "inference_ms": 1.1540839914232492,
       "top20": [
         "STD-ENTITY-0174",
         "STD-ENTITY-0175",
@@ -6120,6 +6654,7 @@
       "entity_id": "ENTITY-0174",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -6128,6 +6663,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0174",
+      "top1_conflicts": true,
+      "inference_ms": 0.994750065729022,
       "top20": [
         "STD-ENTITY-0174",
         "STD-ENTITY-0168",
@@ -6156,6 +6693,7 @@
       "entity_id": "ENTITY-0176",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6163,6 +6701,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0176",
+      "top1_conflicts": false,
+      "inference_ms": 1.0495001915842295,
       "top20": [
         "STD-ENTITY-0176",
         "STD-ENTITY-0178",
@@ -6191,6 +6731,7 @@
       "entity_id": "ENTITY-0176",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6199,6 +6740,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0176",
+      "top1_conflicts": false,
+      "inference_ms": 1.247874926775694,
       "top20": [
         "STD-ENTITY-0176",
         "STD-ENTITY-0177",
@@ -6227,6 +6770,7 @@
       "entity_id": "ENTITY-0176",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -6235,6 +6779,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0176",
+      "top1_conflicts": true,
+      "inference_ms": 1.0266660246998072,
       "top20": [
         "STD-ENTITY-0176",
         "STD-ENTITY-0174",
@@ -6263,6 +6809,7 @@
       "entity_id": "ENTITY-0181",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6270,6 +6817,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0181",
+      "top1_conflicts": false,
+      "inference_ms": 0.9406250901520252,
       "top20": [
         "STD-ENTITY-0181",
         "STD-ENTITY-0199",
@@ -6298,6 +6847,7 @@
       "entity_id": "ENTITY-0181",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6306,6 +6856,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0181",
+      "top1_conflicts": false,
+      "inference_ms": 0.9286671411246061,
       "top20": [
         "STD-ENTITY-0181",
         "STD-ENTITY-0183",
@@ -6334,6 +6886,7 @@
       "entity_id": "ENTITY-0181",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -6342,6 +6895,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0181",
+      "top1_conflicts": false,
+      "inference_ms": 0.9502498432993889,
       "top20": [
         "STD-ENTITY-0181",
         "STD-ENTITY-0381",
@@ -6370,6 +6925,7 @@
       "entity_id": "ENTITY-0183",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6377,6 +6933,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0183",
+      "top1_conflicts": false,
+      "inference_ms": 0.9709999430924654,
       "top20": [
         "STD-ENTITY-0183",
         "STD-ENTITY-0197",
@@ -6405,6 +6963,7 @@
       "entity_id": "ENTITY-0183",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6413,6 +6972,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0183",
+      "top1_conflicts": false,
+      "inference_ms": 0.905958004295826,
       "top20": [
         "STD-ENTITY-0183",
         "STD-ENTITY-0181",
@@ -6441,6 +7002,7 @@
       "entity_id": "ENTITY-0183",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -6449,6 +7011,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0183",
+      "top1_conflicts": false,
+      "inference_ms": 0.9298331569880247,
       "top20": [
         "STD-ENTITY-0183",
         "STD-ENTITY-0383",
@@ -6477,6 +7041,7 @@
       "entity_id": "ENTITY-0185",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6484,6 +7049,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0185",
+      "top1_conflicts": false,
+      "inference_ms": 0.9162500500679016,
       "top20": [
         "STD-ENTITY-0185",
         "STD-ENTITY-0187",
@@ -6512,6 +7079,7 @@
       "entity_id": "ENTITY-0185",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6520,6 +7088,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0185",
+      "top1_conflicts": false,
+      "inference_ms": 0.8934999350458384,
       "top20": [
         "STD-ENTITY-0185",
         "STD-ENTITY-0184",
@@ -6548,6 +7118,7 @@
       "entity_id": "ENTITY-0185",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -6556,6 +7127,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0185",
+      "top1_conflicts": false,
+      "inference_ms": 0.8962079882621765,
       "top20": [
         "STD-ENTITY-0185",
         "STD-ENTITY-0197",
@@ -6584,6 +7157,7 @@
       "entity_id": "ENTITY-0186",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6591,6 +7165,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0186",
+      "top1_conflicts": false,
+      "inference_ms": 0.9109999518841505,
       "top20": [
         "STD-ENTITY-0186",
         "STD-ENTITY-0184",
@@ -6619,6 +7195,7 @@
       "entity_id": "ENTITY-0186",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6627,6 +7204,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0186",
+      "top1_conflicts": false,
+      "inference_ms": 0.9390839841216803,
       "top20": [
         "STD-ENTITY-0186",
         "STD-ENTITY-0187",
@@ -6655,6 +7234,7 @@
       "entity_id": "ENTITY-0186",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -6663,6 +7243,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0186",
+      "top1_conflicts": true,
+      "inference_ms": 0.9986669756472111,
       "top20": [
         "STD-ENTITY-0186",
         "STD-ENTITY-0199",
@@ -6691,6 +7273,7 @@
       "entity_id": "ENTITY-0189",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6698,6 +7281,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0189",
+      "top1_conflicts": false,
+      "inference_ms": 1.1536660604178905,
       "top20": [
         "STD-ENTITY-0189",
         "STD-ENTITY-0049",
@@ -6726,6 +7311,7 @@
       "entity_id": "ENTITY-0189",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6734,6 +7320,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0189",
+      "top1_conflicts": false,
+      "inference_ms": 1.0274159722030163,
       "top20": [
         "STD-ENTITY-0189",
         "STD-ENTITY-0188",
@@ -6762,6 +7350,7 @@
       "entity_id": "ENTITY-0189",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -6770,6 +7359,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0189",
+      "top1_conflicts": false,
+      "inference_ms": 1.035958994179964,
       "top20": [
         "STD-ENTITY-0189",
         "STD-ENTITY-0181",
@@ -6798,6 +7389,7 @@
       "entity_id": "ENTITY-0193",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6805,6 +7397,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0193",
+      "top1_conflicts": false,
+      "inference_ms": 1.505834050476551,
       "top20": [
         "STD-ENTITY-0193",
         "STD-ENTITY-0195",
@@ -6833,6 +7427,7 @@
       "entity_id": "ENTITY-0193",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6841,6 +7436,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0193",
+      "top1_conflicts": false,
+      "inference_ms": 1.0374169796705246,
       "top20": [
         "STD-ENTITY-0193",
         "STD-ENTITY-0192",
@@ -6869,6 +7466,7 @@
       "entity_id": "ENTITY-0193",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -6877,6 +7475,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0193",
+      "top1_conflicts": false,
+      "inference_ms": 0.9154160507023335,
       "top20": [
         "STD-ENTITY-0193",
         "STD-ENTITY-0194",
@@ -6905,6 +7505,7 @@
       "entity_id": "ENTITY-0194",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6912,6 +7513,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0194",
+      "top1_conflicts": false,
+      "inference_ms": 0.9287919383496046,
       "top20": [
         "STD-ENTITY-0194",
         "STD-ENTITY-0192",
@@ -6940,6 +7543,7 @@
       "entity_id": "ENTITY-0194",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -6948,6 +7552,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0194",
+      "top1_conflicts": false,
+      "inference_ms": 1.1058328673243523,
       "top20": [
         "STD-ENTITY-0194",
         "STD-ENTITY-0195",
@@ -6976,6 +7582,7 @@
       "entity_id": "ENTITY-0194",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -6984,6 +7591,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0194",
+      "top1_conflicts": true,
+      "inference_ms": 0.9703750256448984,
       "top20": [
         "STD-ENTITY-0194",
         "STD-ENTITY-0183",
@@ -7012,6 +7621,7 @@
       "entity_id": "ENTITY-0202",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7019,6 +7629,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0202",
+      "top1_conflicts": false,
+      "inference_ms": 0.9659170173108578,
       "top20": [
         "STD-ENTITY-0202",
         "STD-ENTITY-0002",
@@ -7047,6 +7659,7 @@
       "entity_id": "ENTITY-0202",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7055,6 +7668,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0202",
+      "top1_conflicts": false,
+      "inference_ms": 0.9354159701615572,
       "top20": [
         "STD-ENTITY-0202",
         "STD-ENTITY-0203",
@@ -7083,6 +7698,7 @@
       "entity_id": "ENTITY-0202",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7091,6 +7707,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0202",
+      "top1_conflicts": true,
+      "inference_ms": 0.9353749919682741,
       "top20": [
         "STD-ENTITY-0202",
         "STD-ENTITY-0219",
@@ -7119,6 +7737,7 @@
       "entity_id": "ENTITY-0204",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7126,6 +7745,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0204",
+      "top1_conflicts": false,
+      "inference_ms": 0.9228331036865711,
       "top20": [
         "STD-ENTITY-0204",
         "STD-ENTITY-0206",
@@ -7154,6 +7775,7 @@
       "entity_id": "ENTITY-0204",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7162,6 +7784,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0204",
+      "top1_conflicts": false,
+      "inference_ms": 0.9168749675154686,
       "top20": [
         "STD-ENTITY-0204",
         "STD-ENTITY-0005",
@@ -7190,6 +7814,7 @@
       "entity_id": "ENTITY-0204",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7198,6 +7823,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0204",
+      "top1_conflicts": true,
+      "inference_ms": 0.9444579482078552,
       "top20": [
         "STD-ENTITY-0204",
         "STD-ENTITY-0202",
@@ -7226,6 +7853,7 @@
       "entity_id": "ENTITY-0205",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7233,6 +7861,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0205",
+      "top1_conflicts": false,
+      "inference_ms": 0.9495001286268234,
       "top20": [
         "STD-ENTITY-0205",
         "STD-ENTITY-0207",
@@ -7261,6 +7891,7 @@
       "entity_id": "ENTITY-0205",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7269,6 +7900,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0205",
+      "top1_conflicts": false,
+      "inference_ms": 1.0607079602777958,
       "top20": [
         "STD-ENTITY-0205",
         "STD-ENTITY-0004",
@@ -7297,6 +7930,7 @@
       "entity_id": "ENTITY-0205",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -7305,6 +7939,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0205",
+      "top1_conflicts": false,
+      "inference_ms": 0.992499990388751,
       "top20": [
         "STD-ENTITY-0205",
         "STD-ENTITY-0207",
@@ -7333,6 +7969,7 @@
       "entity_id": "ENTITY-0214",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7340,6 +7977,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0214",
+      "top1_conflicts": false,
+      "inference_ms": 0.9740830864757299,
       "top20": [
         "STD-ENTITY-0214",
         "STD-ENTITY-0212",
@@ -7368,6 +8007,7 @@
       "entity_id": "ENTITY-0214",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7376,6 +8016,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0214",
+      "top1_conflicts": false,
+      "inference_ms": 1.0563749819993973,
       "top20": [
         "STD-ENTITY-0214",
         "STD-ENTITY-0215",
@@ -7404,6 +8046,7 @@
       "entity_id": "ENTITY-0214",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7412,6 +8055,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0214",
+      "top1_conflicts": true,
+      "inference_ms": 0.96287508495152,
       "top20": [
         "STD-ENTITY-0214",
         "STD-ENTITY-0208",
@@ -7440,6 +8085,7 @@
       "entity_id": "ENTITY-0216",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7447,6 +8093,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0216",
+      "top1_conflicts": false,
+      "inference_ms": 1.0384998749941587,
       "top20": [
         "STD-ENTITY-0216",
         "STD-ENTITY-0218",
@@ -7475,6 +8123,7 @@
       "entity_id": "ENTITY-0216",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7483,6 +8132,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0216",
+      "top1_conflicts": false,
+      "inference_ms": 0.9799168910831213,
       "top20": [
         "STD-ENTITY-0216",
         "STD-ENTITY-0217",
@@ -7511,6 +8162,7 @@
       "entity_id": "ENTITY-0216",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7519,6 +8171,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0216",
+      "top1_conflicts": true,
+      "inference_ms": 0.98641705699265,
       "top20": [
         "STD-ENTITY-0216",
         "STD-ENTITY-0214",
@@ -7547,6 +8201,7 @@
       "entity_id": "ENTITY-0219",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7554,6 +8209,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0219",
+      "top1_conflicts": false,
+      "inference_ms": 1.0390831157565117,
       "top20": [
         "STD-ENTITY-0219",
         "STD-ENTITY-0217",
@@ -7582,6 +8239,7 @@
       "entity_id": "ENTITY-0219",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7590,6 +8248,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0219",
+      "top1_conflicts": false,
+      "inference_ms": 0.9798340033739805,
       "top20": [
         "STD-ENTITY-0219",
         "STD-ENTITY-0218",
@@ -7618,6 +8278,7 @@
       "entity_id": "ENTITY-0219",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -7626,6 +8287,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0219",
+      "top1_conflicts": false,
+      "inference_ms": 0.9365000296384096,
       "top20": [
         "STD-ENTITY-0219",
         "STD-ENTITY-0216",
@@ -7654,6 +8317,7 @@
       "entity_id": "ENTITY-0220",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7662,6 +8326,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0222",
+      "top1_conflicts": true,
+      "inference_ms": 0.9364171419292688,
       "top20": [
         "STD-ENTITY-0222",
         "STD-ENTITY-0021",
@@ -7690,6 +8356,7 @@
       "entity_id": "ENTITY-0220",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7699,6 +8366,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0022",
+      "top1_conflicts": true,
+      "inference_ms": 0.8994999807327986,
       "top20": [
         "STD-ENTITY-0022",
         "STD-ENTITY-0021",
@@ -7727,6 +8396,7 @@
       "entity_id": "ENTITY-0220",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7736,6 +8406,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0021",
+      "top1_conflicts": true,
+      "inference_ms": 0.9142500348389149,
       "top20": [
         "STD-ENTITY-0021",
         "STD-ENTITY-0237",
@@ -7764,6 +8436,7 @@
       "entity_id": "ENTITY-0229",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7771,6 +8444,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0229",
+      "top1_conflicts": false,
+      "inference_ms": 0.9190831333398819,
       "top20": [
         "STD-ENTITY-0229",
         "STD-ENTITY-0231",
@@ -7799,6 +8474,7 @@
       "entity_id": "ENTITY-0229",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7807,6 +8483,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0229",
+      "top1_conflicts": false,
+      "inference_ms": 0.9361659176647663,
       "top20": [
         "STD-ENTITY-0229",
         "STD-ENTITY-0028",
@@ -7835,6 +8513,7 @@
       "entity_id": "ENTITY-0229",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -7843,6 +8522,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0229",
+      "top1_conflicts": false,
+      "inference_ms": 0.935334013774991,
       "top20": [
         "STD-ENTITY-0229",
         "STD-ENTITY-0231",
@@ -7871,6 +8552,7 @@
       "entity_id": "ENTITY-0232",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7878,6 +8560,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0232",
+      "top1_conflicts": false,
+      "inference_ms": 1.0928749106824398,
       "top20": [
         "STD-ENTITY-0232",
         "STD-ENTITY-0234",
@@ -7906,6 +8590,7 @@
       "entity_id": "ENTITY-0232",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7914,6 +8599,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0232",
+      "top1_conflicts": false,
+      "inference_ms": 1.060584094375372,
       "top20": [
         "STD-ENTITY-0232",
         "STD-ENTITY-0033",
@@ -7942,6 +8629,7 @@
       "entity_id": "ENTITY-0232",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -7950,6 +8638,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0232",
+      "top1_conflicts": true,
+      "inference_ms": 1.0067920666188002,
       "top20": [
         "STD-ENTITY-0232",
         "STD-ENTITY-0238",
@@ -7978,6 +8668,7 @@
       "entity_id": "ENTITY-0234",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -7985,6 +8676,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0234",
+      "top1_conflicts": false,
+      "inference_ms": 1.1273750569671392,
       "top20": [
         "STD-ENTITY-0234",
         "STD-ENTITY-0232",
@@ -8013,6 +8706,7 @@
       "entity_id": "ENTITY-0234",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8021,6 +8715,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0234",
+      "top1_conflicts": false,
+      "inference_ms": 0.9666660334914923,
       "top20": [
         "STD-ENTITY-0234",
         "STD-ENTITY-0235",
@@ -8049,6 +8745,7 @@
       "entity_id": "ENTITY-0234",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -8057,6 +8754,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0234",
+      "top1_conflicts": true,
+      "inference_ms": 0.9215420577675104,
       "top20": [
         "STD-ENTITY-0234",
         "STD-ENTITY-0228",
@@ -8085,6 +8784,7 @@
       "entity_id": "ENTITY-0235",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8092,6 +8792,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0235",
+      "top1_conflicts": false,
+      "inference_ms": 1.2080827727913857,
       "top20": [
         "STD-ENTITY-0235",
         "STD-ENTITY-0233",
@@ -8120,6 +8822,7 @@
       "entity_id": "ENTITY-0235",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8128,6 +8831,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0235",
+      "top1_conflicts": false,
+      "inference_ms": 1.1581669095903635,
       "top20": [
         "STD-ENTITY-0235",
         "STD-ENTITY-0034",
@@ -8156,6 +8861,7 @@
       "entity_id": "ENTITY-0235",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -8164,6 +8870,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0235",
+      "top1_conflicts": false,
+      "inference_ms": 0.9759170934557915,
       "top20": [
         "STD-ENTITY-0235",
         "STD-ENTITY-0233",
@@ -8192,6 +8900,7 @@
       "entity_id": "ENTITY-0236",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8199,6 +8908,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0236",
+      "top1_conflicts": false,
+      "inference_ms": 1.0135001502931118,
       "top20": [
         "STD-ENTITY-0236",
         "STD-ENTITY-0238",
@@ -8227,6 +8938,7 @@
       "entity_id": "ENTITY-0236",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8235,6 +8947,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0236",
+      "top1_conflicts": false,
+      "inference_ms": 0.9682911913841963,
       "top20": [
         "STD-ENTITY-0236",
         "STD-ENTITY-0237",
@@ -8263,6 +8977,7 @@
       "entity_id": "ENTITY-0236",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -8271,6 +8986,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0236",
+      "top1_conflicts": true,
+      "inference_ms": 0.9315840434283018,
       "top20": [
         "STD-ENTITY-0236",
         "STD-ENTITY-0221",
@@ -8299,6 +9016,7 @@
       "entity_id": "ENTITY-0255",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8306,6 +9024,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0255",
+      "top1_conflicts": false,
+      "inference_ms": 0.9300420060753822,
       "top20": [
         "STD-ENTITY-0255",
         "STD-ENTITY-0253",
@@ -8334,6 +9054,7 @@
       "entity_id": "ENTITY-0255",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8342,6 +9063,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0255",
+      "top1_conflicts": false,
+      "inference_ms": 0.9061668533831835,
       "top20": [
         "STD-ENTITY-0255",
         "STD-ENTITY-0054",
@@ -8370,6 +9093,7 @@
       "entity_id": "ENTITY-0255",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -8378,6 +9102,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0255",
+      "top1_conflicts": false,
+      "inference_ms": 0.9273339528590441,
       "top20": [
         "STD-ENTITY-0255",
         "STD-ENTITY-0253",
@@ -8406,6 +9132,7 @@
       "entity_id": "ENTITY-0258",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8413,6 +9140,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0258",
+      "top1_conflicts": false,
+      "inference_ms": 0.9646250400692225,
       "top20": [
         "STD-ENTITY-0258",
         "STD-ENTITY-0256",
@@ -8441,6 +9170,7 @@
       "entity_id": "ENTITY-0258",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8449,6 +9179,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0258",
+      "top1_conflicts": false,
+      "inference_ms": 0.9459999855607748,
       "top20": [
         "STD-ENTITY-0258",
         "STD-ENTITY-0259",
@@ -8477,6 +9209,7 @@
       "entity_id": "ENTITY-0258",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -8485,6 +9218,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0258",
+      "top1_conflicts": true,
+      "inference_ms": 1.1237920261919498,
       "top20": [
         "STD-ENTITY-0258",
         "STD-ENTITY-0252",
@@ -8513,6 +9248,7 @@
       "entity_id": "ENTITY-0260",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -8521,6 +9257,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0262",
+      "top1_conflicts": true,
+      "inference_ms": 1.0062081273645163,
       "top20": [
         "STD-ENTITY-0262",
         "STD-ENTITY-0265",
@@ -8549,6 +9287,7 @@
       "entity_id": "ENTITY-0260",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -8558,6 +9297,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0261",
+      "top1_conflicts": true,
+      "inference_ms": 1.0286669712513685,
       "top20": [
         "STD-ENTITY-0261",
         "STD-ENTITY-0263",
@@ -8586,6 +9327,7 @@
       "entity_id": "ENTITY-0260",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -8595,6 +9337,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0265",
+      "top1_conflicts": true,
+      "inference_ms": 1.031000167131424,
       "top20": [
         "STD-ENTITY-0265",
         "STD-ENTITY-0278",
@@ -8623,6 +9367,7 @@
       "entity_id": "ENTITY-0265",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8630,6 +9375,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0265",
+      "top1_conflicts": false,
+      "inference_ms": 0.928250141441822,
       "top20": [
         "STD-ENTITY-0265",
         "STD-ENTITY-0267",
@@ -8658,6 +9405,7 @@
       "entity_id": "ENTITY-0265",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8666,6 +9414,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0265",
+      "top1_conflicts": false,
+      "inference_ms": 0.9022499434649944,
       "top20": [
         "STD-ENTITY-0265",
         "STD-ENTITY-0264",
@@ -8694,6 +9444,7 @@
       "entity_id": "ENTITY-0265",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -8702,6 +9453,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0265",
+      "top1_conflicts": false,
+      "inference_ms": 0.9057910647243261,
       "top20": [
         "STD-ENTITY-0265",
         "STD-ENTITY-0277",
@@ -8730,6 +9483,7 @@
       "entity_id": "ENTITY-0267",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8737,6 +9491,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0267",
+      "top1_conflicts": false,
+      "inference_ms": 1.0152501054108143,
       "top20": [
         "STD-ENTITY-0267",
         "STD-ENTITY-0265",
@@ -8765,6 +9521,7 @@
       "entity_id": "ENTITY-0267",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8773,6 +9530,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0267",
+      "top1_conflicts": false,
+      "inference_ms": 1.2202919460833073,
       "top20": [
         "STD-ENTITY-0267",
         "STD-ENTITY-0265",
@@ -8801,6 +9560,7 @@
       "entity_id": "ENTITY-0267",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -8809,6 +9569,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0267",
+      "top1_conflicts": false,
+      "inference_ms": 1.0256250388920307,
       "top20": [
         "STD-ENTITY-0267",
         "STD-ENTITY-0279",
@@ -8837,6 +9599,7 @@
       "entity_id": "ENTITY-0269",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8844,6 +9607,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0269",
+      "top1_conflicts": false,
+      "inference_ms": 1.180458115413785,
       "top20": [
         "STD-ENTITY-0269",
         "STD-ENTITY-0271",
@@ -8872,6 +9637,7 @@
       "entity_id": "ENTITY-0269",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8880,6 +9646,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0269",
+      "top1_conflicts": false,
+      "inference_ms": 0.9684590622782707,
       "top20": [
         "STD-ENTITY-0269",
         "STD-ENTITY-0271",
@@ -8908,6 +9676,7 @@
       "entity_id": "ENTITY-0269",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -8916,6 +9685,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0269",
+      "top1_conflicts": false,
+      "inference_ms": 0.9165420196950436,
       "top20": [
         "STD-ENTITY-0269",
         "STD-ENTITY-0277",
@@ -8944,6 +9715,7 @@
       "entity_id": "ENTITY-0273",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8951,6 +9723,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0273",
+      "top1_conflicts": false,
+      "inference_ms": 0.9264161344617605,
       "top20": [
         "STD-ENTITY-0273",
         "STD-ENTITY-0275",
@@ -8979,6 +9753,7 @@
       "entity_id": "ENTITY-0273",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -8987,6 +9762,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0273",
+      "top1_conflicts": false,
+      "inference_ms": 0.9470840450376272,
       "top20": [
         "STD-ENTITY-0273",
         "STD-ENTITY-0272",
@@ -9015,6 +9792,7 @@
       "entity_id": "ENTITY-0273",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -9023,6 +9801,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0273",
+      "top1_conflicts": false,
+      "inference_ms": 0.9382909629493952,
       "top20": [
         "STD-ENTITY-0273",
         "STD-ENTITY-0274",
@@ -9051,6 +9831,7 @@
       "entity_id": "ENTITY-0274",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9058,6 +9839,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0274",
+      "top1_conflicts": false,
+      "inference_ms": 1.0773749090731144,
       "top20": [
         "STD-ENTITY-0274",
         "STD-ENTITY-0272",
@@ -9086,6 +9869,7 @@
       "entity_id": "ENTITY-0274",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9094,6 +9878,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0274",
+      "top1_conflicts": false,
+      "inference_ms": 1.0352919343858957,
       "top20": [
         "STD-ENTITY-0274",
         "STD-ENTITY-0275",
@@ -9122,6 +9908,7 @@
       "entity_id": "ENTITY-0274",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -9130,6 +9917,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0274",
+      "top1_conflicts": true,
+      "inference_ms": 1.001874916255474,
       "top20": [
         "STD-ENTITY-0274",
         "STD-ENTITY-0268",
@@ -9158,6 +9947,7 @@
       "entity_id": "ENTITY-0276",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9165,6 +9955,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0276",
+      "top1_conflicts": false,
+      "inference_ms": 1.2113330885767937,
       "top20": [
         "STD-ENTITY-0276",
         "STD-ENTITY-0278",
@@ -9193,6 +9985,7 @@
       "entity_id": "ENTITY-0276",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9201,6 +9994,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0276",
+      "top1_conflicts": false,
+      "inference_ms": 1.0472498834133148,
       "top20": [
         "STD-ENTITY-0276",
         "STD-ENTITY-0277",
@@ -9229,6 +10024,7 @@
       "entity_id": "ENTITY-0276",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -9237,6 +10033,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0276",
+      "top1_conflicts": true,
+      "inference_ms": 0.946833984926343,
       "top20": [
         "STD-ENTITY-0276",
         "STD-ENTITY-0269",
@@ -9265,6 +10063,7 @@
       "entity_id": "ENTITY-0278",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9272,6 +10071,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0278",
+      "top1_conflicts": false,
+      "inference_ms": 0.9273751638829708,
       "top20": [
         "STD-ENTITY-0278",
         "STD-ENTITY-0276",
@@ -9300,6 +10101,7 @@
       "entity_id": "ENTITY-0278",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9308,6 +10110,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0278",
+      "top1_conflicts": false,
+      "inference_ms": 0.9218750055879354,
       "top20": [
         "STD-ENTITY-0278",
         "STD-ENTITY-0279",
@@ -9336,6 +10140,7 @@
       "entity_id": "ENTITY-0278",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -9344,6 +10149,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0278",
+      "top1_conflicts": true,
+      "inference_ms": 0.9579579345881939,
       "top20": [
         "STD-ENTITY-0278",
         "STD-ENTITY-0271",
@@ -9372,6 +10179,7 @@
       "entity_id": "ENTITY-0279",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9379,6 +10187,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0279",
+      "top1_conflicts": false,
+      "inference_ms": 1.342416973784566,
       "top20": [
         "STD-ENTITY-0279",
         "STD-ENTITY-0277",
@@ -9407,6 +10217,7 @@
       "entity_id": "ENTITY-0279",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9415,6 +10226,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0279",
+      "top1_conflicts": false,
+      "inference_ms": 1.2875408865511417,
       "top20": [
         "STD-ENTITY-0279",
         "STD-ENTITY-0278",
@@ -9443,6 +10256,7 @@
       "entity_id": "ENTITY-0279",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -9451,6 +10265,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0279",
+      "top1_conflicts": false,
+      "inference_ms": 1.0431250557303429,
       "top20": [
         "STD-ENTITY-0279",
         "STD-ENTITY-0267",
@@ -9479,6 +10295,7 @@
       "entity_id": "ENTITY-0282",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9486,6 +10303,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0282",
+      "top1_conflicts": false,
+      "inference_ms": 0.9742081165313721,
       "top20": [
         "STD-ENTITY-0282",
         "STD-ENTITY-0082",
@@ -9514,6 +10333,7 @@
       "entity_id": "ENTITY-0282",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9522,6 +10342,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0282",
+      "top1_conflicts": false,
+      "inference_ms": 0.9371249470859766,
       "top20": [
         "STD-ENTITY-0282",
         "STD-ENTITY-0283",
@@ -9550,6 +10372,7 @@
       "entity_id": "ENTITY-0282",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -9558,6 +10381,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0282",
+      "top1_conflicts": true,
+      "inference_ms": 0.9580831974744797,
       "top20": [
         "STD-ENTITY-0282",
         "STD-ENTITY-0299",
@@ -9586,6 +10411,7 @@
       "entity_id": "ENTITY-0284",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9593,6 +10419,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0284",
+      "top1_conflicts": false,
+      "inference_ms": 0.9744998533278704,
       "top20": [
         "STD-ENTITY-0284",
         "STD-ENTITY-0286",
@@ -9621,6 +10449,7 @@
       "entity_id": "ENTITY-0284",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9629,6 +10458,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0284",
+      "top1_conflicts": false,
+      "inference_ms": 1.1309580877423286,
       "top20": [
         "STD-ENTITY-0284",
         "STD-ENTITY-0085",
@@ -9657,6 +10488,7 @@
       "entity_id": "ENTITY-0284",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -9665,6 +10497,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0284",
+      "top1_conflicts": true,
+      "inference_ms": 1.2096657883375883,
       "top20": [
         "STD-ENTITY-0284",
         "STD-ENTITY-0282",
@@ -9693,6 +10527,7 @@
       "entity_id": "ENTITY-0287",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9700,6 +10535,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0287",
+      "top1_conflicts": false,
+      "inference_ms": 1.097333850339055,
       "top20": [
         "STD-ENTITY-0287",
         "STD-ENTITY-0285",
@@ -9728,6 +10565,7 @@
       "entity_id": "ENTITY-0287",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9736,6 +10574,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0287",
+      "top1_conflicts": false,
+      "inference_ms": 1.1598339769989252,
       "top20": [
         "STD-ENTITY-0287",
         "STD-ENTITY-0086",
@@ -9764,6 +10604,7 @@
       "entity_id": "ENTITY-0287",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -9772,6 +10613,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0287",
+      "top1_conflicts": false,
+      "inference_ms": 0.9534170385450125,
       "top20": [
         "STD-ENTITY-0287",
         "STD-ENTITY-0285",
@@ -9800,6 +10643,7 @@
       "entity_id": "ENTITY-0291",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9807,6 +10651,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0291",
+      "top1_conflicts": false,
+      "inference_ms": 0.9086669888347387,
       "top20": [
         "STD-ENTITY-0291",
         "STD-ENTITY-0289",
@@ -9835,6 +10681,7 @@
       "entity_id": "ENTITY-0291",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9843,6 +10690,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0291",
+      "top1_conflicts": false,
+      "inference_ms": 0.8952079806476831,
       "top20": [
         "STD-ENTITY-0291",
         "STD-ENTITY-0091",
@@ -9871,6 +10720,7 @@
       "entity_id": "ENTITY-0291",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -9879,6 +10729,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0291",
+      "top1_conflicts": false,
+      "inference_ms": 0.8988750632852316,
       "top20": [
         "STD-ENTITY-0291",
         "STD-ENTITY-0289",
@@ -9907,6 +10759,7 @@
       "entity_id": "ENTITY-0295",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9914,6 +10767,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0295",
+      "top1_conflicts": false,
+      "inference_ms": 0.9575830772519112,
       "top20": [
         "STD-ENTITY-0295",
         "STD-ENTITY-0293",
@@ -9942,6 +10797,7 @@
       "entity_id": "ENTITY-0295",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -9950,6 +10806,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0295",
+      "top1_conflicts": false,
+      "inference_ms": 1.010374864563346,
       "top20": [
         "STD-ENTITY-0295",
         "STD-ENTITY-0294",
@@ -9978,6 +10836,7 @@
       "entity_id": "ENTITY-0295",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -9986,6 +10845,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0295",
+      "top1_conflicts": false,
+      "inference_ms": 1.0537919588387012,
       "top20": [
         "STD-ENTITY-0295",
         "STD-ENTITY-0293",
@@ -10014,6 +10875,7 @@
       "entity_id": "ENTITY-0298",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10021,6 +10883,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0298",
+      "top1_conflicts": false,
+      "inference_ms": 1.0215421207249165,
       "top20": [
         "STD-ENTITY-0298",
         "STD-ENTITY-0296",
@@ -10049,6 +10913,7 @@
       "entity_id": "ENTITY-0298",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10057,6 +10922,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0298",
+      "top1_conflicts": false,
+      "inference_ms": 0.9395000524818897,
       "top20": [
         "STD-ENTITY-0298",
         "STD-ENTITY-0299",
@@ -10085,6 +10952,7 @@
       "entity_id": "ENTITY-0298",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -10093,6 +10961,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0298",
+      "top1_conflicts": true,
+      "inference_ms": 1.086666015908122,
       "top20": [
         "STD-ENTITY-0298",
         "STD-ENTITY-0283",
@@ -10121,6 +10991,7 @@
       "entity_id": "ENTITY-0301",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10128,6 +10999,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0301",
+      "top1_conflicts": false,
+      "inference_ms": 0.9803748689591885,
       "top20": [
         "STD-ENTITY-0301",
         "STD-ENTITY-0319",
@@ -10156,6 +11029,7 @@
       "entity_id": "ENTITY-0301",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10164,6 +11038,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0301",
+      "top1_conflicts": false,
+      "inference_ms": 0.9550831746309996,
       "top20": [
         "STD-ENTITY-0301",
         "STD-ENTITY-0303",
@@ -10192,6 +11068,7 @@
       "entity_id": "ENTITY-0301",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -10200,6 +11077,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0301",
+      "top1_conflicts": false,
+      "inference_ms": 0.9259169455617666,
       "top20": [
         "STD-ENTITY-0301",
         "STD-ENTITY-0302",
@@ -10228,6 +11107,7 @@
       "entity_id": "ENTITY-0302",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10235,6 +11115,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0302",
+      "top1_conflicts": false,
+      "inference_ms": 1.096583204343915,
       "top20": [
         "STD-ENTITY-0302",
         "STD-ENTITY-0316",
@@ -10263,6 +11145,7 @@
       "entity_id": "ENTITY-0302",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10271,6 +11154,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0302",
+      "top1_conflicts": false,
+      "inference_ms": 0.9617919567972422,
       "top20": [
         "STD-ENTITY-0302",
         "STD-ENTITY-0303",
@@ -10299,6 +11184,7 @@
       "entity_id": "ENTITY-0302",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -10307,6 +11193,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0302",
+      "top1_conflicts": true,
+      "inference_ms": 1.0263749863952398,
       "top20": [
         "STD-ENTITY-0302",
         "STD-ENTITY-0316",
@@ -10335,6 +11223,7 @@
       "entity_id": "ENTITY-0304",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10342,6 +11231,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0304",
+      "top1_conflicts": false,
+      "inference_ms": 1.0743329767137766,
       "top20": [
         "STD-ENTITY-0304",
         "STD-ENTITY-0306",
@@ -10370,6 +11261,7 @@
       "entity_id": "ENTITY-0304",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10378,6 +11270,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0304",
+      "top1_conflicts": false,
+      "inference_ms": 0.9272079914808273,
       "top20": [
         "STD-ENTITY-0304",
         "STD-ENTITY-0305",
@@ -10406,6 +11300,7 @@
       "entity_id": "ENTITY-0304",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -10414,6 +11309,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0304",
+      "top1_conflicts": true,
+      "inference_ms": 0.9206249378621578,
       "top20": [
         "STD-ENTITY-0304",
         "STD-ENTITY-0317",
@@ -10442,6 +11339,7 @@
       "entity_id": "ENTITY-0305",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10449,6 +11347,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0305",
+      "top1_conflicts": false,
+      "inference_ms": 0.9060830343514681,
       "top20": [
         "STD-ENTITY-0305",
         "STD-ENTITY-0307",
@@ -10477,6 +11377,7 @@
       "entity_id": "ENTITY-0305",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10485,6 +11386,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0305",
+      "top1_conflicts": false,
+      "inference_ms": 0.9102921467274427,
       "top20": [
         "STD-ENTITY-0305",
         "STD-ENTITY-0304",
@@ -10513,6 +11416,7 @@
       "entity_id": "ENTITY-0305",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -10521,6 +11425,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0305",
+      "top1_conflicts": false,
+      "inference_ms": 0.9164169896394014,
       "top20": [
         "STD-ENTITY-0305",
         "STD-ENTITY-0317",
@@ -10549,6 +11455,7 @@
       "entity_id": "ENTITY-0308",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10556,6 +11463,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0308",
+      "top1_conflicts": false,
+      "inference_ms": 0.9390420746058226,
       "top20": [
         "STD-ENTITY-0308",
         "STD-ENTITY-0108",
@@ -10584,6 +11493,7 @@
       "entity_id": "ENTITY-0308",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10592,6 +11502,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0308",
+      "top1_conflicts": false,
+      "inference_ms": 1.1952919885516167,
       "top20": [
         "STD-ENTITY-0308",
         "STD-ENTITY-0309",
@@ -10620,6 +11532,7 @@
       "entity_id": "ENTITY-0308",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -10628,6 +11541,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0308",
+      "top1_conflicts": true,
+      "inference_ms": 1.1244169436395168,
       "top20": [
         "STD-ENTITY-0308",
         "STD-ENTITY-0301",
@@ -10656,6 +11571,7 @@
       "entity_id": "ENTITY-0309",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10663,6 +11579,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0309",
+      "top1_conflicts": false,
+      "inference_ms": 0.9527909569442272,
       "top20": [
         "STD-ENTITY-0309",
         "STD-ENTITY-0311",
@@ -10691,6 +11609,7 @@
       "entity_id": "ENTITY-0309",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10699,6 +11618,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0309",
+      "top1_conflicts": false,
+      "inference_ms": 0.9647498372942209,
       "top20": [
         "STD-ENTITY-0309",
         "STD-ENTITY-0308",
@@ -10727,6 +11648,7 @@
       "entity_id": "ENTITY-0309",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -10735,6 +11657,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0309",
+      "top1_conflicts": false,
+      "inference_ms": 0.9987910743802786,
       "top20": [
         "STD-ENTITY-0309",
         "STD-ENTITY-0301",
@@ -10763,6 +11687,7 @@
       "entity_id": "ENTITY-0314",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10770,6 +11695,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0314",
+      "top1_conflicts": false,
+      "inference_ms": 0.9811669588088989,
       "top20": [
         "STD-ENTITY-0314",
         "STD-ENTITY-0312",
@@ -10798,6 +11725,7 @@
       "entity_id": "ENTITY-0314",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10806,6 +11734,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0314",
+      "top1_conflicts": false,
+      "inference_ms": 1.1061250697821379,
       "top20": [
         "STD-ENTITY-0314",
         "STD-ENTITY-0315",
@@ -10834,6 +11764,7 @@
       "entity_id": "ENTITY-0314",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -10842,6 +11773,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0314",
+      "top1_conflicts": true,
+      "inference_ms": 1.2367500457912683,
       "top20": [
         "STD-ENTITY-0314",
         "STD-ENTITY-0303",
@@ -10870,6 +11803,7 @@
       "entity_id": "ENTITY-0315",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10877,6 +11811,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0315",
+      "top1_conflicts": false,
+      "inference_ms": 1.069042133167386,
       "top20": [
         "STD-ENTITY-0315",
         "STD-ENTITY-0313",
@@ -10905,6 +11841,7 @@
       "entity_id": "ENTITY-0315",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10913,6 +11850,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0315",
+      "top1_conflicts": false,
+      "inference_ms": 1.1884579434990883,
       "top20": [
         "STD-ENTITY-0315",
         "STD-ENTITY-0314",
@@ -10941,6 +11880,7 @@
       "entity_id": "ENTITY-0315",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -10949,6 +11889,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0315",
+      "top1_conflicts": false,
+      "inference_ms": 0.9742910042405128,
       "top20": [
         "STD-ENTITY-0315",
         "STD-ENTITY-0312",
@@ -10977,6 +11919,7 @@
       "entity_id": "ENTITY-0319",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -10984,6 +11927,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0319",
+      "top1_conflicts": false,
+      "inference_ms": 0.9232908487319946,
       "top20": [
         "STD-ENTITY-0319",
         "STD-ENTITY-0301",
@@ -11012,6 +11957,7 @@
       "entity_id": "ENTITY-0319",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11020,6 +11966,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0319",
+      "top1_conflicts": false,
+      "inference_ms": 0.9136251173913479,
       "top20": [
         "STD-ENTITY-0319",
         "STD-ENTITY-0318",
@@ -11048,6 +11996,7 @@
       "entity_id": "ENTITY-0319",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -11056,6 +12005,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0319",
+      "top1_conflicts": false,
+      "inference_ms": 0.9012911468744278,
       "top20": [
         "STD-ENTITY-0319",
         "STD-ENTITY-0307",
@@ -11084,6 +12035,7 @@
       "entity_id": "ENTITY-0325",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11091,6 +12043,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0325",
+      "top1_conflicts": false,
+      "inference_ms": 0.976750161498785,
       "top20": [
         "STD-ENTITY-0325",
         "STD-ENTITY-0327",
@@ -11119,6 +12073,7 @@
       "entity_id": "ENTITY-0325",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11127,6 +12082,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0325",
+      "top1_conflicts": false,
+      "inference_ms": 0.9218330960720778,
       "top20": [
         "STD-ENTITY-0325",
         "STD-ENTITY-0324",
@@ -11155,6 +12112,7 @@
       "entity_id": "ENTITY-0325",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -11163,6 +12121,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0325",
+      "top1_conflicts": false,
+      "inference_ms": 1.1499589309096336,
       "top20": [
         "STD-ENTITY-0325",
         "STD-ENTITY-0337",
@@ -11191,6 +12151,7 @@
       "entity_id": "ENTITY-0326",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11198,6 +12159,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0326",
+      "top1_conflicts": false,
+      "inference_ms": 1.1552500072866678,
       "top20": [
         "STD-ENTITY-0326",
         "STD-ENTITY-0324",
@@ -11226,6 +12189,7 @@
       "entity_id": "ENTITY-0326",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11234,6 +12198,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0326",
+      "top1_conflicts": false,
+      "inference_ms": 0.9561670012772083,
       "top20": [
         "STD-ENTITY-0326",
         "STD-ENTITY-0327",
@@ -11262,6 +12228,7 @@
       "entity_id": "ENTITY-0326",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11270,6 +12237,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0326",
+      "top1_conflicts": true,
+      "inference_ms": 0.9532079566270113,
       "top20": [
         "STD-ENTITY-0326",
         "STD-ENTITY-0339",
@@ -11298,6 +12267,7 @@
       "entity_id": "ENTITY-0327",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11305,6 +12275,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0327",
+      "top1_conflicts": false,
+      "inference_ms": 0.9631249122321606,
       "top20": [
         "STD-ENTITY-0327",
         "STD-ENTITY-0325",
@@ -11333,6 +12305,7 @@
       "entity_id": "ENTITY-0327",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11341,6 +12314,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0327",
+      "top1_conflicts": false,
+      "inference_ms": 1.0582502000033855,
       "top20": [
         "STD-ENTITY-0327",
         "STD-ENTITY-0326",
@@ -11369,6 +12344,7 @@
       "entity_id": "ENTITY-0327",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -11377,6 +12353,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0327",
+      "top1_conflicts": false,
+      "inference_ms": 1.0109171271324158,
       "top20": [
         "STD-ENTITY-0327",
         "STD-ENTITY-0339",
@@ -11405,6 +12383,7 @@
       "entity_id": "ENTITY-0330",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11413,6 +12392,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0328",
+      "top1_conflicts": true,
+      "inference_ms": 1.1630828958004713,
       "top20": [
         "STD-ENTITY-0328",
         "STD-ENTITY-0131",
@@ -11441,6 +12422,7 @@
       "entity_id": "ENTITY-0330",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11450,6 +12432,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0331",
+      "top1_conflicts": true,
+      "inference_ms": 0.9977498557418585,
       "top20": [
         "STD-ENTITY-0331",
         "STD-ENTITY-0131",
@@ -11478,6 +12462,7 @@
       "entity_id": "ENTITY-0330",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11487,6 +12472,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0321",
+      "top1_conflicts": true,
+      "inference_ms": 1.0639999527484179,
       "top20": [
         "STD-ENTITY-0321",
         "STD-ENTITY-0332",
@@ -11515,6 +12502,7 @@
       "entity_id": "ENTITY-0331",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11522,6 +12510,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0331",
+      "top1_conflicts": false,
+      "inference_ms": 1.0547079145908356,
       "top20": [
         "STD-ENTITY-0331",
         "STD-ENTITY-0329",
@@ -11550,6 +12540,7 @@
       "entity_id": "ENTITY-0331",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11558,6 +12549,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0331",
+      "top1_conflicts": false,
+      "inference_ms": 0.9227499831467867,
       "top20": [
         "STD-ENTITY-0331",
         "STD-ENTITY-0131",
@@ -11586,6 +12579,7 @@
       "entity_id": "ENTITY-0331",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -11594,6 +12588,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0331",
+      "top1_conflicts": false,
+      "inference_ms": 0.8952079806476831,
       "top20": [
         "STD-ENTITY-0331",
         "STD-ENTITY-0329",
@@ -11622,6 +12618,7 @@
       "entity_id": "ENTITY-0332",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11629,6 +12626,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0332",
+      "top1_conflicts": false,
+      "inference_ms": 0.9289160370826721,
       "top20": [
         "STD-ENTITY-0332",
         "STD-ENTITY-0334",
@@ -11657,6 +12656,7 @@
       "entity_id": "ENTITY-0332",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11665,6 +12665,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0332",
+      "top1_conflicts": false,
+      "inference_ms": 0.9334168862551451,
       "top20": [
         "STD-ENTITY-0332",
         "STD-ENTITY-0333",
@@ -11693,6 +12695,7 @@
       "entity_id": "ENTITY-0332",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11701,6 +12704,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0332",
+      "top1_conflicts": true,
+      "inference_ms": 0.9202910587191582,
       "top20": [
         "STD-ENTITY-0332",
         "STD-ENTITY-0321",
@@ -11729,6 +12734,7 @@
       "entity_id": "ENTITY-0333",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11736,6 +12742,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0333",
+      "top1_conflicts": false,
+      "inference_ms": 0.9013749659061432,
       "top20": [
         "STD-ENTITY-0333",
         "STD-ENTITY-0335",
@@ -11764,6 +12772,7 @@
       "entity_id": "ENTITY-0333",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11772,6 +12781,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0333",
+      "top1_conflicts": false,
+      "inference_ms": 1.1031669564545155,
       "top20": [
         "STD-ENTITY-0333",
         "STD-ENTITY-0332",
@@ -11800,6 +12811,7 @@
       "entity_id": "ENTITY-0333",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -11808,6 +12820,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0333",
+      "top1_conflicts": false,
+      "inference_ms": 1.1282500345259905,
       "top20": [
         "STD-ENTITY-0333",
         "STD-ENTITY-0334",
@@ -11836,6 +12850,7 @@
       "entity_id": "ENTITY-0340",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11844,6 +12859,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0342",
+      "top1_conflicts": true,
+      "inference_ms": 0.9574999567121267,
       "top20": [
         "STD-ENTITY-0342",
         "STD-ENTITY-0142",
@@ -11872,6 +12889,7 @@
       "entity_id": "ENTITY-0340",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11881,6 +12899,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0341",
+      "top1_conflicts": true,
+      "inference_ms": 0.9207080584019423,
       "top20": [
         "STD-ENTITY-0341",
         "STD-ENTITY-0342",
@@ -11909,6 +12929,7 @@
       "entity_id": "ENTITY-0340",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -11918,6 +12939,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0345",
+      "top1_conflicts": true,
+      "inference_ms": 1.0137089993804693,
       "top20": [
         "STD-ENTITY-0345",
         "STD-ENTITY-0142",
@@ -11946,6 +12969,7 @@
       "entity_id": "ENTITY-0342",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11953,6 +12977,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0342",
+      "top1_conflicts": false,
+      "inference_ms": 1.0886250529438257,
       "top20": [
         "STD-ENTITY-0342",
         "STD-ENTITY-0222",
@@ -11981,6 +13007,7 @@
       "entity_id": "ENTITY-0342",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -11989,6 +13016,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0342",
+      "top1_conflicts": false,
+      "inference_ms": 1.3202500995248556,
       "top20": [
         "STD-ENTITY-0342",
         "STD-ENTITY-0343",
@@ -12017,6 +13046,7 @@
       "entity_id": "ENTITY-0342",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12025,6 +13055,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0342",
+      "top1_conflicts": true,
+      "inference_ms": 1.1195829138159752,
       "top20": [
         "STD-ENTITY-0342",
         "STD-ENTITY-0347",
@@ -12053,6 +13085,7 @@
       "entity_id": "ENTITY-0344",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12060,6 +13093,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0344",
+      "top1_conflicts": false,
+      "inference_ms": 1.03741604834795,
       "top20": [
         "STD-ENTITY-0344",
         "STD-ENTITY-0358",
@@ -12088,6 +13123,7 @@
       "entity_id": "ENTITY-0344",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12096,6 +13132,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0344",
+      "top1_conflicts": false,
+      "inference_ms": 1.08466693200171,
       "top20": [
         "STD-ENTITY-0344",
         "STD-ENTITY-0345",
@@ -12124,6 +13162,7 @@
       "entity_id": "ENTITY-0344",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12132,6 +13171,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0344",
+      "top1_conflicts": true,
+      "inference_ms": 0.9616250172257423,
       "top20": [
         "STD-ENTITY-0344",
         "STD-ENTITY-0358",
@@ -12160,6 +13201,7 @@
       "entity_id": "ENTITY-0346",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12167,6 +13209,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0346",
+      "top1_conflicts": false,
+      "inference_ms": 0.9209159761667252,
       "top20": [
         "STD-ENTITY-0346",
         "STD-ENTITY-0356",
@@ -12195,6 +13239,7 @@
       "entity_id": "ENTITY-0346",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12203,6 +13248,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0346",
+      "top1_conflicts": false,
+      "inference_ms": 0.9057079441845417,
       "top20": [
         "STD-ENTITY-0346",
         "STD-ENTITY-0347",
@@ -12231,6 +13278,7 @@
       "entity_id": "ENTITY-0346",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12239,6 +13287,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0346",
+      "top1_conflicts": true,
+      "inference_ms": 0.9254999458789825,
       "top20": [
         "STD-ENTITY-0346",
         "STD-ENTITY-0356",
@@ -12267,6 +13317,7 @@
       "entity_id": "ENTITY-0347",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12274,6 +13325,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0347",
+      "top1_conflicts": false,
+      "inference_ms": 0.9299579542130232,
       "top20": [
         "STD-ENTITY-0347",
         "STD-ENTITY-0357",
@@ -12302,6 +13355,7 @@
       "entity_id": "ENTITY-0347",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12310,6 +13364,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0347",
+      "top1_conflicts": false,
+      "inference_ms": 0.9001251310110092,
       "top20": [
         "STD-ENTITY-0347",
         "STD-ENTITY-0346",
@@ -12338,6 +13394,7 @@
       "entity_id": "ENTITY-0347",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -12346,6 +13403,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0347",
+      "top1_conflicts": false,
+      "inference_ms": 0.9747918229550123,
       "top20": [
         "STD-ENTITY-0347",
         "STD-ENTITY-0359",
@@ -12374,6 +13433,7 @@
       "entity_id": "ENTITY-0348",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12381,6 +13441,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0348",
+      "top1_conflicts": false,
+      "inference_ms": 1.2013749219477177,
       "top20": [
         "STD-ENTITY-0348",
         "STD-ENTITY-0248",
@@ -12409,6 +13471,7 @@
       "entity_id": "ENTITY-0348",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12417,6 +13480,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0348",
+      "top1_conflicts": false,
+      "inference_ms": 1.0122081730514765,
       "top20": [
         "STD-ENTITY-0348",
         "STD-ENTITY-0349",
@@ -12445,6 +13510,7 @@
       "entity_id": "ENTITY-0348",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12453,6 +13519,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0348",
+      "top1_conflicts": true,
+      "inference_ms": 0.975457951426506,
       "top20": [
         "STD-ENTITY-0348",
         "STD-ENTITY-0353",
@@ -12481,6 +13549,7 @@
       "entity_id": "ENTITY-0350",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12489,6 +13558,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0348",
+      "top1_conflicts": true,
+      "inference_ms": 0.9990420658141375,
       "top20": [
         "STD-ENTITY-0348",
         "STD-ENTITY-0355",
@@ -12517,6 +13588,7 @@
       "entity_id": "ENTITY-0350",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12526,6 +13598,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0351",
+      "top1_conflicts": true,
+      "inference_ms": 0.972541980445385,
       "top20": [
         "STD-ENTITY-0351",
         "STD-ENTITY-0349",
@@ -12554,6 +13628,7 @@
       "entity_id": "ENTITY-0350",
       "matchable": false,
       "retrieved": false,
+      "truth_rank": null,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12563,6 +13638,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0355",
+      "top1_conflicts": true,
+      "inference_ms": 1.058083027601242,
       "top20": [
         "STD-ENTITY-0355",
         "STD-ENTITY-0347",
@@ -12591,6 +13668,7 @@
       "entity_id": "ENTITY-0351",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12598,6 +13676,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0351",
+      "top1_conflicts": false,
+      "inference_ms": 1.2823748402297497,
       "top20": [
         "STD-ENTITY-0351",
         "STD-ENTITY-0349",
@@ -12626,6 +13706,7 @@
       "entity_id": "ENTITY-0351",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12634,6 +13715,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0351",
+      "top1_conflicts": false,
+      "inference_ms": 1.0321668814867735,
       "top20": [
         "STD-ENTITY-0351",
         "STD-ENTITY-0349",
@@ -12662,6 +13745,7 @@
       "entity_id": "ENTITY-0351",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -12670,6 +13754,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0351",
+      "top1_conflicts": false,
+      "inference_ms": 1.0707918554544449,
       "top20": [
         "STD-ENTITY-0351",
         "STD-ENTITY-0359",
@@ -12698,6 +13784,7 @@
       "entity_id": "ENTITY-0352",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12705,6 +13792,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0352",
+      "top1_conflicts": false,
+      "inference_ms": 0.9933330584317446,
       "top20": [
         "STD-ENTITY-0352",
         "STD-ENTITY-0354",
@@ -12733,6 +13822,7 @@
       "entity_id": "ENTITY-0352",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12741,6 +13831,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0352",
+      "top1_conflicts": false,
+      "inference_ms": 0.9120840113610029,
       "top20": [
         "STD-ENTITY-0352",
         "STD-ENTITY-0353",
@@ -12769,6 +13861,7 @@
       "entity_id": "ENTITY-0352",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "CONFLICT",
@@ -12777,6 +13870,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0352",
+      "top1_conflicts": true,
+      "inference_ms": 0.9122081100940704,
       "top20": [
         "STD-ENTITY-0352",
         "STD-ENTITY-0349",
@@ -12805,6 +13900,7 @@
       "entity_id": "ENTITY-0353",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12812,6 +13908,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0353",
+      "top1_conflicts": false,
+      "inference_ms": 0.916625140234828,
       "top20": [
         "STD-ENTITY-0353",
         "STD-ENTITY-0355",
@@ -12840,6 +13938,7 @@
       "entity_id": "ENTITY-0353",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12848,6 +13947,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0353",
+      "top1_conflicts": false,
+      "inference_ms": 0.9281248785555363,
       "top20": [
         "STD-ENTITY-0353",
         "STD-ENTITY-0352",
@@ -12876,6 +13977,7 @@
       "entity_id": "ENTITY-0353",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -12884,6 +13986,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0353",
+      "top1_conflicts": false,
+      "inference_ms": 0.9092080872505903,
       "top20": [
         "STD-ENTITY-0353",
         "STD-ENTITY-0354",
@@ -12912,6 +14016,7 @@
       "entity_id": "ENTITY-0355",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12919,6 +14024,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0355",
+      "top1_conflicts": false,
+      "inference_ms": 0.9007500484585762,
       "top20": [
         "STD-ENTITY-0355",
         "STD-ENTITY-0353",
@@ -12947,6 +14054,7 @@
       "entity_id": "ENTITY-0355",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -12955,6 +14063,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0355",
+      "top1_conflicts": false,
+      "inference_ms": 0.8981251157820225,
       "top20": [
         "STD-ENTITY-0355",
         "STD-ENTITY-0354",
@@ -12983,6 +14093,7 @@
       "entity_id": "ENTITY-0355",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -12991,6 +14102,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0355",
+      "top1_conflicts": false,
+      "inference_ms": 0.9337498340755701,
       "top20": [
         "STD-ENTITY-0355",
         "STD-ENTITY-0352",
@@ -13019,6 +14132,7 @@
       "entity_id": "ENTITY-0357",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -13026,6 +14140,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0357",
+      "top1_conflicts": false,
+      "inference_ms": 1.1851661838591099,
       "top20": [
         "STD-ENTITY-0357",
         "STD-ENTITY-0347",
@@ -13054,6 +14170,7 @@
       "entity_id": "ENTITY-0357",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": true,
       "correct": true,
       "state": "RECOMMENDED",
@@ -13062,6 +14179,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0357",
+      "top1_conflicts": false,
+      "inference_ms": 1.0044579394161701,
       "top20": [
         "STD-ENTITY-0357",
         "STD-ENTITY-0356",
@@ -13090,6 +14209,7 @@
       "entity_id": "ENTITY-0357",
       "matchable": true,
       "retrieved": true,
+      "truth_rank": 1,
       "recommended": false,
       "correct": false,
       "state": "REVIEW",
@@ -13098,6 +14218,8 @@
         "unseen_entity"
       ],
       "top1": "STD-ENTITY-0357",
+      "top1_conflicts": false,
+      "inference_ms": 1.0258329566568136,
       "top20": [
         "STD-ENTITY-0357",
         "STD-ENTITY-0345",

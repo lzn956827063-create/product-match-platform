@@ -61,7 +61,7 @@ class ImpactResolution(Reason):
     expected_version: int = Field(default=0,ge=0)
 class ServiceInput(Input):
     name: str = Field(min_length=1,max_length=200)
-    scopes: list[Literal['releases:read','deliveries:read','receipts:write']] = Field(min_length=1)
+    scopes: list[Literal['releases:read','deliveries:read','receipts:write','ingestion:write']] = Field(min_length=1)
     expires_in_days: int = Field(default=30,ge=1,le=365)
 class ServiceState(Input):
     active: bool

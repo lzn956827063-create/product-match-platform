@@ -50,7 +50,21 @@ def validate_manifest(m):
 
 def metrics(rows, intervals=True):
     n=len(rows); matchable=sum(r['matchable'] for r in rows); recommended=sum(r['recommended'] for r in rows); correct=sum(r['correct'] for r in rows); absent=n-matchable
-    result={'n':n,'entities':len({r['entity_id'] for r in rows}),'matchable':matchable,'recommended':recommended,'recommended_entities':len({r['entity_id'] for r in rows if r['recommended']}),'no_match':absent,'recall_at_20':sum(r['retrieved'] and r['matchable'] for r in rows)/matchable if matchable else None,'top1_precision':correct/recommended if recommended else None,'coverage':recommended/n if n else None,'end_to_end_recall':correct/matchable if matchable else None,'no_match_false_recommendation':sum(r['recommended'] and not r['matchable'] for r in rows)/absent if absent else None}
+    timings=[r['inference_ms'] for r in rows if r.get('inference_ms') is not None]
+    result={
+        'n':n,'entities':len({r['entity_id'] for r in rows}),'matchable':matchable,'recommended':recommended,
+        'recommended_entities':len({r['entity_id'] for r in rows if r['recommended']}),'no_match':absent,
+        'recall_at_20':sum(r['retrieved'] and r['matchable'] for r in rows)/matchable if matchable else None,
+        'top1_precision':correct/recommended if recommended else None,
+        'mrr':sum((1/r.get('truth_rank')) if r.get('truth_rank') else 0 for r in rows if r['matchable'])/matchable if matchable else None,
+        'ndcg_at_5':sum((1/np.log2(r['truth_rank']+1)) if r.get('truth_rank') and r['truth_rank']<=5 else 0 for r in rows if r['matchable'])/matchable if matchable else None,
+        'coverage':recommended/n if n else None,'rejection_rate':1-recommended/n if n else None,
+        'end_to_end_recall':correct/matchable if matchable else None,
+        'no_match_false_recommendation':sum(r['recommended'] and not r['matchable'] for r in rows)/absent if absent else None,
+        'hard_conflict_recommendations':sum(bool(r['recommended'] and r.get('top1_conflicts')) for r in rows),
+        'inference_mean_ms':float(np.mean(timings)) if timings else None,
+        'inference_p95_ms':float(np.quantile(timings,.95)) if timings else None,
+    }
     if not intervals:return result
     grouped=defaultdict(list)
     for r in rows:grouped[r['entity_id']].append(r)
@@ -75,10 +89,11 @@ def evaluate(manifest,policy=None,partition=None):
     t0=time.perf_counter();matcher=Matcher([{'id':p['id'],'normalized':normalize(p['fields'])} for p in catalog],policy);index_time=time.perf_counter()-t0
     rows=[]
     for q in queries:
-        state,candidates=matcher.match(normalize(q['fields']));matchable=q['entity_id'] in entities
+        query_started=time.perf_counter();state,candidates=matcher.match(normalize(q['fields']));inference_ms=(time.perf_counter()-query_started)*1000;matchable=q['entity_id'] in entities
         retrieved=any(entity_by_id[c['product_id']]==q['entity_id'] for c in candidates);recommended=state=='RECOMMENDED'
         correct=recommended and entity_by_id[candidates[0]['product_id']]==q['entity_id']
-        rows.append({'id':q['id'],'entity_id':q['entity_id'] or q['id'],'matchable':matchable,'retrieved':retrieved,'recommended':recommended,'correct':correct,'state':state,'slices':q.get('slices',[]),'top1':candidates[0]['product_id'] if candidates else None,'top20':[r['product_id'] for r in candidates]})
+        truth_rank=next((index+1 for index,candidate in enumerate(candidates) if entity_by_id[candidate['product_id']]==q['entity_id']),None)
+        rows.append({'id':q['id'],'entity_id':q['entity_id'] or q['id'],'matchable':matchable,'retrieved':retrieved,'truth_rank':truth_rank,'recommended':recommended,'correct':correct,'state':state,'slices':q.get('slices',[]),'top1':candidates[0]['product_id'] if candidates else None,'top1_conflicts':bool(candidates and candidates[0]['conflicts']),'inference_ms':inference_ms,'top20':[r['product_id'] for r in candidates]})
     overall=metrics(rows)
     result={**overall,'metrics':overall,'dataset_version':manifest.get('version'),'dataset_hash':digest(manifest),'policy_hash':policy_hash(policy),'partition':partition,'frozen_test_eligible':audit['frozen_test_eligible'] and partition=='test','audit':audit,'slices':{name:metrics([r for r in rows if name in r['slices']]) for name in sorted({v for r in rows for v in r['slices']})},'scope':'controlled_simulation' if manifest['provenance'].get('type')=='controlled_simulation' else 'declared_entity_dataset','elapsed_seconds':time.perf_counter()-t0,'index_seconds':index_time,'provenance':manifest['provenance'],'rows':rows}
     return result

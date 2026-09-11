@@ -1,10 +1,14 @@
-# 序同 商品数据匹配与核对平台 · 1.3.1
+# 序同 商品数据匹配与核对平台 · 1.4
 
 根据产品、技术方案及 2026 年 9 月 10 日优化方案实现的可运行项目。将供应商 CSV / XLSX 映射到已发布的手机标准商品库，经人工审核后导出可追溯结果。
 
 已提供前后端、数据库迁移、独立后台执行、离线 LightGBM 训练、评测、自动化测试和 Docker Compose。当前交付默认使用规则匹配；训练模型已登记为实验版本，尚未达到手机业务的模型准入条件。
 
-v1.3.1 在原有发布、回执、质量和待办闭环上补充数据库工程能力：数据库角色分离、文件密钥、依赖就绪检查、固定构造数据、PostgreSQL 计划与统计采集、依赖故障和 PostgreSQL/MinIO 联合恢复自动化。当前机器未安装容器运行时，因此目标依赖栈仍需在企业验收环境实际执行。
+v1.4 增加页面、监控目录、S3/MinIO 和签名 API 四类数据接入，支持供应商映射配置的试运行、发布和回退；新增可解释风险审核、版本化标签、冻结算法评测与阈值准入。构造数据评测只用于工程验证，不能代表企业真实准确率或人工节时。
+
+- [v1.4 使用说明](docs/v14/使用说明.md)
+- [v1.4 验收报告](docs/v14/验收报告.md)
+- [v1.4 运行与待验收](docs/v14/运行与待验收.md)
 
 - [v1.3 使用说明](docs/v13/使用说明.md)
 - [v1.3 验收报告](docs/v13/验收报告.md)
@@ -29,10 +33,11 @@ pip install -r requirements.lock
 python -m alembic upgrade head
 python -m scripts.seed
 python -m scripts.demo_enterprise
+python -m scripts.demo_v14
 python -m scripts.dev
 ```
 
-打开 <http://127.0.0.1:18765>。一个命令启动 API 和独立数据库任务执行器，数据保存在 `var/`。端口冲突时使用 `--port 18766`。Ctrl+C 结束本次启动的两个进程。
+打开 <http://127.0.0.1:18765>。一个命令启动 API、独立数据库任务执行器和接入轮询器，数据保存在 `var/`。端口冲突时使用 `--port 18766`。Ctrl+C 会结束本次启动的三个进程。
 
 | 演示账号 | 角色 | 用途 |
 | --- | --- | --- |
@@ -54,11 +59,13 @@ python -m scripts.bootstrap --org "你的组织" --email admin@example.com --nam
 ## 已实现的业务流程
 
 1. 管理员或数据专员上传标准库、选择工作表和表头、配置字段；管理员发布不可变版本。
-2. 数据专员上传供应商表，预览字段建议与逐行校验结果，明确确认排除错误行，生成不可变输入版本。
-3. 选择标准库和方案提交运行，后台按 200 条分块计算，最多召回 20 个候选、页面显示 5 个。
-4. 在三栏工作台核对原始记录、标准化字段、候选和差异。支持标准库人工搜索、逐条确认、最多 100 条批量确认、未匹配、补充资料和撤销。
-5. 导出已确认映射或全量报告，支持 XLSX 和 CSV、保留原始列。文件使用冻结审核快照，之后撤销会标记旧导出已过时。
-6. 逐条补数草稿提交后生成仅含修正记录的独立版本；修订来源、更新标准库、切换方案均创建新运行，可比较同一批次的变化并查看原运行清单。
+2. 在数据接入中心建立页面、目录、对象存储或签名 API 接入源；供应商映射配置先试运行，再由管理员发布或回退。
+3. 文件按来源、摘要和配置版本去重，通过字段转换及行级校验后生成不可变输入版本；失败记录保留问题报告和尝试历史。
+4. 选择标准库和方案提交运行，后台按 200 条分块计算，最多召回 20 个候选、页面显示 5 个。
+5. 智能审核按硬冲突、候选缺失、字段缺失和候选分差排序；工作台显示原因、相似历史案例和字段级候选依据。
+6. 审核结论同步形成版本化标签；退回补资料和争议标签不会直接进入可训练集合。
+7. 导出已确认映射或全量报告，支持 XLSX 和 CSV、保留原始列。文件使用冻结审核快照，之后撤销会标记旧导出已过时。
+8. 算法评测中心按构造、公开和授权数据分开显示冻结指标，阈值审批只影响之后创建的匹配运行。
 
 品牌、型号、RAM、存储、颜色、销售版本、包装数量是手机的必核字段。缺失与冲突都不能直接确认。价格仅展示差异。CSV 中编号按文本解析；在 Excel 中直接打开文件需要保留单元格类型时，优先导出 XLSX。
 
@@ -116,7 +123,7 @@ python -m scripts.stack_drill --output /absolute/path/to/new-acceptance-run
 
 - 运行中的接口文档：<http://127.0.0.1:18765/api/v1/docs>
 - 离线接口定义：[OpenAPI JSON](docs/openapi.json)
-- 自动化测试：`python -m pytest -q`
+- 自动化测试：`python -m scripts.test -q`
 - 浏览器操作测试：`node scripts/browser-test.mjs`，需在 `apps/web` 安装 Playwright 并执行 `pnpm exec playwright install chromium`。
 - 标准性能样例：`python -m scripts.benchmark`
 - 大容量与取消：`python -m scripts.benchmark --queries 10000 --catalog 50000 --verify-cancel --output docs/capacity-10000x50000.json`
@@ -132,7 +139,7 @@ python -m scripts.register_model models/abt-buy-v1
 python -m ml.data.chinese_stress
 ```
 
-macOS 上的 LightGBM 需要 OpenMP。若已安装 scikit-learn，可在训练前设置它自带的运行库路径：
+macOS 上的 LightGBM 需要 OpenMP。`python -m scripts.test` 会自动查找当前 scikit-learn 附带的运行库；直接运行训练命令时也可手工设置：
 
 ```bash
 export DYLD_LIBRARY_PATH="$(python -c 'import pathlib,sklearn; print(pathlib.Path(sklearn.__file__).parent / ".dylibs")')"
@@ -140,6 +147,4 @@ export DYLD_LIBRARY_PATH="$(python -c 'import pathlib,sklearn; print(pathlib.Pat
 
 Linux 容器已安装 `libgomp1`。公开 Abt-Buy 数据使用官方训练/验证/测试切分；4 组固定参数搜索，验证集按来源 ID 分开调参、校准和阈值选择，报告 42/43/44 三个种子。实验模型只注册为 `EXPERIMENTAL`，不会改变线上默认策略。
 
-公开数据压缩包没有附带明确的数据许可，交付包不再分发原始数据，提供源网址及 SHA-256 登记。记录对分类结果不能用作检索 Recall@20、中文手机精度或业务节时结论。详见 [模型实验报告](docs/模型实验报告.md)。
-
-P1 语义召回、历史决定自动复用以及 P2 深度模型、ERP 连接未纳入此首版。真实人员试用、完整 WDC 实体级实测和生产部署验收仍需在对应数据与环境中完成。
+真实 ERP 联调、企业单点登录、高可用部署、授权客户真值和真人试用属于取得企业条件后的工作。真实 PostgreSQL/Redis/Celery/MinIO 目标栈、30 分钟容量、分阶段故障、告警到人及联合恢复仍需在对应环境执行。

@@ -17,7 +17,7 @@ def parse_key(file):
 
 
 def validation_key(file, config, catalog):
-    return digest({'parse': parse_key(file), 'sheet': config['sheet'], 'header_row': config['header_row'], 'mapping': config['mapping'], 'catalog': catalog, 'rule': RULE_VERSION})
+    return digest({'parse': parse_key(file), 'sheet': config['sheet'], 'header_row': config['header_row'], 'mapping': config['mapping'], 'transformations': config.get('transformations', {}), 'validations': config.get('validations', {}), 'catalog': catalog, 'rule': RULE_VERSION})
 
 
 def request_job(s, c, file, kind, config=None):
@@ -58,4 +58,4 @@ def cached_rows(s, c, config, catalog=False):
         require(job.status == 'READY', 409, 'IMPORT_NOT_READY', '字段校验尚未完成，请查看导入状态')
         return file, read_result(job)
     parsed = parsed_file(s, c, file, allow_sync=True)
-    return file, mapped_rows(parsed, config['sheet'], config['header_row'], config['mapping'], catalog)
+    return file, mapped_rows(parsed, config['sheet'], config['header_row'], config['mapping'], catalog, config.get('transformations'), config.get('validations'))
