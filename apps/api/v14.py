@@ -1,6 +1,7 @@
 """v1.4 ingestion, evaluation, threshold and learning-feedback routes."""
 import os
 import time
+from collections import defaultdict
 from pathlib import Path
 from typing import Literal
 
@@ -394,17 +395,43 @@ def install(app, db, ctx, data, page):
     @app.get(P + "/learning-queue")
     def learning_queue(run_id: str = "", limit: int = Query(50, ge=1, le=100), s=Depends(db), c=Depends(ctx)):
         c.permit("reviewer", "admin", "annotator")
+        ordering = "硬冲突、发布影响、候选缺失、字段缺失、候选分差和排序不确定性"
         query = select(Item).where(Item.org_id == c.org_id, Item.status == "PENDING")
         if run_id:
             scoped(s, Run, run_id, c)
             query = query.where(Item.run_id == run_id)
         rows = s.scalars(query.order_by(Item.created_at.desc()).limit(500)).all()
+        if not rows:
+            return {"items": [], "total_considered": 0, "ordering": ordering}
+        item_ids = [item.id for item in rows]
+        candidates = defaultdict(list)
+        for candidate in s.scalars(
+            select(Candidate)
+            .where(Candidate.org_id == c.org_id, Candidate.item_id.in_(item_ids))
+            .order_by(Candidate.item_id, Candidate.rank)
+        ):
+            if len(candidates[candidate.item_id]) < 5:
+                candidates[candidate.item_id].append(candidate)
+        impacts = {
+            item_id: count
+            for item_id, count in s.execute(
+                select(ImpactTask.item_id, func.count())
+                .where(ImpactTask.org_id == c.org_id, ImpactTask.item_id.in_(item_ids), ImpactTask.status == "OPEN")
+                .group_by(ImpactTask.item_id)
+            )
+        }
+        source_ids = {item.source_id for item in rows}
+        sources = {source.id: source for source in s.scalars(select(Source).where(Source.org_id == c.org_id, Source.id.in_(source_ids)))}
         result = []
         for item in rows:
-            source = s.get(Source, item.source_id)
-            result.append({**data(item), "source": {"sku": source.sku, "name": source.normalized.get("name")}, **v14_learning.risk(s, c.org_id, item)})
+            source = sources[item.source_id]
+            result.append({
+                **data(item),
+                "source": {"sku": source.sku, "name": source.normalized.get("name")},
+                **v14_learning.risk(s, c.org_id, item, candidates[item.id], impacts.get(item.id, 0)),
+            })
         result.sort(key=lambda item: (-item["risk_score"], item["id"]))
-        return {"items": result[:limit], "total_considered": len(result), "ordering": "硬冲突、发布影响、候选缺失、字段缺失、候选分差和排序不确定性"}
+        return {"items": result[:limit], "total_considered": len(result), "ordering": ordering}
 
     @app.get(P + "/items/{ident}/learning-context")
     def learning_context(ident: str, s=Depends(db), c=Depends(ctx)):

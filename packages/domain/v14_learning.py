@@ -18,8 +18,9 @@ ERROR_TYPES = {
 }
 
 
-def risk(s, org_id, item):
-    candidates = list(s.scalars(select(Candidate).where(Candidate.org_id == org_id, Candidate.item_id == item.id).order_by(Candidate.rank).limit(5)))
+def risk(s, org_id, item, candidates=None, impacted=None):
+    if candidates is None:
+        candidates = list(s.scalars(select(Candidate).where(Candidate.org_id == org_id, Candidate.item_id == item.id).order_by(Candidate.rank).limit(5)))
     factors, score = [], 0.0
     top = candidates[0] if candidates else None
     second = candidates[1] if len(candidates) > 1 else None
@@ -42,7 +43,8 @@ def risk(s, org_id, item):
         if uncertainty >= 6:
             score += uncertainty
             factors.append({"code": "LOW_CONFIDENCE", "label": "候选不确定性较高", "detail": f"排序分 {top.score:.4f}，不是准确率", "weight": uncertainty})
-    impacted = s.scalar(select(func.count()).select_from(ImpactTask).where(ImpactTask.org_id == org_id, ImpactTask.item_id == item.id, ImpactTask.status == "OPEN")) or 0
+    if impacted is None:
+        impacted = s.scalar(select(func.count()).select_from(ImpactTask).where(ImpactTask.org_id == org_id, ImpactTask.item_id == item.id, ImpactTask.status == "OPEN")) or 0
     if impacted:
         score += 50
         factors.append({"code": "RELEASE_IMPACT", "label": "影响已发布结果", "detail": f"{impacted} 个待处置影响", "weight": 50})

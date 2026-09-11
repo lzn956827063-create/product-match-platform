@@ -3,9 +3,9 @@ import hmac
 import os
 import time
 
-from sqlalchemy import select
+from sqlalchemy import event, select
 
-from packages.domain.db import transaction, uid
+from packages.domain.db import engine, transaction, uid
 from packages.domain.models import DatasetVersion, File, IngestionEvent, Membership, RateBucket
 from packages.domain.v14_ingestion import directory_path
 from packages.matching.normalize import digest
@@ -140,8 +140,18 @@ def test_directory_poller_ingests_and_archives_stable_file(env):
 
 def test_risk_queue_and_review_decision_create_versioned_label(env):
     client, headers, _, items = env
-    queue = client.get(P + "/learning-queue", headers=headers["reviewer"])
+    statements = 0
+
+    def count_statement(*_):
+        nonlocal statements
+        statements += 1
+    event.listen(engine, "before_cursor_execute", count_statement)
+    try:
+        queue = client.get(P + "/learning-queue", headers=headers["reviewer"])
+    finally:
+        event.remove(engine, "before_cursor_execute", count_statement)
     assert queue.status_code == 200 and queue.json()["items"]
+    assert statements <= 25
     scores = [row["risk_score"] for row in queue.json()["items"]]
     assert scores == sorted(scores, reverse=True) and all(row["factors"] for row in queue.json()["items"])
     item = next(row for row in items if row["suggestion"] == "RECOMMENDED" and row["candidates"] and not row["candidates"][0]["conflicts"] and not row["candidates"][0]["missing"])
