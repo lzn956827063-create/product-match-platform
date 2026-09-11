@@ -1,30 +1,73 @@
-# 序同 商品数据匹配与核对平台 · 1.4
+# 商品数据匹配与核对平台
 
-根据产品、技术方案及 2026 年 9 月 10 日优化方案实现的可运行项目。将供应商 CSV / XLSX 映射到已发布的手机标准商品库，经人工审核后导出可追溯结果。
+面向企业商品主数据治理的匹配与人工核对平台。系统将供应商 CSV、Excel、目录、MinIO/S3 或签名 API 数据映射到已发布的标准商品库，完成自动候选召回、风险排序、双人复核、结果发布和全链路追溯。
 
-已提供前后端、数据库迁移、独立后台执行、离线 LightGBM 训练、评测、自动化测试和 Docker Compose。当前交付默认使用规则匹配；训练模型已登记为实验版本，尚未达到手机业务的模型准入条件。
+当前版本：**v1.4**，示例业务域：**手机商品规格匹配**。
 
-v1.4 增加页面、监控目录、S3/MinIO 和签名 API 四类数据接入，支持供应商映射配置的试运行、发布和回退；新增可解释风险审核、版本化标签、冻结算法评测与阈值准入。构造数据评测只用于工程验证，不能代表企业真实准确率或人工节时。
+![智能审核工作台](docs/v14/browser/02-smart-review-desktop.png)
 
-- [v1.4 使用说明](docs/v14/使用说明.md)
-- [v1.4 验收报告](docs/v14/验收报告.md)
-- [v1.4 运行与待验收](docs/v14/运行与待验收.md)
+## 项目重点
 
-- [v1.3 使用说明](docs/v13/使用说明.md)
-- [v1.3 验收报告](docs/v13/验收报告.md)
-- [v1.3 运行与待验收](docs/v13/运行与待验收.md)
-- [v1.3.1 数据库部署与验收](docs/v13-database/部署与验收说明.md)
-- [v1.3.1 数据库优化验收报告](docs/v13-database/验收报告.md)
-- [真人试用及目标数据采集](docs/v13/真人试用与目标数据采集.md)
+- **多渠道数据接入**：支持页面上传、受控目录、S3/MinIO 和签名 API；按来源、文件摘要和配置版本去重。
+- **版本化数据治理**：标准库、供应商字段映射、输入数据、审核标签、算法策略和评测结果均保留版本，支持试运行、发布及回退。
+- **可解释商品匹配**：基于品牌、型号、内存、存储、颜色、销售版本和包装数量生成候选；硬冲突不会被自动确认。
+- **风险驱动的人工审核**：按规格冲突、无候选、字段缺失和候选分差排序，展示字段级依据与相似历史案例。
+- **可靠的后台任务**：Celery + Redis 执行分块匹配，结合数据库发件箱、租约、执行令牌、幂等回执和失败重放，降低重复提交与任务丢失风险。
+- **可追溯发布与交付**：审核结果可导出 CSV/XLSX，保留原始列、冻结快照、发布版本、撤销状态和接收端回执。
+- **企业级隔离与审计**：组织级数据隔离、角色权限、双人复核、并发版本控制、结构化审计记录和服务账号限流。
+- **算法评测与准入**：冻结数据集上计算 MRR、nDCG@5、拒绝率、硬冲突数及延迟分位数；阈值需审批后才影响新任务。
 
-- [企业试用版使用说明](docs/企业试用版使用说明.md)
-- [企业试用优化验收报告](docs/企业试用优化验收报告.md)
-- [企业试用运行与验收](docs/企业试用运行与验收.md)
-- [v1.1 历史优化报告](docs/优化交付验收报告.md)
+## 解决的问题
 
-## 立即运行
+| 业务痛点 | 平台能力 |
+| --- | --- |
+| 不同供应商字段、命名和规格表达不一致 | 可发布、可回退的字段映射与数据转换配置 |
+| 人工逐行比对速度慢且容易漏掉关键规格 | 候选召回、风险排序和字段级差异说明 |
+| 自动匹配结果难以解释 | 展示命中依据、硬冲突、候选分差和历史相似案例 |
+| 审核结论依赖个人经验，过程无法复盘 | 双人复核、版本化标签、不可变输入和完整审计记录 |
+| 批量任务中断后容易重复处理或丢失结果 | 分块执行、租约恢复、幂等事件和失败重放 |
+| 导出后无法确认使用的是哪一版数据 | 冻结审核快照、发布版本、文件摘要和交付回执 |
+| 算法调整缺少统一验收标准 | 冻结评测、版本对比和阈值准入流程 |
 
-交付包包含已构建的网页。需要 Python 3.11 以上，推荐 Python 3.12。
+## 核心流程
+
+1. 发布标准商品库，并确定手机商品的必核规格。
+2. 上传供应商文件或建立目录、S3/MinIO、签名 API 接入源。
+3. 试运行字段映射和校验规则，确认后发布接入配置。
+4. 系统异步生成匹配候选，并按风险进入智能审核队列。
+5. 审核员确认、改选、退回补资料或标记无匹配；默认执行双人复核。
+6. 发布已确认映射，导出冻结结果并跟踪下游接收回执。
+7. 将合格审核标签纳入冻结评测，审批新的匹配阈值。
+
+## 系统架构
+
+```mermaid
+flowchart LR
+    U[浏览器] --> W[Nginx / Vue 3]
+    W --> A[FastAPI]
+    A --> P[(PostgreSQL)]
+    A --> M[(MinIO / S3)]
+    A --> O[数据库发件箱]
+    O --> D[Dispatcher]
+    D --> R[(Redis)]
+    R --> C[Celery Worker]
+    C --> P
+    C --> M
+    A --> E[Prometheus 指标]
+    C --> E
+```
+
+本地便捷模式使用 SQLite WAL、本地对象目录和数据库队列；Docker Compose 模式使用 PostgreSQL 16、Redis 7、Celery 和 MinIO，业务代码保持一致。
+
+## 界面预览
+
+| 数据接入 | 智能审核 | 算法评测 |
+| --- | --- | --- |
+| ![数据接入中心](docs/v14/browser/01-data-ingestion-desktop.png) | ![智能审核](docs/v14/browser/02-smart-review-desktop.png) | ![算法评测](docs/v14/browser/03-algorithm-evaluation-desktop.png) |
+
+## 本地快速运行
+
+需要 Python 3.11 以上，推荐 Python 3.12。仓库包含已构建的前端资源。
 
 ```bash
 python3 -m venv .venv
@@ -37,114 +80,100 @@ python -m scripts.demo_v14
 python -m scripts.dev
 ```
 
-打开 <http://127.0.0.1:18765>。一个命令启动 API、独立数据库任务执行器和接入轮询器，数据保存在 `var/`。端口冲突时使用 `--port 18766`。Ctrl+C 会结束本次启动的三个进程。
+打开 <http://127.0.0.1:18765>。`scripts.dev` 会同时启动 API、后台任务调度器和接入轮询器，数据保存在 `var/`。
 
-| 演示账号 | 角色 | 用途 |
+### 演示账号
+
+| 账号 | 角色 | 主要操作 |
 | --- | --- | --- |
-| operator@demo.local | 数据专员 | 导入、启动任务、导出 |
-| reviewer@demo.local | 审核员 | 确认、退回补充、撤销 |
-| admin@demo.local | 管理员 | 发布标准库、维护成员与方案 |
-| admin@other.local | 另一组织管理员 | 验证组织隔离 |
+| `operator@demo.local` | 数据专员 | 导入、启动任务、导出 |
+| `reviewer@demo.local` | 审核员 | 确认、退回补充、撤销 |
+| `admin@demo.local` | 管理员 | 发布标准库、维护成员与方案 |
+| `admin@other.local` | 另一组织管理员 | 验证组织隔离 |
 
-演示密码统一为 `Demo2026!match`。这些账号和商品均为演示构造数据。默认双人复核：提交者不能审核自己的批次，管理员需兼任审核员才有审核权限，也不能绕过双人复核。
+演示密码为 `Demo2026!match`，账号和商品均为构造数据。可以直接使用 `samples/标准商品库.csv` 和 `samples/供应商商品表.csv` 体验完整流程。
 
-`samples/标准商品库.csv` 与 `samples/供应商商品表.csv` 可直接上传。第二份包含 30 行：29 行有效，1 行空名称需明确确认排除。样例覆盖相同型号不同容量、地区、包装数量、颜色缺失和无候选。
-
-真实使用时，不运行演示初始化，改为创建自己的组织和初始管理员：
+真实环境不要运行演示初始化命令，应创建独立组织和管理员：
 
 ```bash
 python -m scripts.bootstrap --org "你的组织" --email admin@example.com --name "管理员"
 ```
 
-## 已实现的业务流程
+## Docker Compose 部署
 
-1. 管理员或数据专员上传标准库、选择工作表和表头、配置字段；管理员发布不可变版本。
-2. 在数据接入中心建立页面、目录、对象存储或签名 API 接入源；供应商映射配置先试运行，再由管理员发布或回退。
-3. 文件按来源、摘要和配置版本去重，通过字段转换及行级校验后生成不可变输入版本；失败记录保留问题报告和尝试历史。
-4. 选择标准库和方案提交运行，后台按 200 条分块计算，最多召回 20 个候选、页面显示 5 个。
-5. 智能审核按硬冲突、候选缺失、字段缺失和候选分差排序；工作台显示原因、相似历史案例和字段级候选依据。
-6. 审核结论同步形成版本化标签；退回补资料和争议标签不会直接进入可训练集合。
-7. 导出已确认映射或全量报告，支持 XLSX 和 CSV、保留原始列。文件使用冻结审核快照，之后撤销会标记旧导出已过时。
-8. 算法评测中心按构造、公开和授权数据分开显示冻结指标，阈值审批只影响之后创建的匹配运行。
-
-品牌、型号、RAM、存储、颜色、销售版本、包装数量是手机的必核字段。缺失与冲突都不能直接确认。价格仅展示差异。CSV 中编号按文本解析；在 Excel 中直接打开文件需要保留单元格类型时，优先导出 XLSX。
-
-## 技术结构
-
-| 目录 | 内容 |
-| --- | --- |
-| `apps/web` | Vue 3 / TypeScript / Element Plus，响应式任务和审核页面 |
-| `apps/api` | FastAPI 接口、认证、结构化错误、OpenAPI |
-| `packages/domain` | SQLAlchemy 模型、组织上下文、导入、审核、导出快照 |
-| `packages/matching` | 可版本化手机规则、字符 TF-IDF 检索、共享特征与推理 |
-| `workers` | 数据库发件箱、Celery 任务、分块租约、取消与重试 |
-| `db/migrations` | Alembic 增量迁移，复合外键、列表索引与有效映射唯一索引 |
-| `ml` | 公开数据登记、训练/校准/消融、实体检索评测工具 |
-| `models/abt-buy-v1` | 真实训练出的模型、分割清单、指标与错误分析 |
-| `tests` | 规则、接口、并发、组织隔离、故障恢复测试 |
-| `deploy` | 容器构建、Nginx 代理配置 |
-| `docs` | 接口契约、操作说明、验收报告、截图与视频 |
-
-本地便捷模式使用 SQLite WAL、本地对象文件及独立数据库轮询进程。Compose 模式切换为 PostgreSQL、Redis、Celery、MinIO，复用同一业务代码。运行状态始终来自数据库。
-
-所有组织请求都需要当前有效成员关系。跨组织对象查询返回 404；复合外键阻止数据库层跨组织关联。审核采用数据库锁与 `expected_version`，同一版本并发提交只接受一次。批量审核逐条独立提交并保留幂等回执，中途退出后可继续提交。
-
-## 前端开发
-
-```bash
-cd apps/web
-pnpm install --frozen-lockfile
-pnpm dev
-```
-
-开发页面使用 <http://127.0.0.1:5173>，代理到 18765 端口。`pnpm build` 执行 TypeScript 检查和正式构建。无需外部字体、图片服务或大模型 API。
-
-## Docker Compose
+安装 Docker Desktop 或兼容的 Docker Compose 运行环境后执行：
 
 ```bash
 python3 scripts/init_env.py
 docker compose up --build -d
-docker compose exec api python -m scripts.seed
+docker compose exec api python -m scripts.bootstrap \
+  --org "你的组织" --email admin@example.com --name "管理员"
 ```
 
-打开 <http://localhost:8080>。初始化程序生成随机部署密钥，不覆盖已有 `.env`。不加载演示数据时，改用 `docker compose exec api python -m scripts.bootstrap ...` 创建账号。
+打开 <http://localhost:8080>。初始化脚本会生成随机部署密钥且不会覆盖已有配置。Compose 会完成数据库迁移、MinIO 存储桶初始化，并启动 API、网页、Celery Worker、Dispatcher 和接入轮询器。
 
-Compose 包含数据库迁移和存储桶初始化；数据库、对象及应用数据均使用持久卷。部署步骤和 HTTPS、备份说明见 [运行维护](docs/运行维护.md)。当前机器没有 Docker，容器组合尚未实际启动验证；不要将本地 SQLite 测试视为 PostgreSQL 部署验收。
-
-数据库目标栈的一键隔离验收入口如下。它会生成新的私有密钥目录和只读证据目录，默认使用 2 个组织、每组织 5 万标准商品和 1 万来源，并执行 Redis、PostgreSQL、MinIO 故障场景及 PostgreSQL/MinIO 独立恢复。必须传入一个尚不存在的新目录。
+监控栈包含 Prometheus、Grafana 和 PostgreSQL Exporter：
 
 ```bash
-python -m scripts.stack_drill --output /absolute/path/to/new-acceptance-run
+docker compose -f compose.yaml -f deploy/compose.monitoring.yaml \
+  --profile monitoring up --build -d
 ```
 
-该入口不包含 30 分钟持续负载、真实 Celery 子进程 SIGKILL、分阶段数据库中断和告警到人，这些项目按 [数据库部署与验收说明](docs/v13-database/部署与验收说明.md) 继续执行。
+Prometheus 默认监听 `127.0.0.1:19090`，Grafana 默认监听 `127.0.0.1:13000`。告警规则已提供；实际告警到人还需接入 Alertmanager 及企业微信、钉钉、邮件或其他 Webhook 接收端。
 
-## 接口与测试
+## 技术栈
 
-- 运行中的接口文档：<http://127.0.0.1:18765/api/v1/docs>
-- 离线接口定义：[OpenAPI JSON](docs/openapi.json)
-- 自动化测试：`python -m scripts.test -q`
-- 浏览器操作测试：`node scripts/browser-test.mjs`，需在 `apps/web` 安装 Playwright 并执行 `pnpm exec playwright install chromium`。
-- 标准性能样例：`python -m scripts.benchmark`
-- 大容量与取消：`python -m scripts.benchmark --queries 10000 --catalog 50000 --verify-cancel --output docs/capacity-10000x50000.json`
+| 模块 | 技术 |
+| --- | --- |
+| Web | Vue 3、TypeScript、Element Plus、Vite |
+| API | FastAPI、SQLAlchemy、Alembic、Pydantic |
+| 数据库 | PostgreSQL 16；本地模式支持 SQLite WAL |
+| 异步任务 | Celery、Redis、数据库发件箱 |
+| 对象存储 | MinIO / S3；本地模式支持文件目录 |
+| 匹配与模型 | RapidFuzz、scikit-learn、LightGBM |
+| 监控 | Prometheus、Grafana、PostgreSQL Exporter |
+| 测试 | Pytest、Playwright、TypeScript 检查 |
 
-完整实测结果、未测项目及与方案的差异见 [交付验收报告](docs/交付验收报告.md)。
+## 项目目录
 
-## 模型与数据
+| 目录 | 内容 |
+| --- | --- |
+| `apps/web` | Vue 3 管理端和审核工作台 |
+| `apps/api` | FastAPI 接口、认证、指标和 OpenAPI |
+| `packages/domain` | 导入、审核、发布、交付及组织隔离 |
+| `packages/matching` | 商品规格规则、候选召回、特征与推理 |
+| `workers` | Celery 任务、Dispatcher、租约及重试 |
+| `db/migrations` | Alembic 数据库迁移与约束 |
+| `ml` | 数据准备、训练、校准和评测工具 |
+| `deploy` | Docker、Nginx、Prometheus 和 Grafana 配置 |
+| `tests` | 业务、权限、并发、恢复和算法测试 |
+| `docs` | 使用说明、接口契约和验收证据 |
+
+## 验证状态
+
+- 后端测试：`103 passed, 1 skipped`
+- v1.4 专项测试：`6 passed`
+- Vue/TypeScript 正式构建通过
+- 数据库全新迁移、降级和再次升级通过
+- 桌面端与移动端浏览器流程通过
+- 智能审核队列查询由 261 条 SQL 降至 18 条（82 条待审核记录）
+
+以上结果基于本仓库的构造数据和本地环境。实验 LightGBM 模型尚未达到手机业务准入标准，不会替换默认规则策略；真实业务准确率、人工节时、企业单点登录、高可用数据库和跨主机恢复需要在企业环境继续验证。
+
+## 文档
+
+- [v1.4 使用说明](docs/v14/使用说明.md)
+- [v1.4 验收报告](docs/v14/验收报告.md)
+- [v1.4 运行与待验收](docs/v14/运行与待验收.md)
+- [数据库部署与验收说明](docs/v13-database/部署与验收说明.md)
+- [运行维护](docs/运行维护.md)
+- [离线 OpenAPI 定义](docs/openapi.json)
+
+常用验证命令：
 
 ```bash
-python -m ml.data.prepare_abt_buy
-python -m ml.train.train
-python -m scripts.register_model models/abt-buy-v1
-python -m ml.data.chinese_stress
+python -m scripts.test -q
+pnpm -C apps/web build
+python -m alembic current
+python -m scripts.poll_ingestion --once
 ```
-
-macOS 上的 LightGBM 需要 OpenMP。`python -m scripts.test` 会自动查找当前 scikit-learn 附带的运行库；直接运行训练命令时也可手工设置：
-
-```bash
-export DYLD_LIBRARY_PATH="$(python -c 'import pathlib,sklearn; print(pathlib.Path(sklearn.__file__).parent / ".dylibs")')"
-```
-
-Linux 容器已安装 `libgomp1`。公开 Abt-Buy 数据使用官方训练/验证/测试切分；4 组固定参数搜索，验证集按来源 ID 分开调参、校准和阈值选择，报告 42/43/44 三个种子。实验模型只注册为 `EXPERIMENTAL`，不会改变线上默认策略。
-
-真实 ERP 联调、企业单点登录、高可用部署、授权客户真值和真人试用属于取得企业条件后的工作。真实 PostgreSQL/Redis/Celery/MinIO 目标栈、30 分钟容量、分阶段故障、告警到人及联合恢复仍需在对应环境执行。
