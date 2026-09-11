@@ -11,11 +11,11 @@
     "docs/v14/browser/results.json": "7253cc985c73e1dca7fd597503a10e90ee125bb5dca427d142a20ad11db9e85f",
     "docs/v14/使用说明.md": "3fe4ed3a931345f876e0d365d7fc170c4d7c209709f77dd3de10dbd155abb61e",
     "docs/v14/运行与待验收.md": "5780ac46f0689971338c13d5b26238cd00ec0db08ed3ec9e093023da251e7234",
-    "docs/v14/验收报告.md": "b0b69d87f007d9ae0968b1f77dcb048f2a6b1a348b5af8377d34f5a27b5deac0",
+    "docs/v14/验收报告.md": "8fd5438d479865e6fbb8fd7a32782571fecfe3099f723a4499ae8d77de176036",
     "ml/datasets/phone-sim-v1/manifest.json": "b6ef600ab8fcfce632bd22b630dfa03ae506106d3aab98c1b97c1313269274b9",
     "models/phone-sim-v1/evaluation-report.json": "c2f12e2f7a9b23df4b453a6d8247e0666773ba650f43630e64a3367938385ce5"
   },
-  "generated_at": "2026-09-11T02:08:41.419289+00:00",
+  "generated_at": "2026-09-11T02:20:15.105075+00:00",
   "lock_sha256": "ee6d1568a9deef4faecfc76dfc21093cae7fe29a8c0cdf07de906ba6aff80d09",
   "migration_head": "75d10e739902",
   "note": "v1.4 functional and local engineering evidence is frozen at source_commit. PostgreSQL/Redis/Celery/MinIO target-stack load, staged faults, alert delivery, and measured RPO/RTO remain unexecuted.",
@@ -29,7 +29,7 @@
     "apps/api/main.py": "c4e5670f82757ee84212b5883d89d03094648e32f0be3f460a8f9f838bae3068",
     "apps/api/schemas.py": "9111314db0f46d6bff06ba9bdb42eddf82b082ef9abae0aad10aaa96968ca39e",
     "apps/api/v13.py": "226d4d87083ef5146f93eb23dd31eccd355043aba69780572f48000660b5341d",
-    "apps/api/v14.py": "13e96bf97d3bc164ab5213e82c337a5ee637f3dbca6e1028a5d8e00105f2b5bc",
+    "apps/api/v14.py": "5922ce03286d0d5df35071b6aef8bc89ec18bf0c6bb2efdef1c685808021c7b1",
     "apps/web/index.html": "2fdddc14a4d30ba0c053c67fdecd734f8e5ef5c7d9e8752713b6e3e379657981",
     "apps/web/package.json": "69facc5e41ed1d9762caaad36f14cbd7b04a54870dfb650e07190c2c41a7e217",
     "apps/web/pnpm-lock.yaml": "3874bb8ff450feb236ab76480fbbc81701f81a45a680d358a38db4c7465cc0b4",
@@ -121,7 +121,7 @@
     "packages/domain/telemetry.py": "04d4d27102b95f076e3b8e567d9fcf52f93be582d4f6ce889fbd844469076071",
     "packages/domain/todos.py": "7836daa38f9ce010e4abb30b67cb77f45dd730e1b7515f33f9a9bf0a030e76f3",
     "packages/domain/v14_ingestion.py": "9c181aff33fad2e82ad1554a844b6b55d3fd03a57f8bbd118be0a9c4f3d7d790",
-    "packages/domain/v14_learning.py": "186bf2d13d40ebd55d09f2248ed586607730c7be9e47d656d5a0989118277624",
+    "packages/domain/v14_learning.py": "c3d835b3b916ccd4c7a6b2df99f9a3a8bfc557cad38fe35b4b3d5247a2fe91e4",
     "packages/matching/engine.py": "c654a9d936d8e6814514e0cdb94b154c61321e159b8df8b999ee268c5e6460b4",
     "packages/matching/normalize.py": "cf41aa508dab250dd09f68c6b4e159625ecfcf8204737a7ab5ee2782d3572b97",
     "packages/matching/policy.py": "e763d9cdfeaeb106d426a01fa48b728d635c52440209f2832b0d61fac33d170e",
@@ -186,11 +186,17 @@
     "workers/shadow.py": "c23eeeee8e6f4c5ec853380e56a26982ef4d6ab29dd06956d50717a89d644806",
     "workers/tasks.py": "f07e26a2f7eacd75db702e59df29768671f48c7bef8a5ae8378699d9cb5e1fcc"
   },
-  "source_commit": "e6655f9e38d7f9a2d0cc24fa25371c1f1f329b6e",
+  "source_commit": "3549865653e37f7604f7531a257fe07a347a2aed",
   "validation": {
     "browser_checks": "passed",
     "fresh_sqlite_upgrade": "passed",
     "frontend_build": "passed",
+    "learning_queue": {
+      "pending_records": 82,
+      "regression_limit": 25,
+      "sql_after": 18,
+      "sql_before": 261
+    },
     "live_health_version": "1.4.0",
     "live_readiness": "ready",
     "python_tests": {
@@ -198,8 +204,8 @@
       "passed": 103,
       "skipped": 1
     },
-    "v14_downgrade_upgrade": "passed",
-    "v14_tests": {
+    "v1_4_downgrade_upgrade": "passed",
+    "v1_4_tests": {
       "failed": 0,
       "passed": 6
     }
